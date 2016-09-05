@@ -1,12 +1,12 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/ysw/.oh-my-zsh
+export ZSH=/Users/$USER/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-# ZSH_THEME="robbyrussell"
-ZSH_THEME="ys"
+ZSH_THEME="robbyrussell"
+# ZSH_THEME="ys"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -86,7 +86,7 @@ export NVM_DIR="/Users/ysw/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 export PATH=~/.nvm:$PATH
 # set -o vi
-alias vim='/usr/local/Cellar/vim/7.4.712/bin/vim'
+alias vim='/usr/local/Cellar/vim/7.4.1993/bin/vim'
 alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 alias cat='ccat --bg=dark'
 eval `/usr/libexec/path_helper -s`
@@ -98,10 +98,9 @@ export VLC_PLUGIN_PATH="/Applications/VLC.app/Contents/MacOS"
 export NOTES=".notes"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US
-source /usr/local/bin/virtualenvwrapper.sh
+# source /usr/local/bin/virtualenvwrapper.sh
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh  ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 export SERVICE_DISCOVERY_URI=consul://consului.aws.dev:8500
-eval $(thefuck --alias)
 export TERM=xterm-256color
 alias ec='emacsclient -t'
 alias edit='emacsclient -t'
