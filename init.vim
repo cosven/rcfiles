@@ -32,6 +32,9 @@ Plug 'tpope/vim-surround'
 Plug 'altercation/vim-colors-solarized'
 Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
+Plug 'rking/ag.vim'
+Plug 'majutsushi/tagbar'
+Plug 'joshdick/onedark.vim'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -54,7 +57,7 @@ endif
 
 set nocompatible
 
-set encoding=utf-8
+" set encoding=utf-8
 set fileencoding=utf-8
 
 set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1
@@ -278,12 +281,12 @@ let g:jedi#documentation_command = "<leader>js"
 
 autocmd BufWinEnter '__doc__' setlocal bufhidden=delete
 
-"""""""""""
-" leader 相关快捷键配置
-
 nnoremap <leader>er :source $MYVIMRC<CR>
 nnoremap <leader>ee :edit $MYVIMRC<Cr>
+
 nnoremap <leader>bn :bnext<cr>
 nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader>bk :bdelete<cr>
 nnoremap <leader>bl :buffers<cr>
+
+nnoremap <leader>f :Ag 
