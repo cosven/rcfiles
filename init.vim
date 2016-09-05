@@ -11,7 +11,8 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -19,24 +20,25 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " vim-molokai
 Plug 'tomasr/molokai'
 
+Plug 'neovim/python-client'
+Plug 'davidhalter/jedi-vim'
+
 Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
+Plug 'altercation/vim-colors-solarized'
+Plug 'ervandew/supertab'
+Plug 'jiangmiao/auto-pairs'
 
 " Add plugins to &runtimepath
 call plug#end()
 
+let g:mapleader = " "
 map <F2> :silent! NERDTreeToggle<CR>
 color molokai
-
-
-"""
-nnoremap <leader>feR :source $MYVIMRC<CR>
-nnoremap <leader>fed :o $MYVIMRC<Cr>
-"""
 
 if(has("win32") || has("win64") || has("win95") || has("win16"))
     let g:iswindows = 1
@@ -164,7 +166,6 @@ let g:pydiction_menu_height = 3
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
 set background=dark
-colorscheme default
 
 syntax on
 filetype plugin on 
@@ -227,7 +228,6 @@ let g:todoSymbol = {
 
 """""""""""
 " 键位映射
-let g:mapleader = " "
 
 let g:utl_cfg_hdl_scm_http_system = "silent !open '%u'"
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
@@ -261,8 +261,29 @@ set wildignore+=*/node_modules/*
 
 """""""""""
 " YouCompleteMe 配置
-nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
-
+" nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+" nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
 
 autocmd! BufWritePost * Neomake
+let g:deoplete#enable_at_startup = 1
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+let g:deoplete#auto_completion_start_length = 2
+
+let g:jedi#completions_enabled = 0
+let g:jedi#usages_command = "<leader>ju"
+let g:jedi#goto_definitions_command = "<leader>jd"
+let g:jedi#rename_command = "<leader>jr"
+let g:jedi#goto_assignments_command = "<leader>jg"
+let g:jedi#documentation_command = "<leader>js"
+
+autocmd BufWinEnter '__doc__' setlocal bufhidden=delete
+
+"""""""""""
+" leader 相关快捷键配置
+
+nnoremap <leader>er :source $MYVIMRC<CR>
+nnoremap <leader>ee :edit $MYVIMRC<Cr>
+nnoremap <leader>bn :bnext<cr>
+nnoremap <leader>bp :bprevious<cr>
+nnoremap <leader>bk :bdelete<cr>
+nnoremap <leader>bl :buffers<cr>
