@@ -86,7 +86,6 @@ export NVM_DIR="/Users/ysw/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 export PATH=~/.nvm:$PATH
 # set -o vi
-alias vim='/usr/local/Cellar/vim/7.4.1993/bin/vim'
 alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 alias cat='ccat --bg=dark'
 eval `/usr/libexec/path_helper -s`
