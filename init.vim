@@ -37,6 +37,7 @@ Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
 
 " Add plugins to &runtimepath
+Plug 'feeluown.vim'
 call plug#end()
 
 let g:mapleader = " "

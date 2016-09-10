@@ -106,4 +106,4 @@ alias edit='emacsclient -t'
 alias pgrep='ps -e | grep'
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-source .profile
+source ~/.profile
