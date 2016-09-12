@@ -16,8 +16,8 @@ tmux_conf_theme_prefix=enabled
 # display the battery information in the status line, possible values are:
 #   - enabled
 #   - disabled
-tmux_conf_theme_battery=enabled
-#tmux_conf_theme_battery=disabled
+# tmux_conf_theme_battery=enabled
+tmux_conf_theme_battery=disabled
 
 # style to use for the battery status, possible values are:
 #   - bar
@@ -54,29 +54,29 @@ tmux_conf_battery_status=enabled
 # display the time in the status line, possible values are:
 #   - enabled
 #   - disabled
-tmux_conf_theme_time=enabled
-#tmux_conf_theme_time=disabled
+#tmux_conf_theme_time=enabled
+tmux_conf_theme_time=disabled
 
 # display the date in the status line, possible values are:
 #   - enabled
 #   - disabled
-tmux_conf_theme_date=enabled
-#tmux_conf_theme_date=disabled
+#tmux_conf_theme_date=enabled
+tmux_conf_theme_date=disabled
 
 # display the username in the status line, possible values are:
 #   - enabled
 #   - disabled
 #   - ssh
-tmux_conf_theme_username=enabled
-#tmux_conf_theme_username=disabled
+# tmux_conf_theme_username=enabled
+tmux_conf_theme_username=disabled
 #tmux_conf_theme_username=ssh
 
 # display the hostname in the status line, possible values are:
 #   - enabled
 #   - disabled
 #   - ssh
-tmux_conf_theme_hostname=enabled
-#tmux_conf_theme_hostname=disabled
+# tmux_conf_theme_hostname=enabled
+tmux_conf_theme_hostname=disabled
 #tmux_conf_theme_hostname=ssh
 
 # highlight focuse pane, possible values are:

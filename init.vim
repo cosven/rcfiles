@@ -35,6 +35,8 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'rking/ag.vim'
 Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
+Plug 'cosven/feeluown.vim'
+Plug 'godlygeek/tabular'
 
 " Add plugins to &runtimepath
 call plug#end()
