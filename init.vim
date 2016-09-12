@@ -39,6 +39,7 @@ Plug 'cosven/feeluown.vim'
 Plug 'godlygeek/tabular'
 
 " Add plugins to &runtimepath
+Plug 'feeluown.vim'
 call plug#end()
 
 let g:mapleader = " "
