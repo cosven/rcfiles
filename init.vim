@@ -37,6 +37,8 @@ Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
 Plug 'cosven/feeluown.vim'
 Plug 'godlygeek/tabular'
+Plug 'suan/vim-instant-markdown'
+
 
 " Add plugins to &runtimepath
 Plug 'feeluown.vim'
@@ -212,6 +214,7 @@ autocmd Filetype stylus setlocal shiftwidth=2 tabstop=2
 "     au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
 " augroup END
 autocmd BufNewFile,BufRead GHI_ISSUE_* setlocal filetype=ghmarkdown
+autocmd BufNewFile,BufRead Jenkinsfile* setlocal filetype=groovy
 set mouse=a
 
 let g:NERDTreeIndicatorMapCustom = {

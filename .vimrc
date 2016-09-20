@@ -217,7 +217,7 @@ let g:markdown_syntax_conceal = 0
 let g:vim_json_syntax_conceal = 0
 behave mswin
 " let g:jsx_ext_required = 0
-let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+" let g:syntastic_python_python_exec = '/usr/local/bin/python3'
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_html_tidy_ignore_errors = [
             \ 'trimming empty <i>',
