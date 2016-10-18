@@ -112,7 +112,7 @@ set laststatus=2
 set cmdheight=1
 set cursorline
 
-set wrap
+set nowrap
 
 if g:isGUI
     set guioptions-=m
@@ -160,7 +160,7 @@ endif
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 
 map <F2> :silent! NERDTreeToggle<CR>
-let NERDTreeIgnore = ['\.pyc$']
+let NERDTreeIgnore = ['\.pyc$', 'eggs', 'old-eggs', '\.egg-info$', 'bin']
 let g:indentLine_char = '|'
 
 let NERDSpaceDelims = 1
