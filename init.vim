@@ -36,7 +36,6 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'rking/ag.vim'
 Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
-Plug 'cosven/feeluown.vim'
 Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
 
@@ -47,7 +46,6 @@ call plug#end()
 
 let g:mapleader = " "
 map <F2> :silent! NERDTreeToggle<CR>
-color molokai
 
 if(has("win32") || has("win64") || has("win95") || has("win16"))
     let g:iswindows = 1
@@ -114,7 +112,7 @@ set laststatus=2
 set cmdheight=1
 set cursorline
 
-set nowrap
+set wrap
 
 if g:isGUI
     set guioptions-=m
