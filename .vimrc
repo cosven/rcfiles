@@ -11,7 +11,7 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " On-demand loading
 Plug 'scrooloose/nerdtree'
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -36,7 +36,6 @@ Plug 'suan/vim-instant-markdown'
 
 
 " Add plugins to &runtimepath
-Plug 'feeluown.vim'
 call plug#end()
 
 let g:mapleader = " "
@@ -180,7 +179,6 @@ set fillchars+=stl:\ ,stlnc:\
 let &t_Co=256
 
 let g:bookmark_save_per_working_dir = 1
-set guifont=Monaco:h14
 set termencoding=utf-8
 set hlsearch
 
