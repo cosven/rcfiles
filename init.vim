@@ -108,9 +108,9 @@ set ignorecase
 set smartcase
 
 set number
-set laststatus=2
+set laststatus=0
 set cmdheight=1
-set cursorline
+set nocursorline
 
 set nowrap
 
