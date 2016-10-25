@@ -262,7 +262,7 @@ let g:airline#extensions#tabline#enabled = 1
 if (g:isGUI)
     let g:airline_powerline_fonts = 0
 else
-    let g:airline_powerline_fonts = 1
+    let g:airline_powerline_fonts = 0
 endif
 
 set wildignore+=*/node_modules/*

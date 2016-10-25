@@ -1,11 +1,46 @@
-call pathogen#infect()
+call plug#begin()
 
-"""
-:nnoremap <leader>feR :source $MYVIMRC<cr>
-:nnoremap <leader>fed :o $MYVIMRC<cr>
-"""
+" Make sure you use single quotes
+
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+Plug 'junegunn/vim-easy-align'
+
+" Any valid git URL is allowed
+Plug 'https://github.com/junegunn/vim-github-dashboard.git'
+
+" On-demand loading
+Plug 'scrooloose/nerdtree'
+
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+
+" Plugin outside ~/.vim/plugged with post-update hook
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+" vim-molokai
+Plug 'tomasr/molokai'
+
+Plug 'scrooloose/nerdcommenter'
+Plug 'neomake/neomake'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+Plug 'MattesGroeger/vim-bookmarks'
+Plug 'tpope/vim-surround'
+Plug 'altercation/vim-colors-solarized'
+Plug 'ervandew/supertab'
+Plug 'jiangmiao/auto-pairs'
+Plug 'rking/ag.vim'
+Plug 'majutsushi/tagbar'
+Plug 'joshdick/onedark.vim'
+Plug 'godlygeek/tabular'
+Plug 'suan/vim-instant-markdown'
 
 
+" Add plugins to &runtimepath
+Plug 'feeluown.vim'
+call plug#end()
+
+let g:mapleader = " "
+map <F2> :silent! NERDTreeToggle<CR>
 
 if(has("win32") || has("win64") || has("win95") || has("win16"))
     let g:iswindows = 1
@@ -21,7 +56,7 @@ endif
 
 set nocompatible
 
-set encoding=utf-8
+" set encoding=utf-8
 set fileencoding=utf-8
 
 set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1
@@ -66,16 +101,6 @@ nmap cM :%s/\r$//g<cr>:noh<cr>
 
 set ignorecase
 set smartcase
-
-imap <c-p> <Up>
-imap <c-n> <Down>
-imap <c-b> <Left>
-imap <c-f> <Right>
-imap <c-l> <Right>
-imap <C-a> <Home>
-imap <C-e> <End>
-imap <c-d> <Del>
-imap <c-h> <Left><Del>
 
 set number
 set laststatus=2
@@ -130,7 +155,7 @@ endif
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 
 map <F2> :silent! NERDTreeToggle<CR>
-let NERDTreeIgnore = ['\.pyc$']
+let NERDTreeIgnore = ['\.pyc$', 'eggs', 'old-eggs', '\.egg-info$', 'bin']
 let g:indentLine_char = '|'
 
 let NERDSpaceDelims = 1
@@ -143,7 +168,6 @@ let g:pydiction_menu_height = 3
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
 set background=dark
-colorscheme default
 
 syntax on
 filetype plugin on 
@@ -165,9 +189,9 @@ let g:vimrc_email='yinshaowen241@gmail.com'
 let g:vimrc_homepage='http://www.cosven.com'
 nmap <F4> :AuthorInfoDetect<cr>
 " nmap <C-F> :CtrlSF 
+"
+nmap <C-P> :FZF<CR>
 
-let g:ctrlp_cmd = 'CtrlPLastMode'
-let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
 set backspace=2
@@ -184,10 +208,8 @@ autocmd Filetype stylus setlocal shiftwidth=2 tabstop=2
 "     au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
 " augroup END
 autocmd BufNewFile,BufRead GHI_ISSUE_* setlocal filetype=ghmarkdown
+autocmd BufNewFile,BufRead Jenkinsfile* setlocal filetype=groovy
 set mouse=a
-
-let g:calendar_google_calendar = 1
-let g:calendar_google_task = 1
 
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
@@ -209,15 +231,12 @@ let g:todoSymbol = {
 
 """""""""""
 " 键位映射
-let g:mapleader = " "
 
 let g:utl_cfg_hdl_scm_http_system = "silent !open '%u'"
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 let g:markdown_syntax_conceal = 0
 let g:vim_json_syntax_conceal = 0
-behave mswin
-" let g:jsx_ext_required = 0
-" let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+let g:syntastic_python_python_exec = '/usr/local/bin/python3'
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_html_tidy_ignore_errors = [
             \ 'trimming empty <i>',
@@ -233,20 +252,35 @@ let g:syntastic_html_tidy_ignore_errors = [
             \ 'discarding unexpected <rect>'
             \ ]
 
-let g:airline#extensions#tabline#enabled = 1
-if (g:isGUI)
-    let g:airline_powerline_fonts = 0
-else
-    let g:airline_powerline_fonts = 1
-endif
 
 set wildignore+=*/node_modules/*
-let g:ctrlp_custom_ignore = {
-    \ 'dir': '\v[\/](node_modules|eggs)$',
-    \ }
 
 
 """""""""""
 " YouCompleteMe 配置
-nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
+" nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+" nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
+
+autocmd! BufWritePost * Neomake
+let g:deoplete#enable_at_startup = 1
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+let g:deoplete#auto_completion_start_length = 2
+
+let g:jedi#completions_enabled = 0
+let g:jedi#usages_command = "<leader>ju"
+let g:jedi#goto_definitions_command = "<leader>jd"
+let g:jedi#rename_command = "<leader>jr"
+let g:jedi#goto_assignments_command = "<leader>jg"
+let g:jedi#documentation_command = "<leader>js"
+
+autocmd BufWinEnter '__doc__' setlocal bufhidden=delete
+
+nnoremap <leader>er :source $MYVIMRC<CR>
+nnoremap <leader>ee :edit $MYVIMRC<Cr>
+
+nnoremap <leader>bn :bnext<cr>
+nnoremap <leader>bp :bprevious<cr>
+nnoremap <leader>bk :bdelete<cr>
+nnoremap <leader>bl :buffers<cr>
+
+nnoremap <leader>f :Ag 

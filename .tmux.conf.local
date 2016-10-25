@@ -3,8 +3,8 @@
 # use the powerline patched font variant of the theme, possible values are:
 #   - default
 #   - powerline
-# tmux_conf_theme=default
-tmux_conf_theme=powerline
+tmux_conf_theme=default
+# tmux_conf_theme=powerline
 
 # display an indicator in the status line when the prefix key has been pressed,
 # possible values are:
