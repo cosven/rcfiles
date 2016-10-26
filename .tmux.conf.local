@@ -3,8 +3,8 @@
 # use the powerline patched font variant of the theme, possible values are:
 #   - default
 #   - powerline
-tmux_conf_theme=default
-# tmux_conf_theme=powerline
+# tmux_conf_theme=default
+tmux_conf_theme=powerline
 
 # display an indicator in the status line when the prefix key has been pressed,
 # possible values are:
@@ -16,8 +16,8 @@ tmux_conf_theme_prefix=enabled
 # display the battery information in the status line, possible values are:
 #   - enabled
 #   - disabled
-# tmux_conf_theme_battery=enabled
-tmux_conf_theme_battery=disabled
+tmux_conf_theme_battery=enabled
+# tmux_conf_theme_battery=disabled
 
 # style to use for the battery status, possible values are:
 #   - bar
@@ -29,7 +29,7 @@ tmux_conf_battery_style=bar
 #   - block
 #   - heart
 tmux_conf_battery_symbol=block
-#tmux_conf_battery_symbol=heart
+# tmux_conf_battery_symbol=heart
 
 # number of symbols to use for battery status
 tmux_conf_battery_symbol_count=auto
@@ -39,57 +39,57 @@ tmux_conf_battery_symbol_count=auto
 #   - 'colour_full_fg,colour_empty_fg,colour_bg'
 #   - heat
 #   - gradient
-tmux_conf_battery_palette='#d70000,#e4e4e4,#000000'
+# tmux_conf_battery_palette='#d70000,#e4e4e4,#000000'
 #tmux_conf_battery_palette=colour160,colour254,colour16
 #tmux_conf_battery_palette=heat
-#tmux_conf_battery_palette=gradient
+tmux_conf_battery_palette=gradient
 
 # display the battery status: charging (U+26A1) / discharging (U+1F50B)
 tmux_conf_battery_status=enabled
 #tmux_conf_battery_status=disabled
 
 # or alternatively use an external tool, e.g. https://github.com/Goles/Battery
-#tmux_conf_battery='#(battery -t) '
+# tmux_conf_battery='#(battery -t) '
 
 # display the time in the status line, possible values are:
 #   - enabled
 #   - disabled
-#tmux_conf_theme_time=enabled
-tmux_conf_theme_time=disabled
+tmux_conf_theme_time=enabled
+# tmux_conf_theme_time=disabled
 
 # display the date in the status line, possible values are:
 #   - enabled
 #   - disabled
-#tmux_conf_theme_date=enabled
-tmux_conf_theme_date=disabled
+tmux_conf_theme_date=enabled
+# tmux_conf_theme_date=disabled
 
 # display the username in the status line, possible values are:
 #   - enabled
 #   - disabled
 #   - ssh
 # tmux_conf_theme_username=enabled
-tmux_conf_theme_username=disabled
-#tmux_conf_theme_username=ssh
+# tmux_conf_theme_username=disabled
+tmux_conf_theme_username=ssh
 
 # display the hostname in the status line, possible values are:
 #   - enabled
 #   - disabled
 #   - ssh
 # tmux_conf_theme_hostname=enabled
-tmux_conf_theme_hostname=disabled
-#tmux_conf_theme_hostname=ssh
+# tmux_conf_theme_hostname=disabled
+tmux_conf_theme_hostname=ssh
 
 # highlight focuse pane, possible values are:
 #   - enabled
 #   - disabled
 tmux_conf_theme_highlight_focused_pane=disabled
-#tmux_conf_theme_highlight_focused_pane=enabled
+# tmux_conf_theme_highlight_focused_pane=enabled
 
 # should new windows retain current path, possible values are:
 #   - true
 #   - false
-tmux_conf_new_windows_retain_current_path=false
-#tmux_conf_new_windows_retain_current_path=true
+# tmux_conf_new_windows_retain_current_path=false
+tmux_conf_new_windows_retain_current_path=true
 
 # should new panes reatin current path, possible values are:
 #   - true
@@ -109,6 +109,7 @@ tmux_conf_new_session_prompt=false
 #   - and iTerm2 is configured to send [1;9A -> [1;9D for option + arrow keys
 # then uncomment the following line to make Meta + arrow keys mapping work
 set -g terminal-overrides "*:kUP3=\e[1;9A,*:kDN3=\e[1;9B,*:kRIT3=\e[1;9C,*:kLFT3=\e[1;9D"
+set -g mouse on
 
 
 # ------------------------------------------------------------------------------
