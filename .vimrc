@@ -32,6 +32,7 @@ Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
 Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
+Plug 'scrooloose/syntastic'
 
 
 " Add plugins to &runtimepath
@@ -255,20 +256,19 @@ set wildignore+=*/node_modules/*
 
 """""""""""
 " YouCompleteMe 配置
-" nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-" nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
+nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>ju :YcmCompleter GoToReferences<CR>
 
-autocmd! BufWritePost * Neomake
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 let g:deoplete#auto_completion_start_length = 2
 
-let g:jedi#completions_enabled = 0
-let g:jedi#usages_command = "<leader>ju"
-let g:jedi#goto_definitions_command = "<leader>jd"
-let g:jedi#rename_command = "<leader>jr"
-let g:jedi#goto_assignments_command = "<leader>jg"
-let g:jedi#documentation_command = "<leader>js"
+" let g:jedi#completions_enabled = 0
+" let g:jedi#usages_command = "<leader>ju"
+" let g:jedi#goto_definitions_command = "<leader>jd"
+" let g:jedi#rename_command = "<leader>jr"
+" let g:jedi#goto_assignments_command = "<leader>jg"
+" let g:jedi#documentation_command = "<leader>js"
 
 autocmd BufWinEnter '__doc__' setlocal bufhidden=delete
 
