@@ -23,7 +23,7 @@ Plug 'tomasr/molokai'
 Plug 'neovim/python-client'
 Plug 'davidhalter/jedi-vim'
 
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'tpope/vim-fugitive'
@@ -109,7 +109,7 @@ set ignorecase
 set smartcase
 
 set number
-set laststatus=1
+set laststatus=0
 set cmdheight=1
 set nocursorline
 
