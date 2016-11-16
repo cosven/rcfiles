@@ -40,7 +40,7 @@ Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/goyo.vim'
 Plug 'lepture/vim-jinja'
-Plug 'airline/airline'
+Plug 'vim-airline/vim-airline'
 
 
 " Add plugins to &runtimepath
