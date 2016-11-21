@@ -33,7 +33,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
 Plug 'scrooloose/syntastic'
-
+Plug 'vim-airline/vim-airline'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -102,7 +102,7 @@ set ignorecase
 set smartcase
 
 set number
-set laststatus=0
+set laststatus=2
 set cmdheight=1
 set cursorline
 
@@ -253,6 +253,7 @@ let g:syntastic_html_tidy_ignore_errors = [
 
 set wildignore+=*/node_modules/*
 
+let g:airline#extensions#tabline#enabled = 1
 
 """""""""""
 " YouCompleteMe 配置
