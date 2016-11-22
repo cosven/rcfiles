@@ -31,7 +31,8 @@ values."
    ;; list of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     python
+     (python :variables
+             python-fill-column 80)
      ;; ----------------------------------------------------------------
      ;; example of useful layers you may want to use right away.
      ;; uncomment some layer names and press <spc f e r> (vim style) or
