@@ -28,7 +28,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'MattesGroeger/vim-bookmarks'
+Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-surround'
 Plug 'altercation/vim-colors-solarized'
 Plug 'ervandew/supertab'
@@ -42,9 +42,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'lepture/vim-jinja'
 Plug 'vim-airline/vim-airline'
 
-
 " Add plugins to &runtimepath
-Plug 'feeluown.vim'
 call plug#end()
 
 let g:mapleader = " "
@@ -111,7 +109,7 @@ set ignorecase
 set smartcase
 
 set number
-set laststatus=0
+set laststatus=2
 set cmdheight=1
 set nocursorline
 
