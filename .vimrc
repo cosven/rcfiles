@@ -34,6 +34,7 @@ Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
 Plug 'scrooloose/syntastic'
 Plug 'vim-airline/vim-airline'
+Plug 'kshenoy/vim-signature'
 
 " Add plugins to &runtimepath
 call plug#end()

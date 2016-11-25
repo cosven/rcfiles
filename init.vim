@@ -41,10 +41,10 @@ Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/goyo.vim'
 Plug 'lepture/vim-jinja'
 Plug 'vim-airline/vim-airline'
+Plug 'kshenoy/vim-signature'
 
 
 " Add plugins to &runtimepath
-Plug 'feeluown.vim'
 call plug#end()
 
 let g:mapleader = " "
