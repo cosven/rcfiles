@@ -22,7 +22,6 @@ Plug 'tomasr/molokai'
 Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'MattesGroeger/vim-bookmarks'
 Plug 'tpope/vim-surround'
 Plug 'altercation/vim-colors-solarized'
 Plug 'ervandew/supertab'
@@ -34,6 +33,7 @@ Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
 Plug 'scrooloose/syntastic'
 Plug 'vim-airline/vim-airline'
+Plug 'kshenoy/vim-signature'
 
 " Add plugins to &runtimepath
 call plug#end()
