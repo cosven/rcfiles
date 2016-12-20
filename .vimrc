@@ -14,7 +14,8 @@ Plug 'scrooloose/nerdtree'
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'ctrlpvim/ctrlp.vim'
 
 " vim-molokai
 Plug 'tomasr/molokai'
@@ -32,10 +33,11 @@ Plug 'joshdick/onedark.vim'
 Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
 Plug 'scrooloose/syntastic'
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
 Plug 'kshenoy/vim-signature'
 Plug 'lepture/vim-jinja'
 Plug 'kien/rainbow_parentheses.vim'
+Plug 'morhetz/gruvbox'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -103,10 +105,12 @@ nmap cM :%s/\r$//g<cr>:noh<cr>
 set ignorecase
 set smartcase
 
-set number
-set laststatus=2
+set nonumber
+set laststatus=-1
+set showtabline=0
 set cmdheight=1
 set cursorline
+
 
 set nowrap
 
@@ -164,14 +168,15 @@ let NERDSpaceDelims = 1
 let g:pydiction_location = '~/.vim/complete-dict'
 let g:pydiction_menu_height = 3
 
-"let g:solarized_visibility = "high"
-"let g:solarized_contrast = "high"
-let g:solarized_termtrans = 1
-let g:solarized_termcolors=256
-set background=dark
-color molokai
-
+set t_Co=256
 syntax on
+" let g:solarized_visibility = "high"
+" let g:solarized_contrast = "high"
+" let g:solarized_termtrans = 1
+" let g:solarized_termcolors=256
+" set background=dark
+colorscheme default
+
 filetype plugin on 
 au BufEnter *.txt setlocal ft=txt
 "set autochdir
@@ -179,7 +184,6 @@ au BufEnter *.txt setlocal ft=txt
 " nmap <F8> :AuthorInfoDetect<CR>
 "
 set fillchars+=stl:\ ,stlnc:\
-let &t_Co=256
 
 let g:bookmark_save_per_working_dir = 1
 set termencoding=utf-8
@@ -191,7 +195,14 @@ let g:vimrc_homepage='http://www.cosven.com'
 nmap <F4> :AuthorInfoDetect<cr>
 " nmap <C-F> :CtrlSF 
 "
-nmap <C-P> :FZF<CR>
+nmap <C-P> :CtrlP<CR>
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn|eggs|old-eggs|buildout)$',
+  \ 'file': '\v\.(exe|so|dll|pyc|pyo)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
 
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
@@ -256,7 +267,7 @@ let g:syntastic_html_tidy_ignore_errors = [
 
 set wildignore+=*/node_modules/*
 
-let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#enabled = 1
 
 """""""""""
 " YouCompleteMe 配置

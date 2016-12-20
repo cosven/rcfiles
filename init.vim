@@ -13,6 +13,7 @@ Plug 'scrooloose/nerdtree'
 
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -40,7 +41,6 @@ Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/goyo.vim'
 Plug 'lepture/vim-jinja'
-Plug 'vim-airline/vim-airline'
 Plug 'kshenoy/vim-signature'
 Plug 'cosven/feeluown.vim'
 
@@ -110,8 +110,9 @@ nmap cM :%s/\r$//g<cr>:noh<cr>
 set ignorecase
 set smartcase
 
-set number
-set laststatus=2
+set nonumber
+set showtabline=0
+set laststatus=0
 set cmdheight=1
 set nocursorline
 
@@ -278,7 +279,7 @@ set wildignore+=*/node_modules/*
 autocmd! BufWritePost * Neomake
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-let g:deoplete#auto_completion_start_length = 2
+let g:deoplete#auto_completion_start_length = 1
 
 let g:jedi#completions_enabled = 0
 let g:jedi#usages_command = "<leader>ju"
