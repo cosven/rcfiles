@@ -35,6 +35,7 @@ Plug 'scrooloose/syntastic'
 Plug 'vim-airline/vim-airline'
 Plug 'kshenoy/vim-signature'
 Plug 'lepture/vim-jinja'
+Plug 'kien/rainbow_parentheses.vim'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -168,7 +169,7 @@ let g:pydiction_menu_height = 3
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
 set background=dark
-color onedark
+color molokai
 
 syntax on
 filetype plugin on 
