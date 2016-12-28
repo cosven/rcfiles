@@ -200,6 +200,7 @@ nmap <F4> :AuthorInfoDetect<cr>
 " nmap <C-F> :CtrlSF 
 "
 nmap <C-P> :FZF<CR>
+let $FZF_DEFAULT_COMMAND = 'git ls-files'
 
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
