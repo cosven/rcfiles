@@ -11,9 +11,9 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " On-demand loading
 Plug 'scrooloose/nerdtree'
 
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-jedi'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'zchee/deoplete-jedi'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -22,7 +22,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'tomasr/molokai'
 
 Plug 'neovim/python-client'
-Plug 'davidhalter/jedi-vim'
 
 " Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdcommenter'
@@ -32,6 +31,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-surround'
 Plug 'altercation/vim-colors-solarized'
+Plug 'flazz/vim-colorschemes'
 Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
 Plug 'rking/ag.vim'
@@ -43,6 +43,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'lepture/vim-jinja'
 Plug 'kshenoy/vim-signature'
 Plug 'cosven/feeluown.vim'
+Plug 'ntpeters/vim-better-whitespace'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -111,7 +112,7 @@ set ignorecase
 set smartcase
 
 set nonumber
-set showtabline=0
+set showtabline=1
 set laststatus=0
 set cmdheight=1
 set nocursorline
@@ -274,20 +275,20 @@ set wildignore+=*/node_modules/*
 
 """""""""""
 " YouCompleteMe 配置
-" nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-" nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
+nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
 
 autocmd! BufWritePost * Neomake
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 let g:deoplete#auto_completion_start_length = 1
 
-let g:jedi#completions_enabled = 0
-let g:jedi#usages_command = "<leader>ju"
-let g:jedi#goto_definitions_command = "<leader>jd"
-let g:jedi#rename_command = "<leader>jr"
-let g:jedi#goto_assignments_command = "<leader>jg"
-let g:jedi#documentation_command = "<leader>js"
+" let g:jedi#completions_enabled = 0
+" let g:jedi#usages_command = "<leader>ju"
+" let g:jedi#goto_definitions_command = "<leader>jd"
+" let g:jedi#rename_command = "<leader>jr"
+" let g:jedi#goto_assignments_command = "<leader>jg"
+" let g:jedi#documentation_command = "<leader>js"
 
 autocmd BufWinEnter '__doc__' setlocal bufhidden=delete
 

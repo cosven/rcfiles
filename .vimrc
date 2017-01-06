@@ -38,6 +38,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'lepture/vim-jinja'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'morhetz/gruvbox'
+Plug 'ntpeters/vim-better-whitespace'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -107,7 +108,7 @@ set smartcase
 
 set nonumber
 set laststatus=-1
-set showtabline=0
+set showtabline=1
 set cmdheight=1
 set cursorline
 
