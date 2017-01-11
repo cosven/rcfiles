@@ -11,9 +11,10 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " On-demand loading
 Plug 'scrooloose/nerdtree'
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Plug 'zchee/deoplete-jedi'
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
+" Plug 'davidhalter/jedi-vim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -23,7 +24,7 @@ Plug 'tomasr/molokai'
 
 Plug 'neovim/python-client'
 
-" Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'tpope/vim-fugitive'
@@ -31,7 +32,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-surround'
 Plug 'altercation/vim-colors-solarized'
-Plug 'flazz/vim-colorschemes'
 Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
 Plug 'rking/ag.vim'
@@ -44,6 +44,9 @@ Plug 'lepture/vim-jinja'
 Plug 'kshenoy/vim-signature'
 Plug 'cosven/feeluown.vim'
 Plug 'ntpeters/vim-better-whitespace'
+
+" themes
+Plug 'morhetz/gruvbox'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -113,7 +116,7 @@ set smartcase
 
 set nonumber
 set showtabline=1
-set laststatus=0
+set laststatus=2
 set cmdheight=1
 set nocursorline
 
@@ -178,6 +181,7 @@ let g:pydiction_menu_height = 3
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
 set background=dark
+color gruvbox
 
 syntax on
 filetype plugin on 
@@ -263,12 +267,13 @@ let g:syntastic_html_tidy_ignore_errors = [
             \ 'discarding unexpected <rect>'
             \ ]
 
-let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#enabled = 1
 if (g:isGUI)
     let g:airline_powerline_fonts = 0
 else
-    let g:airline_powerline_fonts = 0
+    let g:airline_powerline_fonts = 1
 endif
+let g:airline_theme='gruvbox'
 
 set wildignore+=*/node_modules/*
 
@@ -283,12 +288,12 @@ let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 let g:deoplete#auto_completion_start_length = 1
 
-" let g:jedi#completions_enabled = 0
-" let g:jedi#usages_command = "<leader>ju"
-" let g:jedi#goto_definitions_command = "<leader>jd"
-" let g:jedi#rename_command = "<leader>jr"
-" let g:jedi#goto_assignments_command = "<leader>jg"
-" let g:jedi#documentation_command = "<leader>js"
+let g:jedi#completions_enabled = 0
+let g:jedi#usages_command = "<leader>ju"
+let g:jedi#goto_definitions_command = "<leader>jd"
+let g:jedi#rename_command = "<leader>jr"
+let g:jedi#goto_assignments_command = "<leader>jg"
+let g:jedi#documentation_command = "<leader>js"
 
 autocmd BufWinEnter '__doc__' setlocal bufhidden=delete
 
@@ -300,4 +305,4 @@ nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader>bk :bdelete<cr>
 nnoremap <leader>bl :buffers<cr>
 
-nnoremap <leader>f :Ag 
+nnoremap <leader>f :Ag

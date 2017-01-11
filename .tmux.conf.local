@@ -40,7 +40,7 @@ tmux_conf_new_session_prompt=false
 # RGB 24-bit colour support (since tmux 2.2), possible values are:
 #  - true
 #  - false (default)
-tmux_conf_theme_24b_colour=false
+tmux_conf_theme_24b_colour=true
 
 # window style
 tmux_conf_theme_window_fg='default'
@@ -240,3 +240,8 @@ tmux_conf_theme_clock_style='24'
 
 # move status line to top
 #set -g status-position top
+#
+# unbind-key C-b
+unbind-key C-a
+# set -g prefix 'C-\'
+# bind-key 'C-\' send-prefix
