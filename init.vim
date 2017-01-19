@@ -11,7 +11,7 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " On-demand loading
 Plug 'scrooloose/nerdtree'
 
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
 " Plug 'davidhalter/jedi-vim'
