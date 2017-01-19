@@ -31,7 +31,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-surround'
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
+Plug 'frankier/neovim-colors-solarized-truecolor-only'
 Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
 Plug 'rking/ag.vim'
@@ -73,7 +74,7 @@ set fileencoding=utf-8
 
 set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1
 
-set fileformat=unix 
+set fileformat=unix
 set fileformats=unix,dos,mac
 
 set tw=200
@@ -176,15 +177,15 @@ let NERDSpaceDelims = 1
 let g:pydiction_location = '~/.vim/complete-dict'
 let g:pydiction_menu_height = 3
 
-"let g:solarized_visibility = "high"
-"let g:solarized_contrast = "high"
+let g:solarized_visibility = "high"
+let g:solarized_contrast = "high"
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
 set background=dark
-color gruvbox
+color solarized
 
 syntax on
-filetype plugin on 
+filetype plugin on
 au BufEnter *.txt setlocal ft=txt
 "set autochdir
 
@@ -202,7 +203,7 @@ let g:vimrc_author='ysw'
 let g:vimrc_email='yinshaowen241@gmail.com'
 let g:vimrc_homepage='http://www.cosven.com'
 nmap <F4> :AuthorInfoDetect<cr>
-" nmap <C-F> :CtrlSF 
+" nmap <C-F> :CtrlSF
 "
 nmap <C-P> :FZF<CR>
 let $FZF_DEFAULT_COMMAND = 'git ls-files'
@@ -224,6 +225,7 @@ autocmd Filetype stylus setlocal shiftwidth=2 tabstop=2
 " augroup END
 autocmd BufNewFile,BufRead GHI_ISSUE_* setlocal filetype=ghmarkdown
 autocmd BufNewFile,BufRead Jenkinsfile* setlocal filetype=groovy
+autocmd BufEnter * EnableStripWhitespaceOnSave
 set mouse=a
 
 let g:NERDTreeIndicatorMapCustom = {
