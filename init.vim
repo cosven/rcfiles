@@ -308,3 +308,6 @@ nnoremap <leader>bk :bdelete<cr>
 nnoremap <leader>bl :buffers<cr>
 
 nnoremap <leader>f :Ag
+
+let g:python_host_prog = '/usr/local/bin/python'
+let g:python3_host_prog = '/usr/local/bin/python3'
