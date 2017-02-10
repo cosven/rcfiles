@@ -32,6 +32,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-surround'
 " Plug 'altercation/vim-colors-solarized'
+Plug 'flazz/vim-colorschemes'
 Plug 'frankier/neovim-colors-solarized-truecolor-only'
 Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
@@ -45,6 +46,8 @@ Plug 'lepture/vim-jinja'
 Plug 'kshenoy/vim-signature'
 Plug 'cosven/feeluown.vim'
 Plug 'ntpeters/vim-better-whitespace'
+
+Plug 'CodeFalling/fcitx-vim-osx'
 
 " themes
 Plug 'morhetz/gruvbox'
@@ -117,7 +120,7 @@ set smartcase
 
 set nonumber
 set showtabline=1
-set laststatus=2
+set laststatus=-1
 set cmdheight=1
 set nocursorline
 
@@ -182,7 +185,8 @@ let g:solarized_contrast = "high"
 let g:solarized_termtrans = 1
 let g:solarized_termcolors=256
 set background=dark
-color solarized
+" color solarized
+color default
 
 syntax on
 filetype plugin on
@@ -192,7 +196,7 @@ au BufEnter *.txt setlocal ft=txt
 " nmap <F8> :AuthorInfoDetect<CR>
 "
 set fillchars+=stl:\ ,stlnc:\
-let &t_Co=256
+set t_Co=256
 
 let g:bookmark_save_per_working_dir = 1
 set guifont=Monaco:h14

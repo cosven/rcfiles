@@ -4,3 +4,4 @@ set -x -g LC_ALL en_US.UTF-8
 set -x -g LANG en_US.UTF-8
 
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
+[ -d /usr/local/Cellar/python/2.7.13/bin ]; and set -x PATH $PATH /usr/local/Cellar/python/2.7.13/bin

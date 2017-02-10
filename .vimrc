@@ -38,6 +38,7 @@ Plug 'lepture/vim-jinja'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'flazz/vim-colorschemes'
 
 " themes
 Plug 'altercation/vim-colors-solarized'
