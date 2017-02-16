@@ -43,6 +43,8 @@ Plug 'flazz/vim-colorschemes'
 " themes
 Plug 'altercation/vim-colors-solarized'
 
+
+Plug 'CodeFalling/fcitx-vim-osx'
 " Add plugins to &runtimepath
 call plug#end()
 

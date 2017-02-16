@@ -47,8 +47,6 @@ Plug 'kshenoy/vim-signature'
 Plug 'cosven/feeluown.vim'
 Plug 'ntpeters/vim-better-whitespace'
 
-Plug 'CodeFalling/fcitx-vim-osx'
-
 " themes
 Plug 'morhetz/gruvbox'
 
@@ -199,7 +197,6 @@ set fillchars+=stl:\ ,stlnc:\
 set t_Co=256
 
 let g:bookmark_save_per_working_dir = 1
-set guifont=Monaco:h14
 set termencoding=utf-8
 set hlsearch
 
@@ -277,7 +274,7 @@ let g:syntastic_html_tidy_ignore_errors = [
 if (g:isGUI)
     let g:airline_powerline_fonts = 0
 else
-    let g:airline_powerline_fonts = 1
+    let g:airline_powerline_fonts = 0
 endif
 let g:airline_theme='gruvbox'
 
