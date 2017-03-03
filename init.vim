@@ -19,9 +19,6 @@ Plug 'zchee/deoplete-jedi'
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-" vim-molokai
-Plug 'tomasr/molokai'
-
 Plug 'neovim/python-client'
 
 Plug 'vim-airline/vim-airline'
@@ -31,9 +28,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-surround'
-" Plug 'altercation/vim-colors-solarized'
-Plug 'flazz/vim-colorschemes'
-Plug 'frankier/neovim-colors-solarized-truecolor-only'
 Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
 Plug 'rking/ag.vim'
@@ -48,7 +42,10 @@ Plug 'cosven/feeluown.vim'
 Plug 'ntpeters/vim-better-whitespace'
 
 " themes
+Plug 'tomasr/molokai'
 Plug 'morhetz/gruvbox'
+Plug 'frankier/neovim-colors-solarized-truecolor-only'
+Plug 'nanotech/jellybeans.vim'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -178,13 +175,8 @@ let NERDSpaceDelims = 1
 let g:pydiction_location = '~/.vim/complete-dict'
 let g:pydiction_menu_height = 3
 
-let g:solarized_visibility = "high"
-let g:solarized_contrast = "high"
-let g:solarized_termtrans = 1
-let g:solarized_termcolors=256
 set background=dark
-" color solarized
-color default
+color gruvbox
 
 syntax on
 filetype plugin on
