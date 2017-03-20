@@ -175,8 +175,9 @@ let NERDSpaceDelims = 1
 let g:pydiction_location = '~/.vim/complete-dict'
 let g:pydiction_menu_height = 3
 
+set termguicolors
 set background=dark
-color gruvbox
+color molokai
 
 syntax on
 filetype plugin on

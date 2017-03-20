@@ -17,7 +17,11 @@
  )
 
 (require 'neotree)
+
 (toggle-scroll-bar -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(load-theme manoj-dark t)
+(load-theme 'manoj-dark)
+(load-theme 'smart-mode-line-dark)
+
+;;;
