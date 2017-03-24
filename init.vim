@@ -46,6 +46,8 @@ Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'frankier/neovim-colors-solarized-truecolor-only'
 Plug 'nanotech/jellybeans.vim'
+Plug 'rakr/vim-one'
+Plug 'jacoborus/tender.vim'
 
 " Add plugins to &runtimepath
 call plug#end()
