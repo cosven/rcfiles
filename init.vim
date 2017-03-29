@@ -179,7 +179,7 @@ let g:pydiction_menu_height = 3
 
 set termguicolors
 set background=dark
-color molokai
+color one
 
 syntax on
 filetype plugin on
