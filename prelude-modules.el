@@ -1,4 +1,4 @@
-;;; Uncomment the modules you'd like to use and restart Prelude afterwards
+;; Uncomment the modules you'd like to use and restart Prelude afterwards
 
 ;; Emacs IRC client
 (require 'prelude-erc)
@@ -8,7 +8,7 @@
 (require 'prelude-company)
 ;; (require 'prelude-key-chord) ;; Binds useful features to key combinations
 ;; (require 'prelude-mediawiki)
-;; (require 'prelude-evil)
+(require 'prelude-evil)
 
 ;;; Programming languages support
 (require 'prelude-c)
@@ -33,6 +33,6 @@
 (require 'prelude-scheme)
 (require 'prelude-shell)
 ;; (require 'prelude-scss)
-;; (require 'prelude-web) ;; Emacs mode for web templates
+(require 'prelude-web) ;; Emacs mode for web templates
 (require 'prelude-xml)
-;; (require 'prelude-yaml)
+(require 'prelude-yaml)
