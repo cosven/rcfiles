@@ -14,7 +14,7 @@ Plug 'scrooloose/nerdtree'
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
-" Plug 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -179,7 +179,8 @@ let g:pydiction_menu_height = 3
 
 set termguicolors
 set background=dark
-colorscheme one
+colorscheme molokai
+set background=dark
 
 syntax on
 filetype plugin on
@@ -278,8 +279,8 @@ set wildignore+=*/node_modules/*
 
 """""""""""
 " YouCompleteMe 配置
-nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
-nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
+" nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+" nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
 
 autocmd! BufWritePost * Neomake
 let g:deoplete#enable_at_startup = 1

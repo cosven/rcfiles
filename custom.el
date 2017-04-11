@@ -25,7 +25,6 @@
 (tool-bar-mode -1)
 (load-theme 'manoj-dark)
 (load-theme 'smart-mode-line-dark)
-(set-default 'truncate-lines nil)
 
 (add-to-list 'default-frame-alist
              '(font . "Monaco-13"))
