@@ -17,7 +17,8 @@ Plug 'zchee/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'neovim/python-client'
 
@@ -201,9 +202,11 @@ let g:vimrc_email='yinshaowen241@gmail.com'
 let g:vimrc_homepage='http://www.cosven.com'
 nmap <F4> :AuthorInfoDetect<cr>
 " nmap <C-F> :CtrlSF
-"
-nmap <C-P> :FZF<CR>
-let $FZF_DEFAULT_COMMAND = 'git ls-files'
+
+
+"" FZF
+" nmap <C-P> :FZF<CR>
+" let $FZF_DEFAULT_COMMAND = 'git ls-files'
 
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
@@ -274,7 +277,15 @@ else
 endif
 let g:airline_theme='gruvbox'
 
-set wildignore+=*/node_modules/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/bin/*
+set wildignore+=*/.buildout/*,*/eggs/*,*.pyc   " python
+set wildignore+=*/node_modules/*    " nodejs
+
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ }
 
 
 """""""""""
