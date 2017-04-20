@@ -1,0 +1,2 @@
+alias ec='emacsclient -nw'
+eval $(thefuck --alias)
