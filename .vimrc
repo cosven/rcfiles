@@ -11,7 +11,8 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " On-demand loading
 Plug 'scrooloose/nerdtree'
 
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+Plug 'davidhalter/jedi-vim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -78,11 +79,9 @@ set tw=200
 if (g:iswindows && g:isGUI)
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
-    language messages zh_CN.utf-8
 else
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
-    language messages zh_CN.utf-8
 endif
 
 filetype on

@@ -1,2 +1,3 @@
 alias ec='emacsclient -nw'
 eval $(thefuck --alias)
+export PATH=~/.local/bin:$PATH
