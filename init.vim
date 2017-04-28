@@ -49,6 +49,8 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'nanotech/jellybeans.vim'
 Plug 'rakr/vim-one'
 Plug 'jacoborus/tender.vim'
+Plug 'chriskempson/base16-vim'
+Plug 'flazz/vim-colorschemes'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -180,7 +182,7 @@ let g:pydiction_menu_height = 3
 
 set termguicolors
 set background=dark
-colorscheme molokai
+colorscheme Tomorrow-Night-Bright
 set background=dark
 
 syntax on
