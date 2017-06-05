@@ -17,10 +17,11 @@ Plug 'zchee/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'neovim/python-client'
+Plug 'mattn/emmet-vim'
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
@@ -207,8 +208,8 @@ nmap <F4> :AuthorInfoDetect<cr>
 
 
 "" FZF
-" nmap <C-P> :FZF<CR>
-" let $FZF_DEFAULT_COMMAND = 'git ls-files'
+nmap <C-P> :FZF<CR>
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
