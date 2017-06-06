@@ -119,9 +119,9 @@ nmap cM :%s/\r$//g<cr>:noh<cr>
 set ignorecase
 set smartcase
 
-set nonumber
+set number
 set showtabline=1
-set laststatus=-1
+set laststatus=2
 set cmdheight=1
 set nocursorline
 
@@ -189,11 +189,12 @@ set background=dark
 syntax on
 filetype plugin on
 au BufEnter *.txt setlocal ft=txt
-"set autochdir
 
-" nmap <F8> :AuthorInfoDetect<CR>
-"
-set fillchars+=stl:\ ,stlnc:\
+" set split bar background color same as background
+hi VertSplit guibg=bg
+" set fillchars+=stl:\|,stlnc:\|
+" set fillchars=vert:\│
+set fillchars=vert:\|
 set t_Co=256
 
 let g:bookmark_save_per_working_dir = 1
