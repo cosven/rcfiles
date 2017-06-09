@@ -17,10 +17,11 @@ Plug 'zchee/deoplete-jedi'
 Plug 'davidhalter/jedi-vim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'neovim/python-client'
+Plug 'mattn/emmet-vim'
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
@@ -189,11 +190,12 @@ set background=dark
 syntax on
 filetype plugin on
 au BufEnter *.txt setlocal ft=txt
-"set autochdir
 
-" nmap <F8> :AuthorInfoDetect<CR>
-"
-set fillchars+=stl:\ ,stlnc:\
+" set split bar background color same as background
+hi VertSplit guibg=bg
+" set fillchars+=stl:\|,stlnc:\|
+" set fillchars=vert:\│
+set fillchars=vert:\|
 set t_Co=256
 
 let g:bookmark_save_per_working_dir = 1
@@ -208,8 +210,8 @@ nmap <F4> :AuthorInfoDetect<cr>
 
 
 "" FZF
-" nmap <C-P> :FZF<CR>
-" let $FZF_DEFAULT_COMMAND = 'git ls-files'
+nmap <C-P> :FZF<CR>
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
