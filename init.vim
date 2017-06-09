@@ -37,6 +37,7 @@ Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/goyo.vim'
 Plug 'lepture/vim-jinja'
+Plug 'dag/vim-fish'
 Plug 'kshenoy/vim-signature'
 Plug 'cosven/feeluown.vim'
 Plug 'ntpeters/vim-better-whitespace'
@@ -118,9 +119,9 @@ nmap cM :%s/\r$//g<cr>:noh<cr>
 set ignorecase
 set smartcase
 
-set nonumber
+set number
 set showtabline=1
-set laststatus=-1
+set laststatus=2
 set cmdheight=1
 set nocursorline
 

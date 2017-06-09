@@ -1,3 +1,10 @@
+function fish_prompt
+    set_color $fish_color_cwd
+    echo -n (prompt_pwd)
+    set_color normal
+    echo -n ' > '
+end
+
 set -x PATH $PATH ~/path /Library/Frameworks/Python.framework/Versions/3.5/bin/ /usr/local/bin /usr/bin /bin /usr/sbin /sbin
 abbr -a ec emacsclient -t
 set -x -g LC_ALL en_US.UTF-8
