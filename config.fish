@@ -13,3 +13,4 @@ set -x -g LANG en_US.UTF-8
 
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
 [ -d /usr/local/Cellar/python/2.7.13/bin ]; and set -x PATH $PATH /usr/local/Cellar/python/2.7.13/bin
+eval (thefuck --alias | tr '\n' ';')
