@@ -185,6 +185,7 @@ let g:pydiction_menu_height = 3
 set termguicolors
 set background=dark
 colorscheme Tomorrow-Night-Bright
+" colorscheme solarized8_light
 set background=dark
 
 syntax on
