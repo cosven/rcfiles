@@ -11,9 +11,6 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 " On-demand loading
 Plug 'scrooloose/nerdtree'
 
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
-Plug 'davidhalter/jedi-vim'
-
 " Plugin outside ~/.vim/plugged with post-update hook
 " Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'ctrlpvim/ctrlp.vim'
