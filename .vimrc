@@ -12,8 +12,8 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 Plug 'scrooloose/nerdtree'
 
 " Plugin outside ~/.vim/plugged with post-update hook
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'ctrlpvim/ctrlp.vim'
 
 " vim-molokai
 Plug 'tomasr/molokai'
@@ -24,9 +24,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
 Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
-Plug 'rking/ag.vim'
 Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
+Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)']  }
 Plug 'godlygeek/tabular'
 Plug 'suan/vim-instant-markdown'
 Plug 'scrooloose/syntastic'
@@ -68,7 +68,7 @@ set fileencoding=utf-8
 
 set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1
 
-set fileformat=unix 
+set fileformat=unix
 set fileformats=unix,dos,mac
 
 set tw=200
@@ -179,7 +179,7 @@ syntax on
 " set background=dark
 colorscheme Tomorrow-Night-Bright
 
-filetype plugin on 
+filetype plugin on
 au BufEnter *.txt setlocal ft=txt
 "set autochdir
 
@@ -195,9 +195,11 @@ let g:vimrc_author='ysw'
 let g:vimrc_email='yinshaowen241@gmail.com'
 let g:vimrc_homepage='http://www.cosven.com'
 nmap <F4> :AuthorInfoDetect<cr>
-" nmap <C-F> :CtrlSF 
+" nmap <C-F> :CtrlSF
 "
-nmap <C-P> :CtrlP<CR>
+" nmap <C-P> :CtrlP<CR>
+nmap <C-P> :FZF<CR>
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = {
@@ -223,6 +225,7 @@ autocmd Filetype stylus setlocal shiftwidth=2 tabstop=2
 " augroup END
 autocmd BufNewFile,BufRead GHI_ISSUE_* setlocal filetype=ghmarkdown
 autocmd BufNewFile,BufRead Jenkinsfile* setlocal filetype=groovy
+autocmd BufEnter * EnableStripWhitespaceOnSave
 set mouse=a
 
 let g:NERDTreeIndicatorMapCustom = {
@@ -297,4 +300,7 @@ nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader>bk :bdelete<cr>
 nnoremap <leader>bl :buffers<cr>
 
-nnoremap <leader>f :Ag 
+let g:grepper = {}
+let g:grepper.tools     = ['git', 'ag', 'grep']
+
+nnoremap <leader>f :Grepper<cr>
