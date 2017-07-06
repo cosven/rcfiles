@@ -11,7 +11,8 @@ if test -e /etc/debian_version
     set -x PATH $PATH ~/.local/bin
 else
     set -x PATH $PATH ~/path /Library/Frameworks/Python.framework/Versions/3.5/bin/ /usr/local/bin /usr/bin /bin /usr/sbin /sbin
-    eval (thefuck --alias | tr '\n' ';')
+    # this will cause emacs(exec-path-from-shell) fail
+    # eval (thefuck --alias | tr '\n' ';')
     abbr -a vim pyvim
 end
 abbr -a ec emacsclient -t
