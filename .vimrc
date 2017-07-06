@@ -108,7 +108,7 @@ set ignorecase
 set smartcase
 
 set nonumber
-set laststatus=-1
+set laststatus=2
 set showtabline=1
 set cmdheight=1
 set cursorline
