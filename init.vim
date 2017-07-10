@@ -31,7 +31,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-surround'
 Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
-Plug 'rking/ag.vim'
+Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)']  }
 Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
 Plug 'godlygeek/tabular'
@@ -328,3 +328,6 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 
 " Align GitHub-flavored Markdown tables
 au FileType markdown vmap <Leader><Bslash> :EasyAlign*<Bar><Enter>
+
+let g:grepper = {}
+let g:grepper.tools     = ['git', 'ag', 'grep']
