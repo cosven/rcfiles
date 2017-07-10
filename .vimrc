@@ -185,7 +185,7 @@ au BufEnter *.txt setlocal ft=txt
 
 " nmap <F8> :AuthorInfoDetect<CR>
 "
-set fillchars+=stl:\ ,stlnc:\
+set fillchars=vert:\|
 
 let g:bookmark_save_per_working_dir = 1
 set termencoding=utf-8
