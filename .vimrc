@@ -5,9 +5,6 @@ call plug#begin()
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
 
-" Any valid git URL is allowed
-Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-
 " On-demand loading
 Plug 'scrooloose/nerdtree'
 
@@ -30,7 +27,7 @@ Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)']  }
 Plug 'godlygeek/tabular'
 " Plug 'suan/vim-instant-markdown'
 Plug 'scrooloose/syntastic'
-Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline'
 Plug 'kshenoy/vim-signature'
 Plug 'lepture/vim-jinja'
 Plug 'kien/rainbow_parentheses.vim'
@@ -72,6 +69,9 @@ set fileformat=unix
 set fileformats=unix,dos,mac
 
 set tw=200
+
+" https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/31
+set t_BE=
 
 if (g:iswindows && g:isGUI)
     source $VIMRUNTIME/delmenu.vim
@@ -306,4 +306,5 @@ let g:grepper.tools     = ['git', 'ag', 'grep']
 " 高级配置
 "
 " 搜索当前 word
-nnoremap <leader>f :exec 'GrepperGit ' . expand('<cword>')<CR>
+nnoremap <leader>g :exe 'GrepperGit ' . expand('<cword>')<CR>
+nnoremap <leader>f :Grepper<CR>
