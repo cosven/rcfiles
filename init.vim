@@ -313,16 +313,6 @@ let g:jedi#documentation_command = "<leader>js"
 
 autocmd BufWinEnter '__doc__' setlocal bufhidden=delete
 
-nnoremap <leader>er :source $MYVIMRC<CR>
-nnoremap <leader>ee :edit $MYVIMRC<Cr>
-
-nnoremap <leader>bn :bnext<cr>
-nnoremap <leader>bp :bprevious<cr>
-nnoremap <leader>bk :bdelete<cr>
-nnoremap <leader>bl :buffers<cr>
-
-nnoremap <leader>f :Ag
-
 let g:python_host_prog = '/usr/local/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3'
 
@@ -331,3 +321,32 @@ au FileType markdown vmap <Leader><Bslash> :EasyAlign*<Bar><Enter>
 
 let g:grepper = {}
 let g:grepper.tools     = ['git', 'ag', 'grep']
+
+""""""""""""""""""""""""""""""""""
+" shortcut keys with leader prefix
+""""""""""""""""""""""""""""""""""
+
+""" B
+
+nnoremap <leader>bn :bnext<cr>
+nnoremap <leader>bp :bprevious<cr>
+nnoremap <leader>bk :bdelete<cr>
+nnoremap <leader>bl :buffers<cr>
+
+""" E
+nnoremap <leader>er :source $MYVIMRC<CR>
+nnoremap <leader>ee :edit $MYVIMRC<Cr>
+
+""" F
+
+" 搜索当前 word
+nnoremap <leader>f :Grepper<CR>
+
+""" G
+nnoremap <leader>g :exe 'GrepperGit ' . expand('<cword>')<CR>
+
+""" L
+
+" location list shortcut
+nnoremap <leader>ln :lnext<CR>
+nnoremap <leader>lp :lprev<CR>

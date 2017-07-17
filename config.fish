@@ -13,7 +13,6 @@ else
     set -x PATH $PATH ~/path /Library/Frameworks/Python.framework/Versions/3.5/bin/ /usr/local/bin /usr/bin /bin /usr/sbin /sbin
     # this will cause emacs(exec-path-from-shell) fail
     # eval (thefuck --alias | tr '\n' ';')
-    abbr -a vim pyvim
 end
 abbr -a ec emacsclient -t
 set -x -g LC_ALL en_US.UTF-8
