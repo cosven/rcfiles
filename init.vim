@@ -42,23 +42,21 @@ Plug 'dag/vim-fish'
 Plug 'kshenoy/vim-signature'
 Plug 'cosven/feeluown.vim'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'ConradIrwin/vim-bracketed-paste'
 
 " themes
 Plug 'tomasr/molokai'
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
-Plug 'lifepillar/vim-solarized8'
 Plug 'nanotech/jellybeans.vim'
 Plug 'rakr/vim-one'
 Plug 'jacoborus/tender.vim'
 Plug 'chriskempson/base16-vim'
-Plug 'flazz/vim-colorschemes'
 
 " Add plugins to &runtimepath
 call plug#end()
 
 let g:mapleader = " "
-map <F2> :silent! NERDTreeToggle<CR>
 
 if(has("win32") || has("win64") || has("win95") || has("win16"))
     let g:iswindows = 1
@@ -184,8 +182,7 @@ let g:pydiction_menu_height = 3
 
 set termguicolors
 set background=dark
-colorscheme Tomorrow-Night-Bright
-" colorscheme solarized8_light
+colorscheme default
 set background=dark
 
 syntax on
@@ -334,7 +331,6 @@ nnoremap <leader>bk :bdelete<cr>
 nnoremap <leader>bl :buffers<cr>
 
 """ E
-nnoremap <leader>er :source $MYVIMRC<CR>
 nnoremap <leader>ee :edit $MYVIMRC<Cr>
 
 """ F
@@ -350,3 +346,9 @@ nnoremap <leader>g :exe 'GrepperGit ' . expand('<cword>')<CR>
 " location list shortcut
 nnoremap <leader>ln :lnext<CR>
 nnoremap <leader>lp :lprev<CR>
+
+""" R
+nnoremap <leader>r :source $MYVIMRC<CR>
+
+""" T
+nnoremap <leader>tt :silent! NERDTreeToggle<CR>
