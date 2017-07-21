@@ -81,6 +81,8 @@ set fileformat=unix
 set fileformats=unix,dos,mac
 
 set tw=200
+" set notimeout
+" set ttimeout
 
 if (g:iswindows && g:isGUI)
     source $VIMRUNTIME/delmenu.vim
@@ -125,6 +127,20 @@ set cmdheight=1
 set nocursorline
 
 set nowrap
+
+set statusline=
+set statusline+=[%{winnr()}]
+set statusline+=\  " keep space
+set statusline+=%{fugitive#statusline()}
+set statusline+=\ %f
+set statusline+=%h      "help file flag
+set statusline+=%m      "modified flag
+set statusline+=%r      "read only flag
+
+set statusline+=%=  " align right
+
+set statusline+=%#ErrorMsg#
+set statusline+=%{neomake#statusline#LoclistStatus()}
 
 if g:isGUI
     set guioptions-=m
@@ -352,3 +368,12 @@ nnoremap <leader>r :source $MYVIMRC<CR>
 
 """ T
 nnoremap <leader>tt :silent! NERDTreeToggle<CR>
+
+""" W
+map <leader>ww <C-W>w
+map <leader>wW <C-W>W
+
+" map 1-9 to window(0-9)
+for i in range(1, 9)
+    exec "nnoremap <leader>" . i . " " . i . "<C-W><C-W>"
+endfor
