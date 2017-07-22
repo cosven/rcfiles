@@ -52,6 +52,7 @@ Plug 'nanotech/jellybeans.vim'
 Plug 'rakr/vim-one'
 Plug 'jacoborus/tender.vim'
 Plug 'chriskempson/base16-vim'
+Plug 'icymind/NeoSolarized'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -198,7 +199,7 @@ let g:pydiction_menu_height = 3
 
 set termguicolors
 set background=dark
-colorscheme default
+colorscheme gruvbox
 set background=dark
 
 syntax on
@@ -368,6 +369,9 @@ nnoremap <leader>r :source $MYVIMRC<CR>
 
 """ T
 nnoremap <leader>tt :silent! NERDTreeToggle<CR>
+for i in range(1, 9)
+    exec "nnoremap t" . i . " " . i . "gt"
+endfor
 
 """ W
 map <leader>ww <C-W>w
