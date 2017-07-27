@@ -43,6 +43,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'cosven/feeluown.vim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'luochen1990/rainbow'
 
 " themes
 Plug 'tomasr/molokai'
@@ -51,8 +52,8 @@ Plug 'morhetz/gruvbox'
 Plug 'nanotech/jellybeans.vim'
 Plug 'rakr/vim-one'
 Plug 'jacoborus/tender.vim'
-Plug 'chriskempson/base16-vim'
-Plug 'icymind/NeoSolarized'
+
+Plug 'cosven/python.vim'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -189,6 +190,11 @@ endif
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 
 map <F2> :silent! NERDTreeToggle<CR>
+
+" neovim teminal settings
+tnoremap <Esc> <C-\><C-n>
+autocmd TermOpen * setlocal statusline=%{b:term_title}
+
 let NERDTreeIgnore = ['\.pyc$', 'eggs', 'old-eggs', '\.egg-info$', 'bin']
 let g:indentLine_char = '|'
 
@@ -197,12 +203,27 @@ let NERDSpaceDelims = 1
 let g:pydiction_location = '~/.vim/complete-dict'
 let g:pydiction_menu_height = 3
 
+"""""""""""""
+" UI settings
+"""""""""""""
+
 set termguicolors
+colorscheme default
 set background=dark
-colorscheme gruvbox
-set background=dark
+let g:rainbow_active = 1
 
 syntax on
+
+let g:rainbow_conf = {
+	\	'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+	\	'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+	\	'operators': '_,_',
+	\	'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+	\	'separately': {
+	\		'*': {},
+	\	}
+	\}
+
 filetype plugin on
 au BufEnter *.txt setlocal ft=txt
 
@@ -334,7 +355,7 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 au FileType markdown vmap <Leader><Bslash> :EasyAlign*<Bar><Enter>
 
 let g:grepper = {}
-let g:grepper.tools     = ['git', 'ag', 'grep']
+let g:grepper.tools = ['git', 'ag', 'grep']
 
 """"""""""""""""""""""""""""""""""
 " shortcut keys with leader prefix
@@ -372,6 +393,7 @@ nnoremap <leader>tt :silent! NERDTreeToggle<CR>
 for i in range(1, 9)
     exec "nnoremap t" . i . " " . i . "gt"
 endfor
+nnoremap tn :tab new<CR>
 
 """ W
 map <leader>ww <C-W>w
