@@ -27,7 +27,6 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
-Plug 'kshenoy/vim-signature'
 Plug 'tpope/vim-surround'
 Plug 'ervandew/supertab'
 Plug 'jiangmiao/auto-pairs'
@@ -39,6 +38,8 @@ Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/goyo.vim'
 Plug 'lepture/vim-jinja'
 Plug 'dag/vim-fish'
+
+" marks navigation
 Plug 'kshenoy/vim-signature'
 Plug 'cosven/feeluown.vim'
 Plug 'ntpeters/vim-better-whitespace'
@@ -122,7 +123,7 @@ nmap cM :%s/\r$//g<cr>:noh<cr>
 set ignorecase
 set smartcase
 
-set number
+set nonumber
 set showtabline=1
 set laststatus=2
 set cmdheight=1
@@ -143,24 +144,6 @@ set statusline+=%=  " align right
 
 set statusline+=%#ErrorMsg#
 set statusline+=%{neomake#statusline#LoclistStatus()}
-
-if g:isGUI
-    set guioptions-=m
-    set guioptions-=T
-    set guioptions-=r
-    set guioptions-=L
-    map <silent> <c-F11> :if &guioptions =~# 'm' <Bar>
-        \set guioptions-=m <Bar>
-        \set guioptions-=T <Bar>
-        \set guioptions-=r <Bar>
-        \set guioptions-=L <Bar>
-    \else <Bar>
-        \set guioptions+=m <Bar>
-        \set guioptions+=T <Bar>
-        \set guioptions+=r <Bar>
-        \set guioptions+=L <Bar>
-    \endif<CR>
-endif
 
 set writebackup
 set nobackup
@@ -189,13 +172,15 @@ endif
 
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 
-map <F2> :silent! NERDTreeToggle<CR>
 
-" neovim teminal settings
+""" neovim teminal settings
 tnoremap <Esc> <C-\><C-n>
 autocmd TermOpen * setlocal statusline=%{b:term_title}
 
+""" NERDTree settings
 let NERDTreeIgnore = ['\.pyc$', 'eggs', 'old-eggs', '\.egg-info$', 'bin']
+map <F2> :silent! NERDTreeToggle<CR>
+let NERDTreeShowBookmarks=1
 let g:indentLine_char = '|'
 
 let NERDSpaceDelims = 1
@@ -208,9 +193,29 @@ let g:pydiction_menu_height = 3
 """""""""""""
 
 set termguicolors
-colorscheme default
 set background=dark
+colorscheme molokai
 let g:rainbow_active = 1
+
+if g:isGUI
+    set guioptions-=m
+    set guioptions-=T
+    set guioptions-=r
+    set guioptions-=L
+    map <silent> <c-F11> :if &guioptions =~# 'm' <Bar>
+        \set guioptions-=m <Bar>
+        \set guioptions-=T <Bar>
+        \set guioptions-=r <Bar>
+        \set guioptions-=L <Bar>
+    \else <Bar>
+        \set guioptions+=m <Bar>
+        \set guioptions+=T <Bar>
+        \set guioptions+=r <Bar>
+        \set guioptions+=L <Bar>
+    \endif<CR>
+    colorscheme gruvbox
+    set background=light
+endif
 
 syntax on
 
@@ -371,25 +376,14 @@ nnoremap <leader>bl :buffers<cr>
 """ E
 nnoremap <leader>ee :edit $MYVIMRC<Cr>
 
-""" F
-
-" 搜索当前 word
-nnoremap <leader>f :Grepper<CR>
-
 """ G
 nnoremap <leader>g :exe 'GrepperGit ' . expand('<cword>')<CR>
-
-""" L
-
-" location list shortcut
-nnoremap <leader>ln :lnext<CR>
-nnoremap <leader>lp :lprev<CR>
 
 """ R
 nnoremap <leader>r :source $MYVIMRC<CR>
 
 """ T
-nnoremap <leader>tt :silent! NERDTreeToggle<CR>
+nnoremap tt :silent! NERDTreeToggle<CR>
 for i in range(1, 9)
     exec "nnoremap t" . i . " " . i . "gt"
 endfor
@@ -403,3 +397,24 @@ map <leader>wW <C-W>W
 for i in range(1, 9)
     exec "nnoremap <leader>" . i . " " . i . "<C-W><C-W>"
 endfor
+
+""""""""""""""""""""""""""""""""""
+" shortcut keys with letter prefix
+""""""""""""""""""""""""""""""""""
+""" C
+
+nnoremap co :copen<CR>
+nnoremap cc :ccl<CR>
+nnoremap cn :cn<CR>
+nnoremap cp :cp<CR>
+
+""" F
+
+" 搜索当前 word
+nnoremap f :Grepper<CR>
+
+""" L
+
+" location list shortcut
+nnoremap ln :lnext<CR>
+nnoremap lp :lprev<CR>
