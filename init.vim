@@ -14,7 +14,7 @@ Plug 'scrooloose/nerdtree'
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-jedi'
-Plug 'davidhalter/jedi-vim'
+" Plug 'davidhalter/jedi-vim'
 
 " Plugin outside ~/.vim/plugged with post-update hook
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -376,8 +376,11 @@ nnoremap <leader>bl :buffers<cr>
 """ E
 nnoremap <leader>ee :edit $MYVIMRC<Cr>
 
-""" G
-nnoremap <leader>g :exe 'GrepperGit ' . expand('<cword>')<CR>
+""" L
+
+" location list shortcut
+nnoremap <leader>ln :lnext<CR>
+nnoremap <leader>lp :lprevious<CR>
 
 """ R
 nnoremap <leader>r :source $MYVIMRC<CR>
@@ -413,8 +416,3 @@ nnoremap cp :cp<CR>
 " 搜索当前 word
 nnoremap f :Grepper<CR>
 
-""" L
-
-" location list shortcut
-nnoremap ln :lnext<CR>
-nnoremap lp :lprev<CR>
