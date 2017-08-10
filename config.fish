@@ -1,9 +1,9 @@
-function fish_prompt
-    set_color $fish_color_cwd
-    echo -n (prompt_pwd)
-    set_color normal
-    echo -n ' > '
-end
+# function fish_prompt
+#     set_color $fish_color_cwd
+#     echo -n (prompt_pwd)
+#     set_color normal
+#     echo -n ' > '
+# end
 
 export SERVICE_DISCOVERY_URI=consul://discovery.dev.zhihu.com
 if test -e /etc/debian_version
