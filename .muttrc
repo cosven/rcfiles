@@ -9,7 +9,7 @@ set spoolfile = "+INBOX"
 set mbox = "+archive"
 set postponed= "+[Gmail].Drafts"
 unset record
-mailboxes +INBOX +[Gmail].All\ Mail
+mailboxes +INBOX +Notes
 
 # 设置邮箱名和密码
 # set imap_user = 'yinshaowen241@gmail.com'
@@ -53,4 +53,7 @@ set sendmail="/usr/local/bin/msmtp"
 auto_view text/html
 alternative_order text/plain text/enriched text/html
 
-source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-light-256.muttrc
+# key binding
+bind index G last-entry
+
+source ~/.mutt/mutt-colors-solarized/mutt-colors-solarized-dark-16.muttrc
