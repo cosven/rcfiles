@@ -1,0 +1,14 @@
+#! /usr/bin/env fish
+
+# show player state or current song or nothing
+function show_player_info
+    set current_song ''
+    if test -e ~/.FeelUOwn/current_song
+        set current_song (cat ~/.FeelUOwn/current_song)
+    end
+    if [ $current_song != "" ]
+        echo $current_song
+    end
+end
+
+show_player_info

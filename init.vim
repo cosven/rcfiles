@@ -27,9 +27,12 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
 Plug 'tpope/vim-surround'
 Plug 'ervandew/supertab'
-Plug 'jiangmiao/auto-pairs'
+
+" 没有它，编辑起来更酷
+" Plug 'jiangmiao/auto-pairs'
 Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)']  }
 Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
@@ -53,6 +56,7 @@ Plug 'morhetz/gruvbox'
 Plug 'nanotech/jellybeans.vim'
 Plug 'rakr/vim-one'
 Plug 'jacoborus/tender.vim'
+Plug 'lifepillar/vim-solarized8'
 
 Plug 'cosven/python.vim'
 
@@ -124,8 +128,8 @@ set ignorecase
 set smartcase
 
 set nonumber
-set showtabline=1
-set laststatus=2
+set showtabline=0
+set laststatus=-1
 set cmdheight=1
 set nocursorline
 
@@ -194,7 +198,7 @@ let g:pydiction_menu_height = 3
 
 set termguicolors
 set background=dark
-colorscheme molokai
+colorscheme default
 let g:rainbow_active = 1
 
 if g:isGUI
