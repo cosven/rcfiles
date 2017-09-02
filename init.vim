@@ -5,6 +5,8 @@ call plug#begin()
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
 
+Plug 'easymotion/vim-easymotion'
+
 " Any valid git URL is allowed
 Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 
@@ -29,8 +31,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 Plug 'tpope/vim-surround'
-Plug 'ervandew/supertab'
-
+" Plug 'ervandew/supertab'
 " 没有它，编辑起来更酷
 " Plug 'jiangmiao/auto-pairs'
 Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)']  }
