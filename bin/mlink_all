@@ -1,0 +1,72 @@
+#!/bin/sh
+
+echo
+verbose=false
+
+if [ "$1" == "-v" ];then
+    verbose=true
+fi
+
+cmd=`which $0`
+cmd_dir=`dirname $cmd`
+root_dir="$cmd_dir/.."
+rcfiles_dir="$root_dir/rcfiles"
+
+
+function link_home_rcfile
+{
+    source=$1
+
+    if [ "$2" == "" ]; then
+        target=$source
+    else
+        target=$2
+    fi
+
+    if [ "$source" == "$target" ];then
+        echo
+    fi
+
+    echo "try to link $source to ~/$target"
+
+    if [ -f "$HOME/$target" ]; then
+        echo "\033[1;32m$target\033[0m exists"
+        if [ "$verbose" = true ]; then
+            echo "run following command to link manually"
+
+            tput setaf 6
+            echo "mv $HOME/$target $HOME/$target.bak && ln -s ${rcfiles_dir}/$source $HOME/$target"
+            tput sgr0
+        fi
+    else
+        ln -s ${rcfiles_dir}/$source $HOME/$target
+    fi
+}
+
+
+function link_all
+{
+    link_home_rcfile '.vimrc'
+    echo
+    link_home_rcfile 'shellrc' '.shellrc'
+    echo
+    link_home_rcfile 'tmux.conf' '.tmux.conf'
+}
+
+
+
+if [ -d "$rcfiles_dir" ]; then
+    echo 'link all rcfiles...'
+    echo
+    link_all
+else
+    echo 'rcfiles not found, please run ->'
+    echo
+
+    tput setaf 6
+    echo "cd ${root_dir} && git submodule update --init --recursive"
+    tput sgr0
+fi
+
+echo
+echo ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

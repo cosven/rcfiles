@@ -15,6 +15,9 @@ else
     if test -e  ~/.cargo/bin
         set -x PATH $PATH ~/.cargo/bin
     end
+    if test -e ~/.mbin
+        set -x PATH $PATH ~/.mbin
+    end
     # this will cause emacs(exec-path-from-shell) fail
     # eval (thefuck --alias | tr '\n' ';')
 end

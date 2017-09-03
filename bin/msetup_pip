@@ -1,0 +1,33 @@
+#!/bin/sh
+
+
+echo 'add pip.conf if not exist'
+echo 'contents to be added to pip.conf ->\n'
+
+tput setaf 6
+
+pip_conf_content="\
+[global]\n\
+trusted-host=mirrors.aliyun.com\n\
+index-url=http://mirrors.aliyun.com/pypi/simple\n
+"
+echo $pip_conf_content
+tput sgr0
+
+
+if [ -f ~/.pip/pip.conf ]; then
+    tput setaf 1
+    echo '!!! pip.conf already exists, do nothing'
+    tput sgr0
+    exit 1
+else
+    echo 'pip.conf not exists, create pip.conf'
+    mkdir -p ~/.pip
+
+    echo $pip_conf_content | tee -a ~/.pip/pip.conf
+
+    tput setaf 2
+    echo 'success'
+    tput sgr0
+fi
+
