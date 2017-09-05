@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+
+percent=$1
+fill="█"
+notFill="-"
+total=50
+
+current=$(bc <<< "($total*$percent)/1")
+percentNum=$(bc <<< "($percent*100)/1")
+
+echo -ne '\r Progress: |'
+
+bar=$fill
+for (( j =0; j<=$current; j++ )); do
+  bar=$bar$fill
+done
+remain=$(bc <<< "$total-$current")
+for (( j=0; j<$remain; j++ )); do
+    bar=$bar$notFill
+done
+
+echo -ne "$bar | $percentNum%"
+if [ $percentNum -ge 100 ]; then
+    echo -ne '\r'
+fi
