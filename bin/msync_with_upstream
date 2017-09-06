@@ -11,4 +11,5 @@ git fetch upstream master 1>/dev/null 2>&1 || ( echo && echo '😱' && exit 1)
 mprogress_bar 0.5
 git rebase upstream/master 1>/dev/null 2>&1 || (echo && echo '😱' && exit 1)
 mprogress_bar 1
+echo
 echo '🎉'
