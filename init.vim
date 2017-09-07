@@ -5,6 +5,8 @@ call plug#begin()
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
 
+Plug 'Yggdroot/indentLine'
+
 Plug 'easymotion/vim-easymotion'
 
 " Any valid git URL is allowed
@@ -130,7 +132,7 @@ set smartcase
 
 set nonumber
 set showtabline=0
-set laststatus=-1
+set laststatus=2
 set cmdheight=1
 set nocursorline
 
@@ -186,7 +188,8 @@ autocmd TermOpen * setlocal statusline=%{b:term_title}
 let NERDTreeIgnore = ['\.pyc$', 'eggs', 'old-eggs', '\.egg-info$', 'bin']
 map <F2> :silent! NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=1
-let g:indentLine_char = '|'
+let g:indentLine_char = '┆'
+" let g:indentLine_setColors = 0
 
 let NERDSpaceDelims = 1
 
@@ -199,7 +202,7 @@ let g:pydiction_menu_height = 3
 
 set termguicolors
 set background=dark
-colorscheme default
+colorscheme tender
 let g:rainbow_active = 1
 
 if g:isGUI
@@ -416,8 +419,9 @@ nnoremap cc :ccl<CR>
 nnoremap cn :cn<CR>
 nnoremap cp :cp<CR>
 
+nnoremap cw :q<CR>
+
 """ F
 
 " 搜索当前 word
 nnoremap f :Grepper<CR>
-
