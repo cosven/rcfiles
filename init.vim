@@ -33,6 +33,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 Plug 'tpope/vim-surround'
+Plug 'mkitt/tabline.vim'
 " Plug 'ervandew/supertab'
 " 没有它，编辑起来更酷
 " Plug 'jiangmiao/auto-pairs'
@@ -131,7 +132,7 @@ set ignorecase
 set smartcase
 
 set nonumber
-set showtabline=0
+set showtabline=1
 set laststatus=2
 set cmdheight=1
 set nocursorline
