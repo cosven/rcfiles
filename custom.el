@@ -26,6 +26,7 @@
 (require 'ag)
 (require 'jedi)
 
+
 (add-hook 'python-mode-hook 'jedi:setup)
 
 (toggle-scroll-bar -1)

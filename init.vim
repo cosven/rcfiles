@@ -5,7 +5,7 @@ call plug#begin()
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 Plug 'junegunn/vim-easy-align'
 
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 
 Plug 'easymotion/vim-easymotion'
 
@@ -52,15 +52,17 @@ Plug 'cosven/feeluown.vim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'luochen1990/rainbow'
+Plug 'vimwiki/vimwiki'
 
-" themes
+" themesgit
 Plug 'tomasr/molokai'
 Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'nanotech/jellybeans.vim'
 Plug 'rakr/vim-one'
 Plug 'jacoborus/tender.vim'
-Plug 'lifepillar/vim-solarized8'
+" Plug 'lifepillar/vim-solarized8'  " not work in terminal
+Plug 'icymind/NeoSolarized'
 
 Plug 'cosven/python.vim'
 
@@ -189,7 +191,7 @@ autocmd TermOpen * setlocal statusline=%{b:term_title}
 let NERDTreeIgnore = ['\.pyc$', 'eggs', 'old-eggs', '\.egg-info$', 'bin']
 map <F2> :silent! NERDTreeToggle<CR>
 let NERDTreeShowBookmarks=1
-let g:indentLine_char = '┆'
+let g:indentLine_char = ' '
 " let g:indentLine_setColors = 0
 
 let NERDSpaceDelims = 1
@@ -203,7 +205,7 @@ let g:pydiction_menu_height = 3
 
 set termguicolors
 set background=dark
-colorscheme tender
+colorscheme NeoSolarized
 let g:rainbow_active = 1
 
 if g:isGUI
@@ -247,6 +249,8 @@ hi VertSplit guibg=bg
 " set fillchars=vert:\│
 set fillchars=vert:\|
 set t_Co=256
+set t_8f=^[[38;2;%lu;%lu;%lum
+set t_8b=^[[48;2;%lu;%lu;%lum
 
 let g:bookmark_save_per_working_dir = 1
 set termencoding=utf-8
@@ -264,6 +268,7 @@ nmap <C-P> :FZF<CR>
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 autocmd Filetype gitcommit setlocal spell textwidth=72
+autocmd filetype crontab setlocal nobackup nowritebackup
 
 set backspace=2
 autocmd Filetype python map <buffer> <F8> :call Flake8()<CR>
@@ -323,6 +328,8 @@ let g:syntastic_html_tidy_ignore_errors = [
             \ '<rect> is not recognized!',
             \ 'discarding unexpected <rect>'
             \ ]
+
+""" vimwiki
 
 " let g:airline#extensions#tabline#enabled = 1
 if (g:isGUI)
@@ -396,18 +403,16 @@ nnoremap <leader>r :source $MYVIMRC<CR>
 
 """ T
 nnoremap tt :silent! NERDTreeToggle<CR>
-for i in range(1, 9)
-    exec "nnoremap t" . i . " " . i . "gt"
-endfor
 nnoremap tn :tab new<CR>
 
 """ W
-map <leader>ww <C-W>w
-map <leader>wW <C-W>W
+map <leader>wn <C-W>w
+map <leader>wp <C-W>W
 
 " map 1-9 to window(0-9)
 for i in range(1, 9)
-    exec "nnoremap <leader>" . i . " " . i . "<C-W><C-W>"
+    " exec "nnoremap t" . i . " " . i . "<C-W><C-W>"
+    exec "nnoremap <leader>" . i . " " . i . "gt"
 endfor
 
 """"""""""""""""""""""""""""""""""
