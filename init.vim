@@ -208,6 +208,11 @@ set background=dark
 colorscheme NeoSolarized
 let g:rainbow_active = 1
 
+let g:neosolarized_contrast = "normal"
+let g:neosolarized_bold = 1
+let g:neosolarized_underline = 1
+let g:neosolarized_italic = 0
+
 if g:isGUI
     set guioptions-=m
     set guioptions-=T
