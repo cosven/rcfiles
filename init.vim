@@ -140,6 +140,7 @@ set cmdheight=1
 set nocursorline
 
 set nowrap
+set modeline
 
 set statusline=
 set statusline+=[%{winnr()}]

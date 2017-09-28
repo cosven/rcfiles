@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+git status 1>/dev/null 2>&1 || (echo '😱😱😱  not a git repo' && exit 1)
+
+git remote -v | grep upstream
+if [ $? -eq 0 ]; then
+    echo 'rebase upstream master -ing...'
+    mprogress_bar 0.0
+    git fetch upstream master 1>/dev/null 2>&1 || ( echo && echo '😱😱😱' && exit 1)
+    mprogress_bar 0.5
+    git rebase upstream/master 1>/dev/null 2>&1 || (echo && echo '😱😱😱' && exit 1)
+    mprogress_bar 1
+else
+    echo 'pull orign master -ing...'
+    mprogress_bar 0.5
+    git pull origin master > /dev/null 2>&1 || ( echo && echo '😱😱😱' && exit 1)
+    mprogress_bar 1
+fi
+echo
+echo -e '🎉🎉🎉🎉🎉🎉🎉'
