@@ -19,15 +19,18 @@
 (prelude-require-packages '(jedi))
 (prelude-require-packages '(ace-jump-mode))
 (prelude-require-packages '(ag))
+(prelude-require-packages '(fill-column-indicator))
 
 
 (require 'neotree)
 (require 'ace-jump-mode)
 (require 'ag)
 (require 'jedi)
-
+(require 'fill-column-indicator)
 
 (add-hook 'python-mode-hook 'jedi:setup)
+(setq fci-rule-width 120)
+(setq fci-rule-color "darkblue")
 
 (toggle-scroll-bar -1)
 (menu-bar-mode -1)
