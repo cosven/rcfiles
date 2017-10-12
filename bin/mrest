@@ -1,0 +1,52 @@
+#!/bin/bash
+
+function have_changes {
+    git status | grep "nothing to commit" > /dev/null 2>&1
+}
+
+notes_pushed=' '
+rcfiles_pushed=' '
+
+curpath=`pwd`
+
+function check_rcfiles_pushed {
+    cd `dirname $(which m)`
+
+    have_changes
+    if [ $? -eq 0 ]; then
+        rcfiles_pushed='x'
+    else
+        echo '!!! rcfiles have changes'
+    fi
+}
+
+function check_notes_pushed {
+    default_notes_path="$HOME/coding/cosven.github.io"
+    if [ -d $default_notes_path ]; then
+        cd $default_notes_path
+        have_changes
+        if [ $? -eq 0 ]; then
+            notes_pushed='x'
+        else
+            echo '!!! notes have changes'
+        fi
+    else
+        echo "cosven.github.io not exists ?"
+    fi
+}
+
+echo
+
+check_rcfiles_pushed
+check_notes_pushed
+
+# chdir to origin path
+cd $curpath
+
+msg=""
+msg="$msg- [$rcfiles_pushed] push rcfiles"
+msg="$msg\n "
+msg="$msg- [$notes_pushed] push cosven.github.io"
+
+echo -e $msg | cowsay || echo -e $msg
+m

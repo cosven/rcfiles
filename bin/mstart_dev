@@ -5,24 +5,32 @@ rcfiles_synced=' '
 
 curpath=`pwd`
 
-# sync rcfiles
-cd `dirname $(which msync_with_upstream_or_origin)`
-msync_with_upstream_or_origin > /dev/null
+function sync_rcfiles {
+    cd `dirname $(which msync_with_upstream_or_origin)`
+    echo "sync rcfiles-ing"
+    msync_with_upstream_or_origin > /dev/null
 
-if [ $? -eq 0 ]; then
-    rcfiles_synced='x'
-fi
+    if [ $? -eq 0 ]; then
+        rcfiles_synced='x'
+    fi
+}
 
 # sync cosven.github.io
-default_notes_path="$HOME/coding/cosven.github.io"
-if [ -f default_notes_path ]; then
-    cd $default_notes_path
-    msync_with_upstream_or_origin > /dev/null
-fi
-if [ $? -eq 0 ]; then
-    notes_synced='x'
-fi
+function sync_notes {
+    default_notes_path="$HOME/coding/cosven.github.io"
+    if [ -d $default_notes_path ]; then
+        cd $default_notes_path
+        echo "sync notes-ing"
+        msync_with_upstream_or_origin > /dev/null
+    fi
+    if [ $? -eq 0 ]; then
+        notes_synced='x'
+    fi
+}
 
+echo
+sync_rcfiles
+sync_notes
 # chdir to origin path
 cd $curpath
 
@@ -32,4 +40,3 @@ msg="$msg\n "
 msg="$msg- [$notes_synced] 同步 cosven.github.io"
 
 echo -e $msg | cowsay || echo -e $msg
-m
