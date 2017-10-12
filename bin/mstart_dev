@@ -32,3 +32,4 @@ msg="$msg\n "
 msg="$msg- [$notes_synced] 同步 cosven.github.io"
 
 echo -e $msg | cowsay || echo -e $msg
+m

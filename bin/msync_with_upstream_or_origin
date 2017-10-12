@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-git status 1>/dev/null 2>&1 || (echo '😱😱😱  not a git repo' && exit 1)
+git status 1>/dev/null 2>&1 || echo '😱😱😱  not a git repo' && exit 1
 
 git remote -v | grep upstream >/dev/null 2>&1
 if [ $? -eq 0 ]; then
