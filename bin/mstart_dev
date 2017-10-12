@@ -1,0 +1,34 @@
+#!/bin/bash
+
+notes_synced=' '
+rcfiles_synced=' '
+
+curpath=`pwd`
+
+# sync rcfiles
+cd `dirname $(which msync_with_upstream_or_origin)`
+msync_with_upstream_or_origin > /dev/null
+
+if [ $? -eq 0 ]; then
+    rcfiles_synced='x'
+fi
+
+# sync cosven.github.io
+default_notes_path="$HOME/coding/cosven.github.io"
+if [ -f default_notes_path ]; then
+    cd $default_notes_path
+    msync_with_upstream_or_origin > /dev/null
+fi
+if [ $? -eq 0 ]; then
+    notes_synced='x'
+fi
+
+# chdir to origin path
+cd $curpath
+
+msg=""
+msg="$msg- [$rcfiles_synced] 同步 rcfiles"
+msg="$msg\n "
+msg="$msg- [$notes_synced] 同步 cosven.github.io"
+
+echo -e $msg | cowsay || echo -e $msg
