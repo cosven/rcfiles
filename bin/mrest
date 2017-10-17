@@ -31,6 +31,7 @@ function check_notes_pushed {
             echo '!!! notes have changes'
         fi
     else
+        notes_pushed='x'
         echo "cosven.github.io not exists ?"
     fi
 }
