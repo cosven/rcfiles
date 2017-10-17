@@ -10,7 +10,7 @@ rcfiles_pushed=' '
 curpath=`pwd`
 
 function check_rcfiles_pushed {
-    cd `dirname $(which m)`
+    cd `dirname $(type -P m)`
 
     have_changes
     if [ $? -eq 0 ]; then
