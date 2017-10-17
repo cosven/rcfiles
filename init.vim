@@ -100,11 +100,11 @@ set tw=200
 if (g:iswindows && g:isGUI)
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
-    language messages zh_CN.utf-8
+    " language messages zh_CN.utf-8
 else
     source $VIMRUNTIME/delmenu.vim
     source $VIMRUNTIME/menu.vim
-    language messages zh_CN.utf-8
+    " language messages zh_CN.utf-8
 endif
 
 filetype on
@@ -271,7 +271,7 @@ nmap <F4> :AuthorInfoDetect<cr>
 
 "" FZF
 nmap <C-P> :FZF<CR>
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+" let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 autocmd Filetype gitcommit setlocal spell textwidth=72
 autocmd filetype crontab setlocal nobackup nowritebackup
@@ -376,7 +376,11 @@ let g:jedi#documentation_command = "<leader>js"
 autocmd BufWinEnter '__doc__' setlocal bufhidden=delete
 
 let g:python_host_prog = '/usr/local/bin/python'
-let g:python3_host_prog = '/usr/local/bin/python3'
+
+" FIXME
+if has('mac')
+    let g:python3_host_prog = '/usr/local/bin/python3'
+endif
 
 " Align GitHub-flavored Markdown tables
 au FileType markdown vmap <Leader><Bslash> :EasyAlign*<Bar><Enter>
