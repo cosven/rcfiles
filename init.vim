@@ -205,8 +205,8 @@ let g:pydiction_menu_height = 3
 """""""""""""
 
 set termguicolors
+colorscheme one
 set background=dark
-colorscheme NeoSolarized
 let g:rainbow_active = 1
 
 let g:neosolarized_contrast = "normal"
