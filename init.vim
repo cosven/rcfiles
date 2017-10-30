@@ -65,6 +65,7 @@ Plug 'jacoborus/tender.vim'
 Plug 'icymind/NeoSolarized'
 
 Plug 'cosven/python.vim'
+Plug 'cosven/vim-tomorrow-theme'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -205,7 +206,7 @@ let g:pydiction_menu_height = 3
 """""""""""""
 
 set termguicolors
-colorscheme one
+colorscheme Tomorrow-Night-Bright
 set background=dark
 let g:rainbow_active = 1
 
