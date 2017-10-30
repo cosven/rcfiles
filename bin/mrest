@@ -4,6 +4,10 @@ function have_changes {
     git status | grep "nothing to commit" > /dev/null 2>&1
 }
 
+function show_changes {
+    git status
+}
+
 notes_pushed=' '
 rcfiles_pushed=' '
 
@@ -16,7 +20,10 @@ function check_rcfiles_pushed {
     if [ $? -eq 0 ]; then
         rcfiles_pushed='x'
     else
+        echo '------------------------'
         echo '!!! rcfiles have changes'
+        show_changes
+        echo '------------------------'
     fi
 }
 
@@ -28,7 +35,10 @@ function check_notes_pushed {
         if [ $? -eq 0 ]; then
             notes_pushed='x'
         else
+            echo '------------------------'
             echo '!!! notes have changes'
+            show_changes
+            echo '------------------------'
         fi
     else
         notes_pushed='x'
