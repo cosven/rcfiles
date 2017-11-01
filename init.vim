@@ -364,7 +364,16 @@ let g:ctrlp_custom_ignore = {
 
 autocmd! BufWritePost * Neomake
 let g:deoplete#enable_at_startup = 1
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" C-n 只能进行 keyword 补全
+" Tab 可以补全所有情况
+inoremap <silent><expr> <TAB>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<TAB>" :
+    \ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
 " let g:deoplete#auto_completion_start_length = 1
 let g:deoplete#disable_auto_complete = 1
 
