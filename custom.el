@@ -43,6 +43,8 @@
 (add-hook 'term-mode-hook (lambda ()
                             (setq-local global-hl-line-mode
                                         nil)))
+(org-babel-do-load-languages
+    'org-babel-load-languages '((python . t)))
 (global-hl-line-mode nil)
 
 ;; try to reorder expand function

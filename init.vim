@@ -364,7 +364,8 @@ let g:ctrlp_custom_ignore = {
 autocmd! BufWritePost * Neomake
 let g:deoplete#enable_at_startup = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-let g:deoplete#auto_completion_start_length = 1
+" let g:deoplete#auto_completion_start_length = 1
+let g:deoplete#disable_auto_complete = 1
 
 let g:jedi#completions_enabled = 0
 let g:jedi#usages_command = "<leader>ju"
