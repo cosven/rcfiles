@@ -294,6 +294,9 @@ autocmd BufNewFile,BufRead GHI_ISSUE_* setlocal filetype=ghmarkdown
 autocmd BufNewFile,BufRead Jenkinsfile* setlocal filetype=groovy
 autocmd BufEnter * EnableStripWhitespaceOnSave
 set mouse=a
+set guicursor=  " make cursor same as terminal
+" if has('nvim')
+"   let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
