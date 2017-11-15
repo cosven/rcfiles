@@ -45,6 +45,7 @@ Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/goyo.vim'
 Plug 'lepture/vim-jinja'
 Plug 'dag/vim-fish'
+Plug 'wannesm/wmgraphviz.vim'
 
 " marks navigation
 Plug 'kshenoy/vim-signature'
@@ -143,19 +144,17 @@ set nocursorline
 set nowrap
 set modeline
 
-set statusline=
-set statusline+=[%{winnr()}]
-set statusline+=\  " keep space
-set statusline+=%{fugitive#statusline()}
-set statusline+=\ %f
-set statusline+=%h      "help file flag
-set statusline+=%m      "modified flag
-set statusline+=%r      "read only flag
-
-set statusline+=%=  " align right
-
-set statusline+=%#ErrorMsg#
-set statusline+=%{neomake#statusline#LoclistStatus()}
+" set statusline=
+" set statusline+=[%{winnr()}]
+" set statusline+=\  " keep space
+" set statusline+=%{fugitive#statusline()}
+" set statusline+=\ %f
+" set statusline+=%h      "help file flag
+" set statusline+=%m      "modified flag
+" set statusline+=%r      "read only flag
+" set statusline+=%=  " align right
+" set statusline+=%#ErrorMsg#
+" set statusline+=%{neomake#statusline#LoclistStatus()}
 
 set writebackup
 set nobackup
