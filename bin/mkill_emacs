@@ -1,3 +1,5 @@
 #!/bin/bash
-
-emacsclient -e "(kill-emacs)"
+ps -e | grep -v kill | grep emacs
+if [ $? -eq 0 ]; then
+    emacsclient -e "(kill-emacs)"
+fi
