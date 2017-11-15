@@ -19,14 +19,13 @@
 (prelude-require-packages '(jedi))
 (prelude-require-packages '(ace-jump-mode))
 (prelude-require-packages '(ag))
-(prelude-require-packages '(fill-column-indicator))
-
+(prelude-require-packages '(doom-themes))
 
 (require 'neotree)
 (require 'ace-jump-mode)
 (require 'ag)
 (require 'jedi)
-(require 'fill-column-indicator)
+(require 'doom-themes)
 
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq fci-rule-width 120)
@@ -35,8 +34,8 @@
 (toggle-scroll-bar -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-(load-theme 'manoj-dark)
-(load-theme 'smart-mode-line-dark)
+;; (load-theme 'manoj-dark)
+;; (load-theme 'smart-mode-line-dark)
 
 (add-to-list 'default-frame-alist
              '(font . "Monaco-13"))
