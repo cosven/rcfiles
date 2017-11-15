@@ -45,6 +45,7 @@ Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/goyo.vim'
 Plug 'lepture/vim-jinja'
 Plug 'dag/vim-fish'
+Plug 'wannesm/wmgraphviz.vim'
 
 " marks navigation
 Plug 'kshenoy/vim-signature'
@@ -143,19 +144,17 @@ set nocursorline
 set nowrap
 set modeline
 
-set statusline=
-set statusline+=[%{winnr()}]
-set statusline+=\  " keep space
-set statusline+=%{fugitive#statusline()}
-set statusline+=\ %f
-set statusline+=%h      "help file flag
-set statusline+=%m      "modified flag
-set statusline+=%r      "read only flag
-
-set statusline+=%=  " align right
-
-set statusline+=%#ErrorMsg#
-set statusline+=%{neomake#statusline#LoclistStatus()}
+" set statusline=
+" set statusline+=[%{winnr()}]
+" set statusline+=\  " keep space
+" set statusline+=%{fugitive#statusline()}
+" set statusline+=\ %f
+" set statusline+=%h      "help file flag
+" set statusline+=%m      "modified flag
+" set statusline+=%r      "read only flag
+" set statusline+=%=  " align right
+" set statusline+=%#ErrorMsg#
+" set statusline+=%{neomake#statusline#LoclistStatus()}
 
 set writebackup
 set nobackup
@@ -294,6 +293,9 @@ autocmd BufNewFile,BufRead GHI_ISSUE_* setlocal filetype=ghmarkdown
 autocmd BufNewFile,BufRead Jenkinsfile* setlocal filetype=groovy
 autocmd BufEnter * EnableStripWhitespaceOnSave
 set mouse=a
+set guicursor=  " make cursor same as terminal
+" if has('nvim')
+"   let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
 
 let g:NERDTreeIndicatorMapCustom = {
     \ "Modified"  : "✹",
