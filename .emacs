@@ -31,6 +31,7 @@
 (tool-bar-mode -1)
 (xterm-mouse-mode 1)
 (setq vc-follow-symlinks t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; 三方库相关配置
 
@@ -58,3 +59,9 @@
 
 (counsel-projectile-on)
 (projectile-global-mode)
+
+;; --------
+;; flycheck
+;; --------
+
+(global-flycheck-mode)
