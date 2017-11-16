@@ -4,7 +4,9 @@
 ;; 加载已经安装的包，这样子，之后 requrie 一个包就可以让该包生效
 (package-initialize)
 
-
+;; ----------------
+;; 自己写的一些函数
+;; ----------------
 (defun require-or-install-pkg (pkg)
   (unless (package-installed-p pkg)
     (package-refresh-contents)  ;; 重要
@@ -15,7 +17,10 @@
 (require-or-install-pkg 'ivy)  ;; ido replacement
 (require-or-install-pkg 'swiper)  ;; isearch replacement
 (require-or-install-pkg 'projectile)  ;; project management
+(require-or-install-pkg 'magit)  ;; git integration
+(require-or-install-pkg 'flycheck)  ;; syntax checking
 (require-or-install-pkg 'counsel-projectile)
+(require-or-install-pkg 'org)
 (require-or-install-pkg 'company)
 
 ;;
