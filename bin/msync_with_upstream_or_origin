@@ -14,7 +14,7 @@ else
     echo 'rebase origin master -ing...'
     mprogress_bar 0.5
     git fetch origin master > /dev/null 2>&1 || ( echo && echo '😱😱😱' && exit 1)
-    git rebase origin master > /dev/null 2>&1 || ( echo && echo '😱😱😱' && exit 1)
+    git rebase origin/master > /dev/null 2>&1 || ( echo && echo '😱😱😱' && exit 1)
     mprogress_bar 1
 fi
 echo
