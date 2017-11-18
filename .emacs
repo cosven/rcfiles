@@ -1,3 +1,13 @@
+;;
+;; 基础的设置（与第三方 package 无关的配置）
+;;
+(toggle-scroll-bar -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(xterm-mouse-mode 1)
+(setq vc-follow-symlinks t)
+
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
@@ -19,19 +29,12 @@
 (require-or-install-pkg 'projectile)  ;; project management
 (require-or-install-pkg 'magit)  ;; git integration
 (require-or-install-pkg 'flycheck)  ;; syntax checking
+(require-or-install-pkg 'neotree)
 (require-or-install-pkg 'counsel-projectile)
 (require-or-install-pkg 'org)
 (require-or-install-pkg 'company)
+(require-or-install-pkg 'ace-window)
 
-;;
-;; 基础的设置（与第三方 package 无关的配置）
-;;
-(toggle-scroll-bar -1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(xterm-mouse-mode 1)
-(setq vc-follow-symlinks t)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; 三方库相关配置
 
@@ -60,8 +63,17 @@
 (counsel-projectile-on)
 (projectile-global-mode)
 
+
 ;; --------
 ;; flycheck
 ;; --------
 
 (global-flycheck-mode)
+;; ----------
+;; ace-window
+;; ----------
+(global-set-key (kbd "M-p") 'ace-window)
+
+
+;; ------------------------
+;; ------------------------
