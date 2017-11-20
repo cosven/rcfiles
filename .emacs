@@ -33,8 +33,21 @@
 (require-or-install-pkg 'counsel-projectile)
 (require-or-install-pkg 'org)
 (require-or-install-pkg 'company)
+<<<<<<< Updated upstream
 (require-or-install-pkg 'ace-window)
 
+=======
+(require-or-install-pkg 'exec-path-from-shell)
+;;
+;; 基础的设置（与第三方 package 无关的配置）
+;;
+(toggle-scroll-bar -1)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(xterm-mouse-mode 1)
+(setq vc-follow-symlinks t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+>>>>>>> Stashed changes
 
 ;; 三方库相关配置
 
@@ -47,8 +60,14 @@
 ;; ivy 相关配置
 ;; ------------
 
+
+;; 一些好用的快捷键
+;; C-M-n (ivy-next-line-and-call)
+
 (ivy-mode 1)
 (global-set-key "\C-s" 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-c f") 'counsel-git-grep)
 
 ;; ------------
 ;; company-mode
@@ -61,7 +80,8 @@
 ;; ----------
 
 (counsel-projectile-on)
-(projectile-global-mode)
+(projectile-mode)
+
 
 
 ;; --------
@@ -69,11 +89,15 @@
 ;; --------
 
 (global-flycheck-mode)
+
 ;; ----------
 ;; ace-window
 ;; ----------
 (global-set-key (kbd "M-p") 'ace-window)
 
 
-;; ------------------------
-;; ------------------------
+;; --------------------
+;; exec-path-from-shell
+;; --------------------
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
