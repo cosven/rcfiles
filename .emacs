@@ -107,3 +107,6 @@
 ;; --------------------
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
+
+(provide '.emacs)
+;;; .emacs ends here
