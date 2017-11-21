@@ -1,3 +1,8 @@
+;;; package --- Summary
+;;; Commentary:
+;; Emacs config created by cosven
+
+;;; Code:
 ;;
 ;; 基础的设置（与第三方 package 无关的配置）
 ;;
@@ -6,7 +11,8 @@
 (tool-bar-mode -1)
 (xterm-mouse-mode 1)
 (setq vc-follow-symlinks t)
-
+(global-set-key (kbd "C-c e")
+		(lambda () (interactive) (find-file user-init-file)))
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -18,6 +24,7 @@
 ;; 自己写的一些函数
 ;; ----------------
 (defun require-or-install-pkg (pkg)
+  "PKG is a package name."
   (unless (package-installed-p pkg)
     (package-refresh-contents)  ;; 重要
     (package-install pkg)))
@@ -33,21 +40,9 @@
 (require-or-install-pkg 'counsel-projectile)
 (require-or-install-pkg 'org)
 (require-or-install-pkg 'company)
-<<<<<<< Updated upstream
 (require-or-install-pkg 'ace-window)
 
-=======
 (require-or-install-pkg 'exec-path-from-shell)
-;;
-;; 基础的设置（与第三方 package 无关的配置）
-;;
-(toggle-scroll-bar -1)
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(xterm-mouse-mode 1)
-(setq vc-follow-symlinks t)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
->>>>>>> Stashed changes
 
 ;; 三方库相关配置
 
@@ -60,14 +55,22 @@
 ;; ivy 相关配置
 ;; ------------
 
-
 ;; 一些好用的快捷键
-;; C-M-n (ivy-next-line-and-call)
+;; 1. C-M-n (ivy-next-line-and-call)
 
 (ivy-mode 1)
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-c f") 'counsel-git-grep)
+
+;;
+(global-set-key (kbd "C-c g") 'counsel-git-grep)
+
+(defun grep-cur-word ()
+  "Grep word under cursor in whole project."
+  (interactive)
+  (counsel-git-grep nil (thing-at-point 'word)))
+
+(global-set-key (kbd "C-c f") 'grep-cur-word)
 
 ;; ------------
 ;; company-mode
@@ -87,6 +90,9 @@
 ;; --------
 ;; flycheck
 ;; --------
+
+;; 常用快捷键
+;; 1. C-x ` (jump to next error)
 
 (global-flycheck-mode)
 
