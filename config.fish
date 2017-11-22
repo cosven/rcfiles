@@ -27,7 +27,7 @@ set -x -g LC_ALL en_US.UTF-8
 set -x -g LANG en_US.UTF-8
 abbr -a g git
 abbr -a jp 'python -m json.tool | pygmentize -l javascript'
-set -x -g EDITOR emacsclient -t
+set -x -g EDITOR 'emacsclient -t'
 set -x -g HOMEBREW_NO_AUTO_UPDATE 1
 
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish

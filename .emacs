@@ -148,7 +148,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (goto-last-change web-mode exec-path-from-shell neotree magit flycheck counsel-projectile company ace-window ace-jump-mode))))
+    (goto-last-change web-mode neotree magit flycheck exec-path-from-shell counsel-projectile company ace-window ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
