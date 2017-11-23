@@ -16,6 +16,11 @@
 		(lambda () (interactive) (find-file user-init-file)))
 (set-face-attribute 'default nil :font "Monaco")
 (set-frame-font "Monaco" nil t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'delete-trailing-lines)
+
+(add-hook 'after-make-frame-functions
+          (lambda () (toggle-scroll-bar -1)))
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -47,6 +52,12 @@
 (require-or-install-pkg 'web-mode)
 (require-or-install-pkg 'exec-path-from-shell)
 (require-or-install-pkg 'goto-last-change)
+(require-or-install-pkg 'multiple-cursors)
+(require-or-install-pkg 'color-theme-solarized)
+
+(when (>= emacs-major-version 25)
+  (require-or-install-pkg 'fill-column-indicator)
+  (fci-mode 1))
 
 ;; 三方库相关配置
 
@@ -139,6 +150,17 @@
 
 (global-set-key (kbd "\C-c ,") 'goto-last-change)
 
+
+;; ----------------
+;; multiple-cursors
+;; ----------------
+
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+
 (provide '.emacs)
 ;;; .emacs ends here
 (custom-set-variables
@@ -148,7 +170,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (goto-last-change web-mode neotree magit flycheck exec-path-from-shell counsel-projectile company ace-window ace-jump-mode))))
+    (color-theme-solarized fill-column-indicator multiple-cursors goto-last-change web-mode neotree magit flycheck exec-path-from-shell counsel-projectile company ace-window ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

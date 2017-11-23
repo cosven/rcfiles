@@ -1,16 +1,16 @@
-# function fish_prompt
-#     set_color $fish_color_cwd
-#     echo -n (prompt_pwd)
-#     set_color normal
-#     echo -n ' > '
-# end
+function fish_prompt
+    set_color $fish_color_cwd
+    echo -n (prompt_pwd)
+    set_color normal
+    echo -n ' > '
+end
 
 export SERVICE_DISCOVERY_URI=consul://discovery.dev.zhihu.com
 if test -e /etc/debian_version
     true
     set -x PATH $PATH ~/.local/bin
 else
-    set -x PATH $PATH ~/.local/bin ~/path /Library/Frameworks/Python.framework/Versions/3.5/bin/ /usr/local/bin /usr/bin /bin /usr/sbin /sbin
+    set -x PATH $PATH ~/.local/bin ~/path /usr/local/bin /usr/bin /bin /usr/sbin /sbin
 
     if test -e  ~/.cargo/bin
         set -x PATH $PATH ~/.cargo/bin
@@ -28,15 +28,10 @@ set -x -g LANG en_US.UTF-8
 abbr -a g git
 abbr -a jp 'python -m json.tool | pygmentize -l javascript'
 set -x -g EDITOR 'emacsclient -t'
+set -x -g ALTERNATE_EDITOR 'nvim'
 set -x -g HOMEBREW_NO_AUTO_UPDATE 1
 
 [ -f /usr/local/share/autojump/autojump.fish ]; and source /usr/local/share/autojump/autojump.fish
 [ -d /usr/local/Cellar/python/2.7.13/bin ]; and set -x PATH $PATH /usr/local/Cellar/python/2.7.13/bin
 
 [ -f /Users/cosven/zhihu/wen/zae-cli/auto_completion/zae_fish ]; and source /Users/cosven/zhihu/wen/zae-cli/auto_completion/zae_fish
-
-test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
-
-
-## =============
-#
