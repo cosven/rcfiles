@@ -49,7 +49,6 @@ Plug 'wannesm/wmgraphviz.vim'
 
 " marks navigation
 Plug 'kshenoy/vim-signature'
-Plug 'cosven/feeluown.vim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'luochen1990/rainbow'
@@ -394,7 +393,7 @@ let g:python_host_prog = '/usr/local/bin/python'
 if has('mac')
     let g:python3_host_prog = '/usr/local/bin/python3'
 else
-    let g:python3_host_prog = '/home/yinshaowen/miniconda3/bin/python3'
+    let g:python3_host_prog = '/home/wen/miniconda3/bin/python3'
 endif
 
 " Align GitHub-flavored Markdown tables
