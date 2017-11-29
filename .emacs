@@ -7,15 +7,19 @@
 ;; 基础的设置（与第三方 package 无关的配置）
 ;;
 (toggle-scroll-bar -1)
+(set-default 'truncate-lines t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+;; (fringe-mode -1)
 (xterm-mouse-mode 1)
 (setq vc-follow-symlinks t)
 (setq-default indent-tabs-mode nil)
+(setq-default show-trailing-whitespace t)
+;; (add-to-list 'default-frame-alist '(width . 80))
 (global-set-key (kbd "C-c e")
 		(lambda () (interactive) (find-file user-init-file)))
 (set-face-attribute 'default nil :font "Monaco")
-(set-frame-font "Monaco" nil t)
+(set-frame-font "Monaco 13" nil t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'before-save-hook 'delete-trailing-lines)
 
@@ -54,6 +58,10 @@
 (require-or-install-pkg 'goto-last-change)
 (require-or-install-pkg 'multiple-cursors)
 (require-or-install-pkg 'color-theme-solarized)
+(require-or-install-pkg 'undo-tree)
+;; (require-or-install-pkg 'git-gutter-fringe)
+;; (require-or-install-pkg 'nyan-mode)
+(require-or-install-pkg 'markdown-mode)
 
 (when (>= emacs-major-version 25)
   (require-or-install-pkg 'fill-column-indicator)
@@ -109,7 +117,7 @@
 ;; 常用快捷键
 ;; 1. C-x ` (jump to next error)
 
-(global-flycheck-mode)
+;; (global-flycheck-mode)
 
 ;; ----------
 ;; ace-window
@@ -161,6 +169,24 @@
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 
+;; ---------
+;; undo-tree
+;; ---------
+
+(global-undo-tree-mode)
+
+;; -----------------
+;; git-gutter-fringe
+;; -----------------
+
+;; (global-git-gutter-mode)
+
+;; --------
+;; fci-mode
+;; --------
+
+(fci-mode 1)
+
 (provide '.emacs)
 ;;; .emacs ends here
 (custom-set-variables
@@ -173,7 +199,7 @@
     ("1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default)))
  '(package-selected-packages
    (quote
-    (color-theme-solarized fill-column-indicator multiple-cursors goto-last-change web-mode neotree magit flycheck exec-path-from-shell counsel-projectile company ace-window ace-jump-mode))))
+    (undo-tree color-theme-solarized fill-column-indicator multiple-cursors goto-last-change web-mode neotree magit flycheck exec-path-from-shell counsel-projectile company ace-window ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
