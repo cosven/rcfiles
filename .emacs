@@ -103,7 +103,7 @@
 ;; ----------
 
 (counsel-projectile-on)
-(projectile-mode)
+(projectile-global-mode)
 
 
 
@@ -193,7 +193,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" default)))
+    ("1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default)))
  '(package-selected-packages
    (quote
     (undo-tree color-theme-solarized fill-column-indicator multiple-cursors goto-last-change web-mode neotree magit flycheck exec-path-from-shell counsel-projectile company ace-window ace-jump-mode))))
