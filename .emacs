@@ -6,11 +6,11 @@
 ;;
 ;; 基础的设置（与第三方 package 无关的配置）
 ;;
-(toggle-scroll-bar -1)
 (set-default 'truncate-lines t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-;; (fringe-mode -1)
+(scroll-bar-mode -1)
+(fringe-mode -1)
 (xterm-mouse-mode 1)
 (setq vc-follow-symlinks t)
 (setq-default indent-tabs-mode nil)
@@ -22,9 +22,6 @@
 (set-frame-font "Monaco 13" nil t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'before-save-hook 'delete-trailing-lines)
-
-(add-hook 'after-make-frame-functions
-          (lambda () (toggle-scroll-bar -1)))
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
