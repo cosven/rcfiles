@@ -23,6 +23,13 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'before-save-hook 'delete-trailing-lines)
 
+;; key bindings
+(when (eq system-type 'darwin) ;; mac specific settings
+  (setq mac-option-modifier 'alt)
+  (setq mac-command-modifier 'meta)
+  (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
+  )
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
@@ -59,6 +66,7 @@
 ;; (require-or-install-pkg 'git-gutter-fringe)
 ;; (require-or-install-pkg 'nyan-mode)
 (require-or-install-pkg 'markdown-mode)
+;; (require-or-install-pkg 'jedi)  # always hard to install
 
 (when (>= emacs-major-version 25)
   (require-or-install-pkg 'fill-column-indicator)
@@ -184,6 +192,11 @@
 
 (fci-mode 1)
 
+;; ----
+;; jedi
+;; ----
+;; (add-hook 'python-mode-hook 'jedi:setup)
+
 (provide '.emacs)
 ;;; .emacs ends here
 (custom-set-variables
@@ -196,7 +209,7 @@
     ("1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default)))
  '(package-selected-packages
    (quote
-    (undo-tree color-theme-solarized fill-column-indicator multiple-cursors goto-last-change web-mode neotree magit flycheck exec-path-from-shell counsel-projectile company ace-window ace-jump-mode))))
+    (jedi undo-tree color-theme-solarized fill-column-indicator multiple-cursors goto-last-change web-mode neotree magit flycheck exec-path-from-shell counsel-projectile company ace-window ace-jump-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
