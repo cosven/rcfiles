@@ -13,6 +13,8 @@
 (fringe-mode -1)
 (xterm-mouse-mode 1)
 (setq vc-follow-symlinks t)
+(setq custom-file "~/.emacs-custom.el")
+(setq org-agenda-files '("~/coding/cosven.github.io/life"))
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
 ;; (add-to-list 'default-frame-alist '(width . 80))
@@ -25,7 +27,7 @@
 
 ;; key bindings
 (when (eq system-type 'darwin) ;; mac specific settings
-  (setq mac-option-modifier 'alt)
+  (setq mac-option-modifier 'meta)
   (setq mac-command-modifier 'meta)
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
   )
@@ -67,6 +69,9 @@
 ;; (require-or-install-pkg 'nyan-mode)
 (require-or-install-pkg 'markdown-mode)
 ;; (require-or-install-pkg 'jedi)  # always hard to install
+(require-or-install-pkg 'diminish)
+(require-or-install-pkg 'groovy-mode)
+
 
 (when (>= emacs-major-version 25)
   (require-or-install-pkg 'fill-column-indicator)
@@ -197,22 +202,28 @@
 ;; ----
 ;; (add-hook 'python-mode-hook 'jedi:setup)
 
+;; --------
+;; diminish
+;; --------
+
+(diminish 'projectile-mode "PRJ")
+(eval-after-load 'company
+  '(diminish 'company-mode "CMP"))
+(diminish 'undo-tree-mode)
+
+;; for major mode
+(add-hook 'python-mode
+          (lambda()
+            (setq mode-name "Py")))
+
+;;; ---
+;;; org
+;;; ---
+
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+(load custom-file)
 (provide '.emacs)
-;;; .emacs ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   (quote
-    ("1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default)))
- '(package-selected-packages
-   (quote
-    (jedi undo-tree color-theme-solarized fill-column-indicator multiple-cursors goto-last-change web-mode neotree magit flycheck exec-path-from-shell counsel-projectile company ace-window ace-jump-mode))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
