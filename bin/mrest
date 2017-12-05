@@ -23,16 +23,15 @@ function check_rcfiles_pushed {
     cd `dirname $(type -P m)`
 
     have_changes
-    if [ $? -eq 0 ]; then
-        rcfiles_pushed='x'
-    else
+    if [ $? -ne 0 ]; then
         echo '------------------------'
         echo '!!! rcfiles have changes'
         show_changes
         echo '!!! save and push changes'
         push_changes
-       echo '------------------------'
+        echo '------------------------'
     fi
+    rcfiles_pushed='x'
 }
 
 function check_notes_pushed {
@@ -40,9 +39,7 @@ function check_notes_pushed {
     if [ -d $default_notes_path ]; then
         cd $default_notes_path
         have_changes
-        if [ $? -eq 0 ]; then
-            notes_pushed='x'
-        else
+        if [ $? -ne 0 ]; then
             echo '------------------------'
             echo '!!! notes have changes'
             show_changes
@@ -51,9 +48,9 @@ function check_notes_pushed {
             echo '------------------------'
         fi
     else
-        notes_pushed='x'
         echo "cosven.github.io not exists ?"
     fi
+    notes_pushed='x'
 }
 
 echo
