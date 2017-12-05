@@ -191,12 +191,6 @@
 
 ;; (global-git-gutter-mode)
 
-;; --------
-;; fci-mode
-;; --------
-
-(fci-mode 1)
-
 ;; ----
 ;; jedi
 ;; ----
@@ -225,6 +219,15 @@
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
 
+;; ------
+;; groovy
+;; ------
+
+(add-hook 'groovy-mode-hook
+          (lambda ()
+            (electric-indent-local-mode -1)
+            (setq tab-stop-list [2, 4, 6, 8, 10])
+            (setq tab-width 2)))
 
 ;; ----------------------
 ;; every thing about evil
