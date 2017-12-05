@@ -72,6 +72,7 @@
 (require-or-install-pkg 'diminish)
 (require-or-install-pkg 'groovy-mode)
 ;; (require-or-install-pkg 'evil)
+;; (require-or-install-pkg 'xah-fly-keys)
 
 (when (>= emacs-major-version 25)
   (require-or-install-pkg 'fill-column-indicator)
@@ -127,7 +128,7 @@
 ;; 常用快捷键
 ;; 1. C-x ` (jump to next error)
 
-;; (global-flycheck-mode)
+(global-flycheck-mode)
 
 ;; ----------
 ;; ace-window
@@ -238,6 +239,7 @@
 ;;           (lambda ()
 ;;             (global-set-key "\C-p" 'previous-line)
 ;;             (global-set-key "\C-e" 'end-of-line)))
+
 
 (load custom-file)
 (provide '.emacs)
