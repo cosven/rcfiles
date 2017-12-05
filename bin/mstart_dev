@@ -7,9 +7,8 @@ curpath=`pwd`
 
 function sync_rcfiles {
     cd `dirname $(type -P msync_with_upstream_or_origin)`
-    echo "sync rcfiles-ing"
+    echo "syncing rcfiles..."
     msync_with_upstream_or_origin > /dev/null
-
     if [ $? -eq 0 ]; then
         rcfiles_synced='x'
     fi

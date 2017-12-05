@@ -5,7 +5,13 @@ function have_changes {
 }
 
 function show_changes {
-    git status
+    git status -s
+}
+
+function push_changes {
+    git add -A
+    git commit -m 'save changes' -q
+    git push -q origin master
 }
 
 notes_pushed=' '
@@ -23,7 +29,9 @@ function check_rcfiles_pushed {
         echo '------------------------'
         echo '!!! rcfiles have changes'
         show_changes
-        echo '------------------------'
+        echo '!!! save and push changes'
+        push_changes
+       echo '------------------------'
     fi
 }
 
@@ -38,6 +46,8 @@ function check_notes_pushed {
             echo '------------------------'
             echo '!!! notes have changes'
             show_changes
+            echo '!!! save and push changes'
+            push_changes
             echo '------------------------'
         fi
     else

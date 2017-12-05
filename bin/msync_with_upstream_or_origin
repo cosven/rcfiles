@@ -1,21 +1,40 @@
 #!/usr/bin/env bash
 
-git status >/dev/null 2>&1 || (echo '😱😱😱  not a git repo' && exit 1) || exit 1
-
-git remote -v | grep upstream >/dev/null 2>&1
-if [ $? -eq 0 ]; then
-    echo 'rebase upstream master -ing...'
-    mprogress_bar 0.0
-    git fetch upstream master 1>/dev/null 2>&1 || ( echo && echo '😱😱😱' && exit 1)
-    mprogress_bar 0.5
-    git rebase upstream/master 1>/dev/null 2>&1 || (echo && echo '😱😱😱' && exit 1)
-    mprogress_bar 1
-else
-    echo 'rebase origin master -ing...'
-    mprogress_bar 0.5
-    git fetch origin master > /dev/null 2>&1 || ( echo && echo '😱😱😱' && exit 1)
-    git rebase origin/master > /dev/null 2>&1 || ( echo && echo '😱😱😱' && exit 1)
-    mprogress_bar 1
+if [[ -h `pwd` ]]; then
+    cd $(readlink `pwd`)
 fi
-echo
+[ -d .git ] || git rev-parse --git-dir > /dev/null 2>&1
+if [[ $? -ne 0 ]]; then
+    echo "Not a git repository"
+    exit 1
+fi
+
+remote="origin"
+branch="master"
+git remote -v | grep upstream > /dev/null
+if [ $? -eq 0 ]; then
+    remote="upstream"
+    branch="master"
+fi
+
+echo "remote is $remote; branch is $branch"
+echo "fetching $remote $branch"
+git fetch -q $remote $branch
+echo "fetch ok"
+changes_length=$(git status -s | wc -l)
+need_pop_stash=false
+if [[ $changes_length -gt 0 ]]; then
+    echo "stash..."
+    git stash > /dev/null
+    echo "stash ok"
+    need_pop_stash=true
+fi
+echo "rebasing..."
+git rebase -q $remote/$branch
+echo "rebase ok"
+if [[ "$need_pop_stash" == "true" ]]; then
+    echo "pop stash..."
+    git stash pop > /dev/null
+    echo "pop stash ok"
+fi
 echo -e '🎉🎉🎉🎉🎉🎉🎉'
