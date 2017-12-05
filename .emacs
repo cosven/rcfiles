@@ -71,7 +71,7 @@
 ;; (require-or-install-pkg 'jedi)  # always hard to install
 (require-or-install-pkg 'diminish)
 (require-or-install-pkg 'groovy-mode)
-
+(require-or-install-pkg 'evil)
 
 (when (>= emacs-major-version 25)
   (require-or-install-pkg 'fill-column-indicator)
@@ -228,6 +228,12 @@
             (electric-indent-local-mode -1)
             (setq tab-stop-list [2, 4, 6, 8, 10])
             (setq tab-width 2)))
+
+;; ----------------------
+;; every thing about evil
+;; ----------------------
+
+(evil-mode 1)
 
 (load custom-file)
 (provide '.emacs)
