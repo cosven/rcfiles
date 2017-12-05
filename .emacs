@@ -71,7 +71,7 @@
 ;; (require-or-install-pkg 'jedi)  # always hard to install
 (require-or-install-pkg 'diminish)
 (require-or-install-pkg 'groovy-mode)
-(require-or-install-pkg 'evil)
+;; (require-or-install-pkg 'evil)
 
 (when (>= emacs-major-version 25)
   (require-or-install-pkg 'fill-column-indicator)
@@ -230,7 +230,11 @@
 ;; every thing about evil
 ;; ----------------------
 
-(evil-mode 1)
+;; (evil-mode 1)
+;; (add-hook 'evil-mode-hook
+;;           (lambda ()
+;;             (global-set-key "\C-p" 'previous-line)
+;;             (global-set-key "\C-e" 'end-of-line)))
 
 (load custom-file)
 (provide '.emacs)
