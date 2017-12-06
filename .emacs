@@ -6,6 +6,12 @@
 ;;
 ;; 基础的设置（与第三方 package 无关的配置）
 ;;
+
+;; 非常不好用的自动缩进 mode
+(electric-indent-mode -1)
+(add-hook 'after-change-major-mode-hook
+          (lambda()
+            (electric-indent-mode -1)))
 (set-default 'truncate-lines t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -17,6 +23,8 @@
 (setq org-agenda-files '("~/coding/cosven.github.io/life"))
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
+(setq c-default-style "linux"
+      c-basic-offset 4)
 ;; (add-to-list 'default-frame-alist '(width . 80))
 (global-set-key (kbd "C-c e")
 		(lambda () (interactive) (find-file user-init-file)))
