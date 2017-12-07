@@ -1,0 +1,8 @@
+#!/bin/bash
+
+curdir=`pwd`
+
+cd ~/coding/cosven.github.io
+git grep "$@"
+
+cd $curdir
