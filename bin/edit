@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+if [[ -z "${EDITOR}" ]]; then
+    nvim "$@"
+else
+    eval "$EDITOR $@"
+fi
