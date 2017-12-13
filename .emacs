@@ -8,10 +8,9 @@
 ;;
 
 ;; 非常不好用的自动缩进 mode
-(electric-indent-mode -1)
 (add-hook 'after-change-major-mode-hook
           (lambda()
-            (when (not (derived-mode-p 'lisp-mode))
+            (when (not (derived-mode-p 'lisp-mode 'python-mode))
               (electric-indent-mode -1))))
 (add-hook 'eww-mode-hook
           (lambda()
@@ -21,8 +20,10 @@
 (add-hook 'term-mode
           (lambda()
             (setq show-trailing-whitespace nil)))
+
 (set-default 'truncate-lines t)
 (setq-default eww-search-prefix "https://www.google.com/search?q=")
+(setq-default python-shell-completion-native-enable nil)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -76,7 +77,8 @@
 (require-or-install-pkg 'neotree)
 (require-or-install-pkg 'counsel-projectile)
 (require-or-install-pkg 'org)
-(require-or-install-pkg 'company)
+;; (require-or-install-pkg 'company)
+;; (require-or-install-pkg 'auto-complete)
 (require-or-install-pkg 'ace-window)
 (require-or-install-pkg 'web-mode)
 (require-or-install-pkg 'exec-path-from-shell)
@@ -87,7 +89,7 @@
 ;; (require-or-install-pkg 'git-gutter-fringe)
 ;; (require-or-install-pkg 'nyan-mode)
 (require-or-install-pkg 'markdown-mode)
-;; (require-or-install-pkg 'jedi)  # always hard to install
+(require-or-install-pkg 'elpy)
 (require-or-install-pkg 'diminish)
 (require-or-install-pkg 'groovy-mode)
 ;; (require-or-install-pkg 'evil)
@@ -130,16 +132,15 @@
 ;; company-mode
 ;; ------------
 
-(add-hook 'after-init-hook 'global-company-mode)
-
+; (add-hook 'after-init-hook 'global-company-mode)
+(setq-default 'company-idle-delay 1.5)
 ;; ----------
 ;; projectile
 ;; ----------
 
 (counsel-projectile-on)
 (projectile-global-mode)
-
-
+(setq-default projectile-enable-caching t)
 
 ;; --------
 ;; flycheck
@@ -212,11 +213,6 @@
 
 ;; (global-git-gutter-mode)
 
-;; ----
-;; jedi
-;; ----
-;; (add-hook 'python-mode-hook 'jedi:setup)
-
 ;; --------
 ;; diminish
 ;; --------
@@ -250,6 +246,18 @@
             (setq tab-stop-list [2, 4, 6, 8, 10])
             (setq tab-width 2)))
 
+;; -------------
+;; auto-complete
+;; -------------
+;; (ac-config-default)
+
+;; ----
+;; elpy
+;; ----
+(elpy-enable)
+(add-hook 'elpy-mode-hook
+ (lambda ()
+   (highlight-indentation-mode -1)))
 ;; ----------------------
 ;; every thing about evil
 ;; ----------------------
@@ -263,3 +271,4 @@
 
 (load custom-file)
 (provide '.emacs)
+;;; .emacs ends here
