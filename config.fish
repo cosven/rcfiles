@@ -35,6 +35,7 @@ set -x -g HOMEBREW_NO_AUTO_UPDATE 1
 [ -d /usr/local/Cellar/python/2.7.13/bin ]; and set -x PATH $PATH /usr/local/Cellar/python/2.7.13/bin
 if test -d /Library/Frameworks/Python.framework/Versions/3.6/bin
     set -x PATH /Library/Frameworks/Python.framework/Versions/3.6/bin $PATH
+    set -x PATH ~/Library/Python/3.6/bin/ $PATH
 else
     set -x PATH /Library/Frameworks/Python.framework/Versions/3.5/bin $PATH
 end

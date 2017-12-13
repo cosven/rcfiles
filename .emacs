@@ -134,7 +134,7 @@
 ;; ------------
 
 ; (add-hook 'after-init-hook 'global-company-mode)
-(setq-default 'company-idle-delay 1.5)
+(setq-default company-idle-delay 1.5)
 ;; ----------
 ;; projectile
 ;; ----------
