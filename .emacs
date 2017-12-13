@@ -13,6 +13,7 @@
           (lambda()
             (electric-indent-mode -1)))
 (set-default 'truncate-lines t)
+(load-theme 'manoj-dark)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
