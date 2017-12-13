@@ -22,6 +22,7 @@
             (setq show-trailing-whitespace nil)))
 
 (set-default 'truncate-lines t)
+(load-theme 'manoj-dark)
 (setq-default eww-search-prefix "https://www.google.com/search?q=")
 (setq-default python-shell-completion-native-enable nil)
 (menu-bar-mode -1)
