@@ -11,21 +11,32 @@
 (electric-indent-mode -1)
 (add-hook 'after-change-major-mode-hook
           (lambda()
-            (electric-indent-mode -1)))
+            (when (not (derived-mode-p 'lisp-mode))
+              (electric-indent-mode -1))))
+(add-hook 'eww-mode-hook
+          (lambda()
+            ;; 让背景看起来更正常
+            (setq shr-color-visible-luminance-min 70)
+            (setq show-trailing-whitespace nil)))
+(add-hook 'term-mode
+          (lambda()
+            (setq show-trailing-whitespace nil)))
 (set-default 'truncate-lines t)
 (load-theme 'manoj-dark)
+(setq-default eww-search-prefix "https://www.google.com/search?q=")
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (fringe-mode -1)
 (xterm-mouse-mode 1)
+(load-theme 'manoj-dark)
 (setq vc-follow-symlinks t)
 (setq custom-file "~/.emacs-custom.el")
-(setq org-agenda-files '("~/coding/cosven.github.io/life"))
+(setq-default org-agenda-files '("~/coding/cosven.github.io/life"))
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
-(setq c-default-style "linux"
-      c-basic-offset 4)
+(setq-default c-default-style "linux"
+              c-basic-offset 4)
 ;; (add-to-list 'default-frame-alist '(width . 80))
 (global-set-key (kbd "C-c e")
 		(lambda () (interactive) (find-file user-init-file)))
@@ -82,6 +93,7 @@
 (require-or-install-pkg 'groovy-mode)
 ;; (require-or-install-pkg 'evil)
 ;; (require-or-install-pkg 'xah-fly-keys)
+(require-or-install-pkg 'page-break-lines)
 
 (when (>= emacs-major-version 25)
   (require-or-install-pkg 'fill-column-indicator)
