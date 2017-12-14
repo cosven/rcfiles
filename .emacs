@@ -8,23 +8,27 @@
 ;;
 
 ;; 非常不好用的自动缩进 mode
-(add-hook 'after-change-major-mode-hook
-          (lambda()
-            (when (not (derived-mode-p 'lisp-mode 'python-mode))
-              (electric-indent-mode -1))))
+;; (add-hook 'after-change-major-mode-hook
+;;           (lambda()
+;;             (when (not (derived-mode-p 'lisp-mode 'python-mode))
+;;               (electric-indent-mode -1))))
 (add-hook 'eww-mode-hook
           (lambda()
             ;; 让背景看起来更正常
-            (setq shr-color-visible-luminance-min 70)
-            (setq show-trailing-whitespace nil)))
-(add-hook 'term-mode
-          (lambda()
-            (setq show-trailing-whitespace nil)))
+            (setq-default shr-color-visible-luminance-min 70)
+            (show-trailing-whitespace nil)))
+(add-hook 'term-char-mode
+          (lambda ()
+            (show-trailing-whitespace nil)))
+(add-hook 'term-line-mode
+          (lambda ()
+            (show-trailing-whitespace nil)))
 
 (set-default 'truncate-lines t)
 (load-theme 'manoj-dark)
 (setq-default eww-search-prefix "https://www.google.com/search?q=")
 (setq-default python-shell-completion-native-enable nil)
+(setq-default help-window-select t)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -140,7 +144,7 @@
 ;; ----------
 
 (counsel-projectile-on)
-(projectile-global-mode)
+(projectile-mode)
 (setq-default projectile-enable-caching t)
 
 ;; --------
@@ -189,7 +193,7 @@
 ;; goto-last-chagne
 ;; ----------------
 
-(global-set-key (kbd "\C-c ,") 'goto-last-change)
+(global-set-key (kbd "\C-c ;") 'goto-last-change)
 
 
 ;; ----------------
@@ -259,6 +263,15 @@
 (add-hook 'elpy-mode-hook
  (lambda ()
    (highlight-indentation-mode -1)))
+
+
+(defun my-local-pytest-runner (top file module test)
+  "Test the project using the local py.test test runner.
+
+This requires the pytest in ./bin directory"
+  (interactive (elpy-test-at-point))
+  (apply #'elpy-test-run top '("bin/py.test")))
+(put 'my-local-pytest-runner 'elpy-test-runner-p t)
 ;; ----------------------
 ;; every thing about evil
 ;; ----------------------
