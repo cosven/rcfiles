@@ -16,13 +16,13 @@
           (lambda()
             ;; 让背景看起来更正常
             (setq-default shr-color-visible-luminance-min 70)
-            (show-trailing-whitespace nil)))
+            (setq show-trailing-whitespace nil)))
 (add-hook 'term-char-mode
           (lambda ()
-            (show-trailing-whitespace nil)))
+            (setq show-trailing-whitespace nil)))
 (add-hook 'term-line-mode
           (lambda ()
-            (show-trailing-whitespace nil)))
+            (setq show-trailing-whitespace nil)))
 
 (set-default 'truncate-lines t)
 (load-theme 'manoj-dark)
@@ -272,6 +272,13 @@ This requires the pytest in ./bin directory"
   (interactive (elpy-test-at-point))
   (apply #'elpy-test-run top '("bin/py.test")))
 (put 'my-local-pytest-runner 'elpy-test-runner-p t)
+
+
+;; -----
+;; slack
+;; -----
+
+
 ;; ----------------------
 ;; every thing about evil
 ;; ----------------------
