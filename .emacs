@@ -24,6 +24,7 @@
           (lambda ()
             (setq show-trailing-whitespace nil)))
 
+(setq-default cursor-type 'box)
 (set-default 'truncate-lines t)
 (load-theme 'manoj-dark)
 (setq-default eww-search-prefix "https://www.google.com/search?q=")
@@ -34,7 +35,6 @@
 (scroll-bar-mode -1)
 (fringe-mode -1)
 (xterm-mouse-mode 1)
-(load-theme 'manoj-dark)
 (setq vc-follow-symlinks t)
 (setq custom-file "~/.emacs-custom.el")
 (setq-default org-agenda-files '("~/coding/cosven.github.io/life"))
@@ -58,7 +58,9 @@
   )
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
+                         ("melpa" . "http://elpa.emacs-china.org/melpa/")))
 
 ;; 加载已经安装的包，这样子，之后 requrie 一个包就可以让该包生效
 (package-initialize)
@@ -101,6 +103,11 @@
 ;; (require-or-install-pkg 'xah-fly-keys)
 (require-or-install-pkg 'page-break-lines)
 
+;; 达不到保存 window layout 的效果
+;;(require-or-install-pkg 'persp-mode)
+(require-or-install-pkg 'perspeen)
+(require-or-install-pkg 'which-key)
+
 (when (>= emacs-major-version 25)
   (require-or-install-pkg 'fill-column-indicator)
   (fci-mode 1))
@@ -122,6 +129,10 @@
 (ivy-mode 1)
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
+
+;;(global-set-key (kbd "C-c v s") 'ivy-switch-view)
+;;(global-set-key (kbd "C-c v c") 'ivy-push-view)
+;;(global-set-key (kbd "C-c v d") 'ivy-pop-view)
 
 ;;
 (global-set-key (kbd "C-c g") 'counsel-git-grep)
@@ -278,17 +289,25 @@ This requires the pytest in ./bin directory"
 ;; slack
 ;; -----
 
+;; which-key
+
+(which-key-mode)
+
+;; perspeen
+
+
+(perspeen-mode)
+;; (setq-default perspeen-use-tab t)
+;; (setq-default perspeen-keymap-prefix (kbd "C-c w"))
 
 ;; ----------------------
 ;; every thing about evil
 ;; ----------------------
-
 ;; (evil-mode 1)
 ;; (add-hook 'evil-mode-hook
 ;;           (lambda ()
-;;             (global-set-key "\C-p" 'previous-line)
-;;             (global-set-key "\C-e" 'end-of-line)))
-
+;;             (modify-syntax-entry ?_ "w")))
+;; (setq-default evil-insert-state-cursor 'box)
 
 (load custom-file)
 (provide '.emacs)
