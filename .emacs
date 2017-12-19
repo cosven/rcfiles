@@ -127,6 +127,7 @@
 ;; 1. C-M-n (ivy-next-line-and-call)
 
 (ivy-mode 1)
+(setq-default ivy-use-virtual-buffers t)
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 
