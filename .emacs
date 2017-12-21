@@ -26,11 +26,11 @@
 
 (setq-default cursor-type 'box)
 (set-default 'truncate-lines t)
-(load-theme 'manoj-dark)
+; (load-theme 'manoj-dark)
 (setq-default eww-search-prefix "https://www.google.com/search?q=")
 (setq-default python-shell-completion-native-enable nil)
 (setq-default help-window-select t)
-(menu-bar-mode -1)
+(menu-bar-mode 1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (fringe-mode -1)
@@ -43,9 +43,15 @@
 (setq-default c-default-style "linux"
               c-basic-offset 4)
 ;; (add-to-list 'default-frame-alist '(width . 80))
+(setq default-frame-alist
+      '(
+        (top . 100)
+        (left . 600)
+        )
+      )
 (global-set-key (kbd "C-c e")
 		(lambda () (interactive) (find-file user-init-file)))
-(set-face-attribute 'default nil :font "Monaco")
+(set-face-attribute 'default nil :font "Monaco 13")
 (set-frame-font "Monaco 13" nil t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'before-save-hook 'delete-trailing-lines)
@@ -92,6 +98,10 @@
 (require-or-install-pkg 'goto-last-change)
 (require-or-install-pkg 'multiple-cursors)
 (require-or-install-pkg 'color-theme-solarized)
+(require-or-install-pkg 'zenburn-theme)
+(require-or-install-pkg 'kaolin-themes)
+(require-or-install-pkg 'color-theme-sanityinc-tomorrow)
+(require-or-install-pkg 'color-theme-sanityinc-solarized)
 (require-or-install-pkg 'undo-tree)
 ;; (require-or-install-pkg 'git-gutter-fringe)
 ;; (require-or-install-pkg 'nyan-mode)
@@ -150,7 +160,7 @@
 ;; ------------
 
 ; (add-hook 'after-init-hook 'global-company-mode)
-(setq-default company-idle-delay 1.5)
+
 ;; ----------
 ;; projectile
 ;; ----------
@@ -274,7 +284,8 @@
 (elpy-enable)
 (add-hook 'elpy-mode-hook
  (lambda ()
-   (highlight-indentation-mode -1)))
+   (highlight-indentation-mode -1)
+   (setq company-idle-delay 1.5)))
 
 
 (defun my-local-pytest-runner (top file module test)
@@ -299,7 +310,7 @@ This requires the pytest in ./bin directory"
 
 (perspeen-mode)
 ;; (setq-default perspeen-use-tab t)
-;; (setq-default perspeen-keymap-prefix (kbd "C-c w"))
+;; (setq-default perspeen-keymap-prefix (kbd "C-\\"))
 
 ;; ----------------------
 ;; every thing about evil
