@@ -324,3 +324,4 @@ This requires the pytest in ./bin directory"
 (load custom-file)
 (provide '.emacs)
 ;;; .emacs ends here
+(put 'upcase-region 'disabled nil)
