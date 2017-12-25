@@ -12,6 +12,7 @@
 ;;           (lambda()
 ;;             (when (not (derived-mode-p 'lisp-mode 'python-mode))
 ;;               (electric-indent-mode -1))))
+(global-auto-revert-mode)
 (add-hook 'eww-mode-hook
           (lambda()
             ;; 让背景看起来更正常
