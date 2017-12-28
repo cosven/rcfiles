@@ -116,7 +116,10 @@
 
 ;; 达不到保存 window layout 的效果
 ;;(require-or-install-pkg 'persp-mode)
-(require-or-install-pkg 'perspeen)
+
+;; eyebrowser 有 spacemacs 背书
+;; (require-or-install-pkg 'perspeen)
+(require-or-install-pkg 'eyebrowse)
 (require-or-install-pkg 'which-key)
 
 (when (>= emacs-major-version 25)
@@ -309,9 +312,16 @@ This requires the pytest in ./bin directory"
 ;; perspeen
 
 
-(perspeen-mode)
+;; (perspeen-mode)
 ;; (setq-default perspeen-use-tab t)
 ;; (setq-default perspeen-keymap-prefix (kbd "C-\\"))
+
+;; ---------
+;; eyebrowse
+;; ---------
+
+(eyebrowse-mode t)
+
 
 ;; ----------------------
 ;; every thing about evil
