@@ -60,7 +60,7 @@
 ;; key bindings
 (when (eq system-type 'darwin) ;; mac specific settings
   (setq mac-option-modifier 'meta)
-  (setq mac-command-modifier 'meta)
+  (setq mac-command-modifier 'super)
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
   )
 
@@ -110,7 +110,8 @@
 (require-or-install-pkg 'elpy)
 (require-or-install-pkg 'diminish)
 (require-or-install-pkg 'groovy-mode)
-;; (require-or-install-pkg 'evil)
+(require-or-install-pkg 'evil)
+(require-or-install-pkg 'evil-leader)
 ;; (require-or-install-pkg 'xah-fly-keys)
 (require-or-install-pkg 'page-break-lines)
 
@@ -119,7 +120,7 @@
 
 ;; eyebrowse 有 spacemacs 背书
 ;; (require-or-install-pkg 'perspeen)
-;; (require-or-install-pkg 'eyebrowse)
+(require-or-install-pkg 'eyebrowse)
 (require-or-install-pkg 'which-key)
 
 (when (>= emacs-major-version 25)
@@ -127,6 +128,17 @@
   (fci-mode 1))
 
 ;; 三方库相关配置
+
+;; ----------------------
+;; every thing about evil
+;; ----------------------
+
+;; put evil at first place to make others works well with evil
+(evil-mode 1)
+(add-hook 'evil-mode-hook
+          (lambda ()
+            (modify-syntax-entry ?_ "w")))
+(setq-default evil-insert-state-cursor 'box)
 
 ;; -------------
 ;; ace-jump-mode
@@ -321,18 +333,8 @@ This requires the pytest in ./bin directory"
 ;; ---------
 
 (eyebrowse-mode t)
-
-
-;; ----------------------
-;; every thing about evil
-;; ----------------------
-;; (evil-mode 1)
-;; (add-hook 'evil-mode-hook
-;;           (lambda ()
-;;             (modify-syntax-entry ?_ "w")))
-;; (setq-default evil-insert-state-cursor 'box)
+(eyebrowse-setup-opinionated-keys)
 
 (load custom-file)
 (provide '.emacs)
 ;;; .emacs ends here
-(put 'upcase-region 'disabled nil)
