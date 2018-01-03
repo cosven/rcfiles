@@ -317,6 +317,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq-default cursor-type 'box)
   (setq-default evil-insert-state-cursor 'box)
+  (setq vc-follow-symlinks t)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

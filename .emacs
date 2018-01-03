@@ -117,9 +117,9 @@
 ;; 达不到保存 window layout 的效果
 ;;(require-or-install-pkg 'persp-mode)
 
-;; eyebrowser 有 spacemacs 背书
+;; eyebrowse 有 spacemacs 背书
 ;; (require-or-install-pkg 'perspeen)
-(require-or-install-pkg 'eyebrowse)
+;; (require-or-install-pkg 'eyebrowse)
 (require-or-install-pkg 'which-key)
 
 (when (>= emacs-major-version 25)
