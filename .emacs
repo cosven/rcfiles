@@ -31,7 +31,14 @@
 (setq-default eww-search-prefix "https://www.google.com/search?q=")
 (setq-default python-shell-completion-native-enable nil)
 (setq-default help-window-select t)
-(menu-bar-mode 1)
+(if (display-graphic-p)
+    (progn
+      (menu-bar-mode 1))
+  (setq-default mode-line-format nil)
+  ;; hide org string since we show it on tmux status line
+  (setq-default org-mode-line-string nil)
+  (menu-bar-mode -1))
+
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (fringe-mode -1)
@@ -39,6 +46,7 @@
 (setq vc-follow-symlinks t)
 (setq custom-file "~/.emacs-custom.el")
 (setq-default org-agenda-files '("~/coding/cosven.github.io/life"))
+(setq-default org-log-done 'time)
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
 (setq-default c-default-style "linux"
