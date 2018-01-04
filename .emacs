@@ -145,6 +145,10 @@
 (evil-mode 1)
 (add-hook 'evil-mode-hook
           (lambda ()
+            (global-evil-leader-mode)
+            (evil-leader/set-leader "<SPC>")
+            (evil-leader/set-key
+              "b" 'switch-to-buffer)
             (modify-syntax-entry ?_ "w")))
 (setq-default evil-insert-state-cursor 'box)
 
