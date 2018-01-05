@@ -1,5 +1,8 @@
 #!/bin/bash
-ps -e | grep -v kill | grep emacs
+ps -e | grep emacs | grep daemon > /dev/null
 if [ $? -eq 0 ]; then
     emacsclient -e "(kill-emacs)"
+    echo 'kill emacs daemon success!'
+else
+    echo 'emacs daemon not found!'
 fi

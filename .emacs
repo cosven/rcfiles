@@ -7,12 +7,42 @@
 ;; 基础的设置（与第三方 package 无关的配置）
 ;;
 
+;; ----------------
+;; 自己写的一些函数
+;; ----------------
+(defun require-or-install-pkg (pkg)
+  "PKG is a package name."
+  (unless (package-installed-p pkg)
+    (package-refresh-contents)  ;; 重要
+    (package-install pkg)))
+
+(defun init-ui-look ()
+  "Init Emacs look."
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (fringe-mode -1)
+  (if (display-graphic-p)
+      (progn
+        (menu-bar-mode 1))
+    ;; hide org string since we show it on tmux status line
+    (setq-default org-mode-line-string nil))
+  (set-face-attribute 'default nil :font "Monaco 13")
+  (set-frame-font "Monaco 13" nil t))
+
+(defun cb-after-make-frame (frame)
+  "Callback of `after-make-frame-functions`."
+  (init-ui-look))
+
+;; -------------
+;; so many hooks
+;; -------------
+
 ;; 非常不好用的自动缩进 mode
 ;; (add-hook 'after-change-major-mode-hook
 ;;           (lambda()
 ;;             (when (not (derived-mode-p 'lisp-mode 'python-mode))
 ;;               (electric-indent-mode -1))))
-(global-auto-revert-mode)
+(add-hook 'after-make-frame-functions 'cb-after-make-frame)
 (add-hook 'eww-mode-hook
           (lambda()
             ;; 让背景看起来更正常
@@ -24,25 +54,18 @@
 (add-hook 'term-line-mode
           (lambda ()
             (setq show-trailing-whitespace nil)))
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook 'delete-trailing-lines)
+
+(init-ui-look)
+(global-auto-revert-mode)
+(xterm-mouse-mode 1)
 
 (setq-default cursor-type 'box)
-(set-default 'truncate-lines t)
-; (load-theme 'manoj-dark)
+(setq-default truncate-lines t)
 (setq-default eww-search-prefix "https://www.google.com/search?q=")
 (setq-default python-shell-completion-native-enable nil)
 (setq-default help-window-select t)
-(if (display-graphic-p)
-    (progn
-      (menu-bar-mode 1))
-  (setq-default mode-line-format nil)
-  ;; hide org string since we show it on tmux status line
-  (setq-default org-mode-line-string nil)
-  (menu-bar-mode -1))
-
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(fringe-mode -1)
-(xterm-mouse-mode 1)
 (setq vc-follow-symlinks t)
 (setq custom-file "~/.emacs-custom.el")
 (setq-default org-agenda-files '("~/coding/cosven.github.io/life"))
@@ -51,7 +74,6 @@
 (setq-default show-trailing-whitespace t)
 (setq-default c-default-style "linux"
               c-basic-offset 4)
-;; (add-to-list 'default-frame-alist '(width . 80))
 (setq default-frame-alist
       '(
         (top . 100)
@@ -59,11 +81,9 @@
         )
       )
 (global-set-key (kbd "C-c e")
-		(lambda () (interactive) (find-file user-init-file)))
-(set-face-attribute 'default nil :font "Monaco 13")
-(set-frame-font "Monaco 13" nil t)
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'before-save-hook 'delete-trailing-lines)
+		(lambda ()
+                  (interactive)
+                  (find-file user-init-file)))
 
 ;; key bindings
 (when (eq system-type 'darwin) ;; mac specific settings
@@ -79,15 +99,6 @@
 
 ;; 加载已经安装的包，这样子，之后 requrie 一个包就可以让该包生效
 (package-initialize)
-
-;; ----------------
-;; 自己写的一些函数
-;; ----------------
-(defun require-or-install-pkg (pkg)
-  "PKG is a package name."
-  (unless (package-installed-p pkg)
-    (package-refresh-contents)  ;; 重要
-    (package-install pkg)))
 
 ;; 安装一些包
 (require-or-install-pkg 'ace-jump-mode)
