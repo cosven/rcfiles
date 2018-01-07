@@ -26,6 +26,7 @@
         (menu-bar-mode 1))
     ;; hide org string since we show it on tmux status line
     (setq-default org-mode-line-string nil))
+  (menu-bar-mode -1)
   (set-face-attribute 'default nil :font "Monaco 13")
   (set-frame-font "Monaco 13" nil t))
 
@@ -158,8 +159,7 @@
           (lambda ()
             (global-evil-leader-mode)
             (evil-leader/set-leader "<SPC>")
-            (evil-leader/set-key
-              "b" 'switch-to-buffer)
+            (evil-leader/set-key "b" 'switch-to-buffer)
             (modify-syntax-entry ?_ "w")))
 (setq-default evil-insert-state-cursor 'box)
 
