@@ -1,5 +1,5 @@
 #!/bin/bash
-ps -e | grep emacs | grep daemon > /dev/null
+ps -e | grep Emacs > /dev/null
 if [ $? -eq 0 ]; then
     emacsclient -e "(org-clock-get-clock-string)" | cut -d'"' -f 2 -s
 fi

@@ -131,7 +131,7 @@
 (require-or-install-pkg 'diminish)
 (require-or-install-pkg 'groovy-mode)
 (require-or-install-pkg 'evil)
-(require-or-install-pkg 'evil-leader)
+(require-or-install-pkg 'general)
 ;; (require-or-install-pkg 'xah-fly-keys)
 (require-or-install-pkg 'page-break-lines)
 
@@ -154,14 +154,17 @@
 ;; ----------------------
 
 ;; put evil at first place to make others works well with evil
-(evil-mode 1)
-(add-hook 'evil-mode-hook
-          (lambda ()
-            (global-evil-leader-mode)
-            (evil-leader/set-leader "<SPC>")
-            (evil-leader/set-key "b" 'switch-to-buffer)
-            (modify-syntax-entry ?_ "w")))
-(setq-default evil-insert-state-cursor 'box)
+(when (package-installed-p 'evil)
+  (setq general-default-keymaps 'evil-normal-state-map)
+  (setq my-leader-default "<SPC>")
+  (general-define-key :prefix my-leader-default
+                      "f" 'projectile-find-file
+                      "b" 'switch-to-buffer)
+  (evil-mode 1)
+  (setq-default evil-insert-state-cursor 'box)
+  (add-hook 'evil-mode-hook
+            (lambda ()
+              (modify-syntax-entry ?_ "w"))))
 
 ;; -------------
 ;; ace-jump-mode
