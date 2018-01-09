@@ -130,8 +130,8 @@
 (require-or-install-pkg 'elpy)
 (require-or-install-pkg 'diminish)
 (require-or-install-pkg 'groovy-mode)
-(require-or-install-pkg 'evil)
-(require-or-install-pkg 'general)
+;; (require-or-install-pkg 'evil)
+;; (require-or-install-pkg 'general)
 ;; (require-or-install-pkg 'xah-fly-keys)
 (require-or-install-pkg 'page-break-lines)
 
@@ -162,9 +162,7 @@
                       "b" 'switch-to-buffer)
   (evil-mode 1)
   (setq-default evil-insert-state-cursor 'box)
-  (add-hook 'evil-mode-hook
-            (lambda ()
-              (modify-syntax-entry ?_ "w"))))
+  (modify-syntax-entry ?_ "w"))
 
 ;; -------------
 ;; ace-jump-mode
