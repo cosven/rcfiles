@@ -130,8 +130,8 @@
 (require-or-install-pkg 'elpy)
 (require-or-install-pkg 'diminish)
 (require-or-install-pkg 'groovy-mode)
-;; (require-or-install-pkg 'evil)
-;; (require-or-install-pkg 'general)
+(require-or-install-pkg 'evil)
+(require-or-install-pkg 'general)
 ;; (require-or-install-pkg 'xah-fly-keys)
 (require-or-install-pkg 'page-break-lines)
 
