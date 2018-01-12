@@ -27,11 +27,11 @@
     ;; hide org string since we show it on tmux status line
     (setq-default org-mode-line-string nil))
   (menu-bar-mode -1)
-  (set-face-attribute 'default nil :font "Monaco 13")
-  (set-frame-font "Monaco 13" nil t))
+  (set-face-attribute 'default nil :font "Monaco 14")
+  (set-frame-font "Monaco 14" nil t))
 
 (defun cb-after-make-frame (frame)
-  "Callback of `after-make-frame-functions`."
+  "Callback of after a FRAME made."
   (init-ui-look))
 
 ;; -------------
@@ -82,14 +82,14 @@
         )
       )
 (global-set-key (kbd "C-c e")
-		(lambda ()
-                  (interactive)
-                  (find-file user-init-file)))
+  (lambda ()
+    (interactive)  ;; interactive can turn a function to a command
+    (find-file user-init-file)))
 
 ;; key bindings
 (when (eq system-type 'darwin) ;; mac specific settings
   (setq mac-option-modifier 'meta)
-  (setq mac-command-modifier 'super)
+  (setq mac-command-modifier 'meta)
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
   )
 
@@ -134,6 +134,7 @@
 (require-or-install-pkg 'general)
 ;; (require-or-install-pkg 'xah-fly-keys)
 (require-or-install-pkg 'page-break-lines)
+(require-or-install-pkg 'all-the-icons)
 
 ;; 达不到保存 window layout 的效果
 ;;(require-or-install-pkg 'persp-mode)
@@ -155,12 +156,26 @@
 
 ;; put evil at first place to make others works well with evil
 (when (package-installed-p 'evil)
+  (evil-mode 1)
   (setq general-default-keymaps 'evil-normal-state-map)
   (setq my-leader-default "<SPC>")
   (general-define-key :prefix my-leader-default
                       "f" 'projectile-find-file
-                      "b" 'switch-to-buffer)
-  (evil-mode 1)
+                      "b" 'switch-to-buffer
+                      "p" 'projectile-switch-project
+                      "m" 'counsel-M-x
+                      "e" '(lambda ()
+                             (interactive)
+                             (find-file user-init-file))
+                      "r" '(lambda ()
+                             (interactive)
+                             (load-file user-init-file))
+                      "t" 'neotree-projectile-action
+                      )
+  (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+  (define-key evil-normal-state-map "tt" 'neotree-toggle)
   (setq-default evil-insert-state-cursor 'box)
   (modify-syntax-entry ?_ "w"))
 
@@ -327,16 +342,6 @@
    (highlight-indentation-mode -1)
    (setq company-idle-delay 1.5)))
 
-
-(defun my-local-pytest-runner (top file module test)
-  "Test the project using the local py.test test runner.
-
-This requires the pytest in ./bin directory"
-  (interactive (elpy-test-at-point))
-  (apply #'elpy-test-run top '("bin/py.test")))
-(put 'my-local-pytest-runner 'elpy-test-runner-p t)
-
-
 ;; -----
 ;; slack
 ;; -----
@@ -359,6 +364,18 @@ This requires the pytest in ./bin directory"
 (eyebrowse-mode t)
 (eyebrowse-setup-opinionated-keys)
 
+
+;; -------------
+;; all-the-icons
+;; -------------
+(if (package-installed-p 'all-the-icons)
+    (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+
 (load custom-file)
 (provide '.emacs)
+
+;; Local Variables:
+;; byte-compile-warnings: (not free-vars)
+;; End:
+
 ;;; .emacs ends here
