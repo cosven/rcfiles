@@ -19,6 +19,7 @@
 (defun init-ui-look ()
   "Init Emacs look."
   (tool-bar-mode -1)
+  ;; (load-theme 'sanityinc-tomorrow-bright)
   (scroll-bar-mode -1)
   (fringe-mode -1)
   (if (display-graphic-p)
@@ -63,6 +64,7 @@
 (global-auto-revert-mode)
 (xterm-mouse-mode 1)
 
+(setq-default inhibit-startup-screen t)
 (setq-default cursor-type 'box)
 (setq-default truncate-lines t)
 (setq-default eww-search-prefix "https://www.google.com/search?q=")
@@ -76,12 +78,8 @@
 (setq-default show-trailing-whitespace t)
 (setq-default c-default-style "linux"
               c-basic-offset 4)
-(setq default-frame-alist
-      '(
-        (top . 100)
-        (left . 600)
-        )
-      )
+(setq confirm-kill-emacs 'y-or-n-p)
+
 (global-set-key (kbd "C-c e")
   (lambda ()
     (interactive)  ;; interactive can turn a function to a command
@@ -173,11 +171,15 @@
                              (interactive)
                              (load-file user-init-file))
                       "t" 'neotree-projectile-action
+                      "." 'elpy-goto-definition
                       )
   (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
   (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
   (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+
   (define-key evil-normal-state-map "tt" 'neotree-toggle)
+  (define-key evil-normal-state-map "f" 'grep-curword)
+
   (setq-default evil-insert-state-cursor 'box)
   (modify-syntax-entry ?_ "w"))
 
@@ -205,12 +207,12 @@
 ;;
 (global-set-key (kbd "C-c g") 'counsel-git-grep)
 
-(defun grep-cur-word ()
+(defun grep-curword ()
   "Grep word under cursor in whole project."
   (interactive)
   (counsel-git-grep nil (thing-at-point 'word)))
 
-(global-set-key (kbd "C-c f") 'grep-cur-word)
+(global-set-key (kbd "C-c f") 'grep-curword)
 
 ;; ------------
 ;; company-mode
@@ -365,7 +367,6 @@
 
 (eyebrowse-mode t)
 (eyebrowse-setup-opinionated-keys)
-
 
 ;; -------------
 ;; all-the-icons
