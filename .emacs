@@ -72,7 +72,8 @@
 (setq-default help-window-select t)
 (setq vc-follow-symlinks t)
 (setq custom-file "~/.emacs-custom.el")
-(setq-default org-agenda-files '("~/coding/cosven.github.io/life"))
+(setq-default org-agenda-files '("~/coding/cosven.github.io/index.org"
+                                 "~/coding/cosven.github.io/life"))
 (setq-default org-log-done 'time)
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
@@ -135,6 +136,7 @@
 ;; (require-or-install-pkg 'xah-fly-keys)
 (require-or-install-pkg 'page-break-lines)
 (require-or-install-pkg 'all-the-icons)
+(require-or-install-pkg 'org-pomodoro)
 
 ;; 达不到保存 window layout 的效果
 ;;(require-or-install-pkg 'persp-mode)
@@ -180,7 +182,7 @@
   (define-key evil-normal-state-map "tt" 'neotree-toggle)
   (define-key evil-normal-state-map "f" 'grep-curword)
 
-  (setq-default evil-insert-state-cursor 'box)
+  ;; (setq-default evil-insert-state-cursor 'box)
   (modify-syntax-entry ?_ "w"))
 
 ;; -------------
