@@ -157,7 +157,7 @@
 ;; ----------------------
 
 ;; put evil at first place to make others works well with evil
-(when (package-installed-p 'evil)
+(when (and (package-installed-p 'evil) nil)
   (evil-mode 1)
   (setq general-default-keymaps 'evil-normal-state-map)
   (setq my-leader-default "<SPC>")
@@ -377,6 +377,8 @@
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
 (load custom-file)
+(custom-set-variables
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-bright))))
 (provide '.emacs)
 
 ;; Local Variables:
