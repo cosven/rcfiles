@@ -157,7 +157,7 @@
 ;; ----------------------
 
 ;; put evil at first place to make others works well with evil
-(when (and (package-installed-p 'evil) nil)
+(when (and (package-installed-p 'evil) t)
   (evil-mode 1)
   (setq general-default-keymaps 'evil-normal-state-map)
   (setq my-leader-default "<SPC>")
