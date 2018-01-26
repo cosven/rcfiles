@@ -157,33 +157,33 @@
 ;; ----------------------
 
 ;; put evil at first place to make others works well with evil
-(when (and (package-installed-p 'evil) t)
-  (evil-mode 1)
-  (setq general-default-keymaps 'evil-normal-state-map)
-  (setq my-leader-default "<SPC>")
-  (general-define-key :prefix my-leader-default
-                      "f" 'projectile-find-file
-                      "b" 'switch-to-buffer
-                      "p" 'projectile-switch-project
-                      "m" 'counsel-M-x
-                      "e" '(lambda ()
-                             (interactive)
-                             (find-file user-init-file))
-                      "r" '(lambda ()
-                             (interactive)
-                             (load-file user-init-file))
-                      "t" 'neotree-projectile-action
-                      "." 'elpy-goto-definition
-                      )
-  (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+(add-hook 'evil-mode-hook
+  (lambda ()
+    (setq general-default-keymaps 'evil-normal-state-map)
+    (setq my-leader-default "<SPC>")
+    (general-define-key :prefix my-leader-default
+                        "f" 'projectile-find-file
+                        "b" 'switch-to-buffer
+                        "p" 'projectile-switch-project
+                        "m" 'counsel-M-x
+                        "e" '(lambda ()
+                               (interactive)
+                               (find-file user-init-file))
+                        "r" '(lambda ()
+                               (interactive)
+                               (load-file user-init-file))
+                        "t" 'neotree-projectile-action
+                        "." 'elpy-goto-definition
+                        )
+    (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+    (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+    (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 
-  (define-key evil-normal-state-map "tt" 'neotree-toggle)
-  (define-key evil-normal-state-map "f" 'grep-curword)
+    (define-key evil-normal-state-map "tt" 'neotree-toggle)
+    (define-key evil-normal-state-map "f" 'grep-curword)
 
-  ;; (setq-default evil-insert-state-cursor 'box)
-  (modify-syntax-entry ?_ "w"))
+    ;; (setq-default evil-insert-state-cursor 'box)
+    (modify-syntax-entry ?_ "w")))
 
 ;; -------------
 ;; ace-jump-mode
