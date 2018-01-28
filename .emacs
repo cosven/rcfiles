@@ -1,12 +1,10 @@
 ;;; package --- Summary
 ;;; Commentary:
 ;; Emacs config created by cosven
-nnn
 ;;; Code:
 ;;
 ;; 基础的设置（与第三方 package 无关的配置）
 ;;
-nnnnnnnn
 ;; ----------------
 ;; 自己写的一些函数
 ;; ----------------
@@ -127,13 +125,12 @@ nnnnnnnn
 (require-or-install-pkg 'multiple-cursors)
 (require-or-install-pkg 'color-theme-solarized)
 (require-or-install-pkg 'zenburn-theme)
-(require-or-install-pkg 'kaolin-themes)
+;; (require-or-install-pkg 'kaolin-themes)
 (require-or-install-pkg 'color-theme-sanityinc-tomorrow)
 (require-or-install-pkg 'color-theme-sanityinc-solarized)
 (require-or-install-pkg 'undo-tree)
 ;; (require-or-install-pkg 'git-gutter-fringe)
 ;; (require-or-install-pkg 'nyan-mode)
-(require-or-install-pkg 'ob-Python)
 (require-or-install-pkg 'markdown-mode)
 (require-or-install-pkg 'elpy)
 (require-or-install-pkg 'diminish)
