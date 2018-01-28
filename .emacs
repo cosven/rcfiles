@@ -1,12 +1,12 @@
 ;;; package --- Summary
 ;;; Commentary:
 ;; Emacs config created by cosven
-
+nnn
 ;;; Code:
 ;;
 ;; 基础的设置（与第三方 package 无关的配置）
 ;;
-
+nnnnnnnn
 ;; ----------------
 ;; 自己写的一些函数
 ;; ----------------
@@ -80,11 +80,17 @@
 (setq-default c-default-style "linux"
               c-basic-offset 4)
 (setq confirm-kill-emacs 'y-or-n-p)
+(setq-default org-babel-python-command "Python3")
+(setq-default org-babel-sh-command "bash")
 
 (global-set-key (kbd "C-c e")
   (lambda ()
     (interactive)  ;; interactive can turn a function to a command
     (find-file user-init-file)))
+(org-babel-do-load-languages 'org-babel-load-languages
+                             '((python . t)
+                               (sh . t)
+                               (C . t)))
 
 ;; key bindings
 (when (eq system-type 'darwin) ;; mac specific settings
@@ -127,6 +133,7 @@
 (require-or-install-pkg 'undo-tree)
 ;; (require-or-install-pkg 'git-gutter-fringe)
 ;; (require-or-install-pkg 'nyan-mode)
+(require-or-install-pkg 'ob-Python)
 (require-or-install-pkg 'markdown-mode)
 (require-or-install-pkg 'elpy)
 (require-or-install-pkg 'diminish)
