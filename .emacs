@@ -17,7 +17,6 @@
 (defun init-ui-look ()
   "Init Emacs look."
   (tool-bar-mode -1)
-  ;; (load-theme 'sanityinc-tomorrow-bright)
   (global-linum-mode 1)
   (fringe-mode 1)
   (scroll-bar-mode -1)
@@ -59,10 +58,12 @@
             (setq show-trailing-whitespace nil)))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'before-save-hook 'delete-trailing-lines)
+(add-hook 'after-init-hook 'fringe-mode)
 
 (init-ui-look)
 (global-auto-revert-mode)
 (xterm-mouse-mode 1)
+(electric-pair-mode 1)
 
 (setq-default inhibit-startup-screen t)
 (setq-default cursor-type 'box)
@@ -87,6 +88,7 @@
   (lambda ()
     (interactive)  ;; interactive can turn a function to a command
     (find-file user-init-file)))
+(global-set-key [f2] 'neotree-toggle)
 (org-babel-do-load-languages 'org-babel-load-languages
                              '((python . t)
                                (sh . t)
@@ -131,6 +133,8 @@
 (require-or-install-pkg 'color-theme-sanityinc-tomorrow)
 (require-or-install-pkg 'color-theme-sanityinc-solarized)
 (require-or-install-pkg 'undo-tree)
+(require-or-install-pkg 'sml-modeline)
+;; (require-or-install-pkg 'powerline)
 ;; (require-or-install-pkg 'git-gutter-fringe)
 ;; (require-or-install-pkg 'nyan-mode)
 (require-or-install-pkg 'markdown-mode)
@@ -376,6 +380,16 @@
 
 (eyebrowse-mode t)
 (eyebrowse-setup-opinionated-keys)
+(setq-default eyebrowse-mode-line-style nil)
+(setq frame-title-format
+      '("%b" "\t" (:eval (concat "["
+         (string-join
+          (--map
+           (car it)
+           (--map (cons (eyebrowse-format-slot it) (car it))
+                  (eyebrowse--get 'window-configs)))
+          ", ")
+         "]"))))
 
 ;; -------------
 ;; all-the-icons
@@ -383,12 +397,19 @@
 (if (package-installed-p 'all-the-icons)
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
+;; --------
+;; modeline
+;; --------
+;; (powerline-default-theme)
+(sml-modeline-mode)
+
+
 (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
     (load "~/coding/emacs-fuo/fuo.el"))
 
 (load custom-file)
-(custom-set-variables
- '(custom-enabled-themes (quote (sanityinc-tomorrow-bright))))
+;;(custom-set-variables
+;; '(custom-enabled-themes (quote (sanityinc-tomorrow-bright))))
 (provide '.emacs)
 
 ;; Local Variables:
