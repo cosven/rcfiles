@@ -20,7 +20,8 @@
   (global-linum-mode 1)
   (fringe-mode 1)
   (scroll-bar-mode -1)
-
+  (fringe-mode)
+  (global-linum-mode 1)
   (if (display-graphic-p)
       (progn
         (menu-bar-mode 1))
@@ -44,6 +45,7 @@
 ;;             (when (not (derived-mode-p 'lisp-mode 'python-mode))
 ;;               (electric-indent-mode -1))))
 (modify-syntax-entry ?_ "w")
+(electric-pair-mode 1)
 (add-hook 'after-make-frame-functions 'cb-after-make-frame)
 (add-hook 'eww-mode-hook
           (lambda()
@@ -407,6 +409,8 @@
 (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
     (load "~/coding/emacs-fuo/fuo.el"))
 
+(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
+  (load "~/coding/emacs-fuo/fuo.el"))
 (load custom-file)
 ;;(custom-set-variables
 ;; '(custom-enabled-themes (quote (sanityinc-tomorrow-bright))))
