@@ -18,8 +18,10 @@
   "Init Emacs look."
   (tool-bar-mode -1)
   ;; (load-theme 'sanityinc-tomorrow-bright)
+  (global-linum-mode 1)
+  (fringe-mode 1)
   (scroll-bar-mode -1)
-  (fringe-mode -1)
+
   (if (display-graphic-p)
       (progn
         (menu-bar-mode 1))
@@ -116,7 +118,7 @@
 (require-or-install-pkg 'neotree)
 (require-or-install-pkg 'counsel-projectile)
 (require-or-install-pkg 'org)
-;; (require-or-install-pkg 'company)
+(require-or-install-pkg 'company)
 ;; (require-or-install-pkg 'auto-complete)
 (require-or-install-pkg 'ace-window)
 (require-or-install-pkg 'web-mode)
@@ -224,7 +226,7 @@
 ;; company-mode
 ;; ------------
 
-; (add-hook 'after-init-hook 'global-company-mode)
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; ----------
 ;; projectile
@@ -267,6 +269,7 @@
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\*fuo\\*\\'" . fuo-mode))
 (setq-default web-mode-enable-auto-indentation nil)
 (setq-default web-mode-code-indent-offset 2)
 
@@ -379,6 +382,9 @@
 ;; -------------
 (if (package-installed-p 'all-the-icons)
     (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+
+(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
+    (load "~/coding/emacs-fuo/fuo.el"))
 
 (load custom-file)
 (custom-set-variables
