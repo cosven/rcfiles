@@ -137,7 +137,7 @@
 (require-or-install-pkg 'undo-tree)
 (require-or-install-pkg 'sml-modeline)
 ;; (require-or-install-pkg 'powerline)
-;; (require-or-install-pkg 'git-gutter-fringe)
+(require-or-install-pkg 'git-gutter-fringe)
 ;; (require-or-install-pkg 'nyan-mode)
 (require-or-install-pkg 'markdown-mode)
 (require-or-install-pkg 'elpy)
@@ -148,7 +148,7 @@
 ;; (require-or-install-pkg 'xah-fly-keys)
 (require-or-install-pkg 'page-break-lines)
 (require-or-install-pkg 'all-the-icons)
-(require-or-install-pkg 'org-pomodoro)
+;; (require-or-install-pkg 'org-pomodoro)
 
 ;; 达不到保存 window layout 的效果
 ;;(require-or-install-pkg 'persp-mode)
@@ -174,28 +174,41 @@
     (setq general-default-keymaps 'evil-normal-state-map)
     (setq my-leader-default "<SPC>")
     (general-define-key :prefix my-leader-default
-                        "f" 'projectile-find-file
                         "b" 'switch-to-buffer
-                        "p" 'projectile-switch-project
-                        "m" 'counsel-M-x
                         "e" '(lambda ()
                                (interactive)
                                (find-file user-init-file))
                         "r" '(lambda ()
                                (interactive)
                                (load-file user-init-file))
-                        "t" 'neotree-projectile-action
                         "." 'elpy-goto-definition
                         )
+    (general-define-key
+     "<SPC> p" '(:keymap projectile-command-map :package projectile))
+    (general-define-key
+     "<SPC> g" '(:keymap magit-mode-map :package magit))
+    (general-define-key
+     "<SPC> f" '(:keymap fuo-mode-map :package fuo))
+
     (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
     (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
     (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 
     (define-key evil-normal-state-map "tt" 'neotree-toggle)
-    (define-key evil-normal-state-map "f" 'grep-curword)
+    (define-key evil-normal-state-map "f" 'counsel-git-grep)
+
+    ;; unix keymap
+    (define-key evil-insert-state-map (kbd "\C-k") 'kill-line)
+    (define-key evil-insert-state-map (kbd "\C-a") 'move-beginning-of-line)
+    (define-key evil-motion-state-map (kbd "\C-e") 'move-end-of-line)
+    (define-key evil-insert-state-map (kbd "\C-n") 'next-line)
+    (define-key evil-normal-state-map (kbd "\C-n") 'next-line)
+    (define-key evil-insert-state-map (kbd "\C-p") 'previous-line)
+    (define-key evil-normal-state-map (kbd "\C-p") 'previous-line)
 
     ;; (setq-default evil-insert-state-cursor 'box)
     (modify-syntax-entry ?_ "w")))
+(evil-mode 1)
 
 ;; -------------
 ;; ace-jump-mode
@@ -312,7 +325,7 @@
 ;; git-gutter-fringe
 ;; -----------------
 
-;; (global-git-gutter-mode)
+(global-git-gutter-mode)
 
 ;; --------
 ;; diminish
@@ -409,8 +422,15 @@
 (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
     (load "~/coding/emacs-fuo/fuo.el"))
 
-(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
-  (load "~/coding/emacs-fuo/fuo.el"))
+;; ---
+;; fuo
+;; ---
+
+;; (add-hook 'evil-mode-hook
+;;           (lambda ()
+;;             (evil-define-key 'normal fuo-mode-map
+;;               (kbd "<return>") 'fuo--play-current-line-song)))
+
 (load custom-file)
 ;;(custom-set-variables
 ;; '(custom-enabled-themes (quote (sanityinc-tomorrow-bright))))
