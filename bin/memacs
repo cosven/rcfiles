@@ -1,0 +1,3 @@
+#!/bin/bash
+
+emacsclient -c --no-wait $@

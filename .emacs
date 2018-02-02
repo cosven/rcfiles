@@ -27,7 +27,7 @@
         (menu-bar-mode 1))
     ;; hide org string since we show it on tmux status line
     (setq-default org-mode-line-string nil))
-  (menu-bar-mode -1)
+    (menu-bar-mode -1)
   (set-face-attribute 'default nil :font "Monaco 14")
   (set-frame-font "Monaco 14" nil t))
 
@@ -59,7 +59,6 @@
           (lambda ()
             (setq show-trailing-whitespace nil)))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'before-save-hook 'delete-trailing-lines)
 (add-hook 'after-init-hook 'fringe-mode)
 
 (init-ui-look)
@@ -77,6 +76,8 @@
 (setq custom-file "~/.emacs-custom.el")
 (setq-default org-agenda-files '("~/coding/cosven.github.io/index.org"
                                  "~/coding/cosven.github.io/life"))
+(setq-default imenu-list-focus-after-activation t)
+(setq-default imenu-list-size 35)
 (setq-default org-log-done 'time)
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
@@ -126,6 +127,7 @@
 ;; (require-or-install-pkg 'auto-complete)
 (require-or-install-pkg 'ace-window)
 (require-or-install-pkg 'web-mode)
+(require-or-install-pkg 'js2-mode)
 (require-or-install-pkg 'exec-path-from-shell)
 (require-or-install-pkg 'goto-last-change)
 (require-or-install-pkg 'multiple-cursors)
@@ -195,18 +197,21 @@
     (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 
     (define-key evil-normal-state-map "tt" 'neotree-toggle)
+    (define-key evil-normal-state-map "tb" 'imenu-list-smart-toggle)
     (define-key evil-normal-state-map "f" 'counsel-git-grep)
 
     ;; unix keymap
     (define-key evil-insert-state-map (kbd "\C-k") 'kill-line)
+    (define-key evil-insert-state-map (kbd "\C-d") 'delete-forward-char)
     (define-key evil-insert-state-map (kbd "\C-a") 'move-beginning-of-line)
+    (define-key evil-insert-state-map (kbd "\C-e") 'move-end-of-line)
     (define-key evil-motion-state-map (kbd "\C-e") 'move-end-of-line)
     (define-key evil-insert-state-map (kbd "\C-n") 'next-line)
     (define-key evil-normal-state-map (kbd "\C-n") 'next-line)
     (define-key evil-insert-state-map (kbd "\C-p") 'previous-line)
-    (define-key evil-normal-state-map (kbd "\C-p") 'previous-line)
+    (define-key evil-normal-state-map (kbd "\C-p") 'projectile-find-file)
 
-    ;; (setq-default evil-insert-state-cursor 'box)
+    (setq-default evil-insert-state-cursor 'box)
     (modify-syntax-entry ?_ "w")))
 (evil-mode 1)
 
@@ -267,7 +272,7 @@
 ;; ----------
 ;; ace-window
 ;; ----------
-(global-set-key (kbd "M-p") 'ace-window)
+(global-set-key (kbd "M-o") 'ace-window)
 
 
 ;; --------------------
@@ -276,9 +281,9 @@
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
-;; --------
-;; web-mode
-;; --------
+;; ---------------------
+;; web-mode and js2-mode
+;; ---------------------
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.js?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
@@ -289,14 +294,24 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\*fuo\\*\\'" . fuo-mode))
-(setq-default web-mode-enable-auto-indentation nil)
+(setq-default web-mode-enable-auto-indentation t)
 (setq-default web-mode-code-indent-offset 2)
 
-(add-hook 'web-mode-hook
-          (lambda ()
-            (electric-indent-local-mode -1)
-            (setq tab-stop-list [2, 4, 6, 8, 10])
-            (setq tab-width 2)))
+(defun init-web-settings ()
+  "Init web settings."
+  (interactive)
+  ;; (electric-indent-local-mode -1)
+  (setq tab-stop-list [2, 4, 6, 8, 10])
+  (setq tab-width 2)
+  )
+
+(add-hook 'web-mode-hook 'init-web-settings)
+(add-hook 'js2-mode-hook 'init-web-settings)
+(setq js2-strict-missing-semi-warning nil)
+(setq js2-missing-semi-one-line-override nil)
+(setq js-indent-level 2)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 
 ;; ----------------
 ;; goto-last-chagne
