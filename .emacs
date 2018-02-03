@@ -309,6 +309,7 @@
 (add-hook 'js2-mode-hook 'init-web-settings)
 (setq js2-strict-missing-semi-warning nil)
 (setq js2-missing-semi-one-line-override nil)
+(setq js2-strict-trailing-comma-warning nil)
 (setq js-indent-level 2)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
