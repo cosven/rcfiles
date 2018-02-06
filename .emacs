@@ -45,7 +45,6 @@
 ;;             (when (not (derived-mode-p 'lisp-mode 'python-mode))
 ;;               (electric-indent-mode -1))))
 (modify-syntax-entry ?_ "w")
-;; (electric-pair-mode nil)
 (add-hook 'after-make-frame-functions 'cb-after-make-frame)
 (add-hook 'eww-mode-hook
           (lambda()
@@ -64,7 +63,7 @@
 (init-ui-look)
 (global-auto-revert-mode)
 (xterm-mouse-mode 1)
-(electric-pair-mode 1)
+(electric-pair-mode nil)
 
 (setq-default inhibit-startup-screen t)
 (setq-default cursor-type 'box)
