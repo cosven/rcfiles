@@ -45,7 +45,7 @@
 ;;             (when (not (derived-mode-p 'lisp-mode 'python-mode))
 ;;               (electric-indent-mode -1))))
 (modify-syntax-entry ?_ "w")
-(electric-pair-mode 1)
+;; (electric-pair-mode nil)
 (add-hook 'after-make-frame-functions 'cb-after-make-frame)
 (add-hook 'eww-mode-hook
           (lambda()
@@ -200,15 +200,16 @@
     (define-key evil-normal-state-map "tb" 'imenu-list-smart-toggle)
     (define-key evil-normal-state-map "f" 'counsel-git-grep)
 
-    ;; unix keymap
+    ;; try to use emacs key in insert mode
     (define-key evil-insert-state-map (kbd "\C-k") 'kill-line)
     (define-key evil-insert-state-map (kbd "\C-d") 'delete-forward-char)
     (define-key evil-insert-state-map (kbd "\C-a") 'move-beginning-of-line)
     (define-key evil-insert-state-map (kbd "\C-e") 'move-end-of-line)
-    (define-key evil-motion-state-map (kbd "\C-e") 'move-end-of-line)
     (define-key evil-insert-state-map (kbd "\C-n") 'next-line)
-    (define-key evil-normal-state-map (kbd "\C-n") 'next-line)
     (define-key evil-insert-state-map (kbd "\C-p") 'previous-line)
+    (define-key evil-insert-state-map (kbd "\C-v") 'scroll-up-command)
+    (define-key evil-insert-state-map (kbd "\C-y") 'yank)
+
     (define-key evil-normal-state-map (kbd "\C-p") 'projectile-find-file)
 
     (setq-default evil-insert-state-cursor 'box)
