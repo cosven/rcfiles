@@ -17,7 +17,7 @@
 (defun init-ui-look ()
   "Init Emacs look."
   (tool-bar-mode -1)
-  (global-linum-mode 1)
+  ;; (global-linum-mode 1)
   (fringe-mode 1)
   (scroll-bar-mode -1)
   (fringe-mode)
@@ -386,9 +386,11 @@
 ;; ----
 (elpy-enable)
 (add-hook 'elpy-mode-hook
- (lambda ()
-   (highlight-indentation-mode -1)
-   (setq company-idle-delay 1.5)))
+          (lambda ()
+            (setq python-shell-interpreter "ipython"
+                  python-shell-interpreter-args "-i --simple-prompt")
+            (highlight-indentation-mode -1)
+            (setq company-idle-delay 1.5)))
 
 ;; -----
 ;; slack

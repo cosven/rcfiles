@@ -43,3 +43,6 @@ end
 
 
 [ -f /Users/cosven/zhihu/wen/zae-cli/auto_completion/zae_fish ]; and source /Users/cosven/zhihu/wen/zae-cli/auto_completion/zae_fish
+
+test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
+
