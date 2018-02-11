@@ -321,7 +321,7 @@ let g:utl_cfg_hdl_scm_http_system = "silent !open '%u'"
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 let g:markdown_syntax_conceal = 0
 let g:vim_json_syntax_conceal = 0
-let g:syntastic_python_python_exec = '/usr/local/bin/python3'
+" let g:syntastic_python_python_exec = '/usr/local/bin/python3'
 let g:syntastic_python_checkers = ['flake8']
 let g:syntastic_html_tidy_ignore_errors = [
             \ 'trimming empty <i>',
@@ -387,14 +387,14 @@ let g:jedi#documentation_command = "<leader>js"
 
 autocmd BufWinEnter '__doc__' setlocal bufhidden=delete
 
-let g:python_host_prog = '/usr/local/bin/python'
+" let g:python_host_prog = '/usr/local/bin/python'
 
 " FIXME
-if has('mac')
-    let g:python3_host_prog = '/usr/local/bin/python3'
-else
-    let g:python3_host_prog = '/home/wen/miniconda3/bin/python3'
-endif
+" if has('mac')
+"    let g:python3_host_prog = '/usr/local/bin/python3'
+" else
+"     let g:python3_host_prog = '/home/wen/miniconda3/bin/python3'
+" endif
 
 " Align GitHub-flavored Markdown tables
 au FileType markdown vmap <Leader><Bslash> :EasyAlign*<Bar><Enter>

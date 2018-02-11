@@ -17,9 +17,7 @@
 (defun init-ui-look ()
   "Init Emacs look."
   (tool-bar-mode -1)
-  (fringe-mode 1)
   (scroll-bar-mode -1)
-  (fringe-mode)
   ;; (global-linum-mode -1)
   (if (display-graphic-p)
       (progn
@@ -28,10 +26,10 @@
     (setq-default org-mode-line-string nil))
   (menu-bar-mode -1)
   (when (eq system-type 'darwin)
+    ;; (set-face-attribute 'default nil :font "Source Code Pro 14")
     (set-face-attribute 'default nil :font "Monaco 14")
-    (set-frame-font "Monaco 14" nil t)))
-
-
+    ;; (set-frame-font "Monaco 14" nil t)
+    ))
 
 (defun cb-after-make-frame (frame)
   "Callback of after a FRAME made."
@@ -60,22 +58,21 @@
           (lambda ()
             (setq show-trailing-whitespace nil)))
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'after-init-hook 'fringe-mode)
+;;; (add-hook 'after-init-hook 'fringe-mode)
 
 (init-ui-look)
 (global-auto-revert-mode)
 (xterm-mouse-mode 1)
-(electric-pair-mode nil)
+(electric-pair-mode -1)
 
 ;; emacs welcome page
 (setq-default inhibit-startup-screen nil)
 (setq-default cursor-type 'box)
 (setq-default truncate-lines t)
 (setq-default eww-search-prefix "https://www.google.com/search?q=")
-(setq-default python-shell-completion-native-enable nil)
+;; (setq-default python-shell-completion-native-enable nil)
 (setq-default help-window-select t)
 (setq vc-follow-symlinks t)
-(setq custom-file "~/.emacs-custom.el")
 (setq-default org-agenda-files '("~/coding/cosven.github.io/index.org"
                                  "~/coding/cosven.github.io/life"))
 (setq-default imenu-list-focus-after-activation t)
@@ -139,13 +136,19 @@
 (require-or-install-pkg 'color-theme-sanityinc-tomorrow)
 (require-or-install-pkg 'color-theme-sanityinc-solarized)
 (require-or-install-pkg 'undo-tree)
-(require-or-install-pkg 'sml-modeline)
+
+;; These two will make emacsclient behave strange in terminal
+(require-or-install-pkg 'diminish)
+;; (require-or-install-pkg 'sml-modeline)
+
 ;; (require-or-install-pkg 'powerline)
 (require-or-install-pkg 'git-gutter-fringe)
 ;; (require-or-install-pkg 'nyan-mode)
 (require-or-install-pkg 'markdown-mode)
-(require-or-install-pkg 'elpy)
-(require-or-install-pkg 'diminish)
+;;(require-or-install-pkg 'elpy)
+(require-or-install-pkg 'anaconda-mode)
+(require-or-install-pkg 'company-anaconda)
+
 (require-or-install-pkg 'groovy-mode)
 (require-or-install-pkg 'evil)
 (require-or-install-pkg 'general)
@@ -160,11 +163,12 @@
 ;; eyebrowse 有 spacemacs 背书
 ;; (require-or-install-pkg 'perspeen)
 (require-or-install-pkg 'eyebrowse)
+
 (require-or-install-pkg 'which-key)
 
-(when (>= emacs-major-version 25)
-  (require-or-install-pkg 'fill-column-indicator)
-  (fci-mode 1))
+;; (when (>= emacs-major-version 25)
+;;   (require-or-install-pkg 'fill-column-indicator)
+;;   (fci-mode 1))
 
 ;; 三方库相关配置
 
@@ -185,7 +189,6 @@
                         "r" '(lambda ()
                                (interactive)
                                (load-file user-init-file))
-                        "." 'elpy-goto-definition
                         )
     (general-define-key
      "<SPC> p" '(:keymap projectile-command-map :package projectile))
@@ -216,7 +219,7 @@
 
     (setq-default evil-insert-state-cursor 'box)
     (modify-syntax-entry ?_ "w")))
-(evil-mode nil)
+(evil-mode -1)
 
 ;; -------------
 ;; ace-jump-mode
@@ -258,8 +261,10 @@
 ;; ----------
 ;; projectile
 ;; ----------
+(if (>= emacs-major-version 25)
+    (counsel-projectile-on)
+  (counsel-projectile-mode))
 
-;; (counsel-projectile-on)
 (projectile-mode)
 (setq-default projectile-enable-caching t)
 
@@ -346,19 +351,6 @@
 
 (global-git-gutter-mode)
 
-;; --------
-;; diminish
-;; --------
-
-(diminish 'projectile-mode "PRJ")
-(eval-after-load 'company
-  '(diminish 'company-mode "CMP"))
-(diminish 'undo-tree-mode)
-
-;; for major mode
-(add-hook 'python-mode
-          (lambda()
-            (setq mode-name "Py")))
 
 ;;; ---
 ;;; org
@@ -384,16 +376,12 @@
 ;; -------------
 ;; (ac-config-default)
 
-;; ----
-;; elpy
-;; ----
-(elpy-enable)
-(add-hook 'elpy-mode-hook
-          (lambda ()
-            (setq python-shell-interpreter "ipython"
-                  python-shell-interpreter-args "-i --simple-prompt")
-            (highlight-indentation-mode -1)
-            (setq company-idle-delay 1.5)))
+;; ----------
+;; Python IDE
+;; ----------
+(add-hook 'python-mode-hook 'anaconda-mode)
+(eval-after-load "company"
+                 '(add-to-list 'company-backends 'company-anaconda))
 
 ;; -----
 ;; slack
@@ -437,11 +425,27 @@
 ;; modeline
 ;; --------
 ;; (powerline-default-theme)
-(sml-modeline-mode)
+;; (sml-modeline-mode)
 
 
 (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
     (load "~/coding/emacs-fuo/fuo.el"))
+
+
+;; --------
+;; diminish
+;; --------
+
+(diminish 'projectile-mode)
+(diminish 'git-gutter-mode)
+(diminish 'company-mode)
+(add-hook 'company-mode-hook
+          (lambda ()
+            (diminish 'company-mode)
+            ))
+(diminish 'undo-tree-mode)
+(diminish 'which-key-mode)
+(diminish 'ivy-mode)
 
 ;; ---
 ;; fuo
@@ -452,7 +456,10 @@
 ;;             (evil-define-key 'normal fuo-mode-map
 ;;               (kbd "<return>") 'fuo--play-current-line-song)))
 
-(load custom-file)
+(setq custom-file "~/.emacs-custom.el")
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 ;;(custom-set-variables
 ;; '(custom-enabled-themes (quote (sanityinc-tomorrow-bright))))
 (provide '.emacs)
