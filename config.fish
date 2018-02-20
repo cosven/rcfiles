@@ -1,9 +1,9 @@
-function fish_prompt
-    set_color $fish_color_cwd
-    echo -n (prompt_pwd)
-    set_color normal
-    echo -n ' > '
-end
+# function fish_prompt
+#     set_color $fish_color_cwd
+#     echo -n (prompt_pwd)
+#     set_color normal
+#     echo -n ' > '
+# end
 
 export SERVICE_DISCOVERY_URI=consul://discovery.dev.zhihu.com
 if test -e /etc/debian_version
@@ -23,8 +23,8 @@ else
 end
 
 abbr -a ec emacsclient -t
-# set -x -g LC_ALL en_US.UTF-8
-# set -x -g LANG en_US.UTF-8
+set -x -g LC_ALL en_US.UTF-8
+set -x -g LANG en_US.UTF-8
 abbr -a g git
 abbr -a jp 'python -m json.tool | pygmentize -l javascript'
 abbr -a edit medit
@@ -42,7 +42,4 @@ else
 end
 
 
-[ -f /Users/cosven/zhihu/wen/zae-cli/auto_completion/zae_fish ]; and source /Users/cosven/zhihu/wen/zae-cli/auto_completion/zae_fish
-
-test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish
-
+# test -e {$HOME}/.iterm2_shell_integration.fish ; and source {$HOME}/.iterm2_shell_integration.fish

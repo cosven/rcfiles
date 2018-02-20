@@ -1,0 +1,8 @@
+#!/bin/bash
+
+str=`fuocli status 2>/dev/null | grep "lyric\-s" | cut -f 2 -d":"`
+if [ $? -eq 0 ]; then
+    echo $str
+else
+    echo ''
+fi

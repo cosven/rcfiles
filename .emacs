@@ -405,15 +405,6 @@
 (eyebrowse-mode t)
 (eyebrowse-setup-opinionated-keys)
 (setq-default eyebrowse-mode-line-style nil)
-(setq frame-title-format
-      '("%b" "\t" (:eval (concat "["
-         (string-join
-          (--map
-           (car it)
-           (--map (cons (eyebrowse-format-slot it) (car it))
-                  (eyebrowse--get 'window-configs)))
-          ", ")
-         "]"))))
 
 ;; -------------
 ;; all-the-icons
@@ -455,6 +446,18 @@
 ;;           (lambda ()
 ;;             (evil-define-key 'normal fuo-mode-map
 ;;               (kbd "<return>") 'fuo--play-current-line-song)))
+
+(setq frame-title-format
+      '("%b" "\t" (:eval (concat "["
+         (string-join
+          (--map
+           (car it)
+           (--map (cons (eyebrowse-format-slot it) (car it))
+                  (eyebrowse--get 'window-configs)))
+          ", ")
+         "]"))
+        )
+      )
 
 (setq custom-file "~/.emacs-custom.el")
 (when (file-exists-p custom-file)
