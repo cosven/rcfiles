@@ -169,7 +169,8 @@
 (require-or-install-pkg 'eyebrowse)
 
 (require-or-install-pkg 'which-key)
-
+(require-or-install-pkg 'edit-server)
+(require-or-install-pkg 'fuo)
 ;; (when (>= emacs-major-version 25)
 ;;   (require-or-install-pkg 'fill-column-indicator)
 ;;   (fci-mode 1))
@@ -308,6 +309,8 @@
 (add-to-list 'auto-mode-alist '("\\*fuo\\*\\'" . fuo-mode))
 (setq-default web-mode-enable-auto-indentation t)
 (setq-default web-mode-code-indent-offset 2)
+(setq-default web-mode-markup-indent-offset 2)
+(setq-default web-mode-css-indent-offset 2)
 
 (defun init-web-settings ()
   "Init web settings."
@@ -423,8 +426,8 @@
 ;; (sml-modeline-mode)
 
 
-(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
-    (load "~/coding/emacs-fuo/fuo.el"))
+;;(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
+;;    (load "~/coding/emacs-fuo/fuo.el"))
 
 
 ;; --------
