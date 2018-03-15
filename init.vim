@@ -205,7 +205,7 @@ let g:pydiction_menu_height = 3
 
 set termguicolors
 " colorscheme Tomorrow-Night-Bright
-set background=dark
+" set background=dark
 let g:rainbow_active = 1
 
 let g:neosolarized_contrast = "normal"
