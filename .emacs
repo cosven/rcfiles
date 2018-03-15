@@ -470,6 +470,9 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+;;(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
+;;  (load "~/coding/emacs-fuo/fuo.el"))
+
 ;;(custom-set-variables
 ;; '(custom-enabled-themes (quote (sanityinc-tomorrow-bright))))
 (provide '.emacs)
