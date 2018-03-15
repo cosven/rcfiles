@@ -83,8 +83,17 @@
 (setq-default c-default-style "linux"
               c-basic-offset 4)
 (setq confirm-kill-emacs 'y-or-n-p)
-(setq-default org-babel-python-command "Python3")
+(setq-default org-babel-python-command "python3")
 (setq-default org-babel-sh-command "bash")
+
+(setq-default org-babel-python2-command "python")
+(defun org-babel-execute:python2 (body params)
+  "Execute BODY by python2 with PARAMS."
+  (org-babel-eval "python2" body))
+
+(defun org-babel-execute:python3 (body params)
+  "Execute BODY by python2 with PARAMS."
+  (org-babel-eval "python3" body))
 
 (global-set-key (kbd "C-c e")
   (lambda ()
@@ -140,7 +149,7 @@
 (require-or-install-pkg 'color-theme-sanityinc-tomorrow)
 (require-or-install-pkg 'color-theme-sanityinc-solarized)
 (require-or-install-pkg 'undo-tree)
-
+(require-or-install-pkg 'realgud)
 ;; These two will make emacsclient behave strange in terminal
 (require-or-install-pkg 'diminish)
 ;; (require-or-install-pkg 'sml-modeline)
@@ -170,7 +179,10 @@
 
 (require-or-install-pkg 'which-key)
 (require-or-install-pkg 'edit-server)
-(require-or-install-pkg 'fuo)
+;; (require-or-install-pkg 'fuo)
+(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
+    (load "~/coding/emacs-fuo/fuo.el"))
+
 ;; (when (>= emacs-major-version 25)
 ;;   (require-or-install-pkg 'fill-column-indicator)
 ;;   (fci-mode 1))
@@ -386,7 +398,16 @@
 ;; ----------
 ;; Python IDE
 ;; ----------
+(defun run-py ()
+  "Run py file."
+  (interactive)
+  (shell-command
+   (format "%s %s" python-shell-interpreter
+           (buffer-name (current-buffer)))))
 (add-hook 'python-mode-hook 'anaconda-mode)
+(add-hook 'python-mode-hook
+          (lambda ()
+           (local-set-key [f5] 'run-py)))
 (eval-after-load "company"
                  '(add-to-list 'company-backends 'company-anaconda))
 
@@ -425,9 +446,6 @@
 ;; (powerline-default-theme)
 ;; (sml-modeline-mode)
 
-
-;;(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
-;;    (load "~/coding/emacs-fuo/fuo.el"))
 
 
 ;; --------
