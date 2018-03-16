@@ -245,7 +245,6 @@
 ;; ---------------
 
 (dashboard-setup-startup-hook)
-(load-theme 'solarized)
 
 ;; -------------
 ;; ace-jump-mode
