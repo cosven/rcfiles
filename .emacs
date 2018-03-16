@@ -66,7 +66,7 @@
 (electric-pair-mode -1)
 
 ;; emacs welcome page
-(setq-default inhibit-startup-screen nil)
+(setq-default inhibit-startup-screen t)
 (setq-default cursor-type 'box)
 (setq-default truncate-lines t)
 (setq-default eww-search-prefix "https://www.google.com/search?q=")
@@ -83,6 +83,7 @@
 (setq-default c-default-style "linux"
               c-basic-offset 4)
 (setq confirm-kill-emacs 'y-or-n-p)
+(setq-default python-shell-interpreter "python3")
 (setq-default org-babel-python-command "python3")
 (setq-default org-babel-sh-command "bash")
 
@@ -169,6 +170,7 @@
 (require-or-install-pkg 'page-break-lines)
 (require-or-install-pkg 'all-the-icons)
 ;; (require-or-install-pkg 'org-pomodoro)
+(require-or-install-pkg 'dashboard)
 
 ;; 达不到保存 window layout 的效果
 ;;(require-or-install-pkg 'persp-mode)
@@ -237,6 +239,13 @@
     (setq-default evil-insert-state-cursor 'box)
     (modify-syntax-entry ?_ "w")))
 (evil-mode -1)
+
+;; ---------------
+;; simple packages
+;; ---------------
+
+(dashboard-setup-startup-hook)
+(load-theme 'solarized)
 
 ;; -------------
 ;; ace-jump-mode
