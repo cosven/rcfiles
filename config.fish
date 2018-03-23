@@ -28,6 +28,7 @@ set -x -g LANG en_US.UTF-8
 abbr -a g git
 abbr -a jp 'python -m json.tool | pygmentize -l javascript'
 abbr -a edit medit
+abbr -a vi medit
 set -x -g EDITOR 'emacsclient -t'
 set -x -g ALTERNATE_EDITOR 'nvim'
 set -x -g HOMEBREW_NO_AUTO_UPDATE 1

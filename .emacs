@@ -46,17 +46,8 @@
 ;;               (electric-indent-mode -1))))
 (modify-syntax-entry ?_ "w")
 (add-hook 'after-make-frame-functions 'cb-after-make-frame)
-(add-hook 'eww-mode-hook
-          (lambda()
-            ;; 让背景看起来更正常
-            (setq-default shr-color-visible-luminance-min 70)
-            (setq show-trailing-whitespace nil)))
-(add-hook 'term-char-mode
-          (lambda ()
-            (setq show-trailing-whitespace nil)))
-(add-hook 'term-line-mode
-          (lambda ()
-            (setq show-trailing-whitespace nil)))
+
+;; (setq show-trailing-whitespace t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;;; (add-hook 'after-init-hook 'fringe-mode)
 
@@ -79,7 +70,6 @@
 (setq-default imenu-list-size 35)
 (setq-default org-log-done 'time)
 (setq-default indent-tabs-mode nil)
-(setq-default show-trailing-whitespace t)
 (setq-default c-default-style "linux"
               c-basic-offset 4)
 (setq confirm-kill-emacs 'y-or-n-p)
@@ -100,7 +90,7 @@
   (lambda ()
     (interactive)  ;; interactive can turn a function to a command
     (find-file user-init-file)))
-(global-set-key [f2] 'neotree-toggle)
+;; (global-set-key [f2] 'neotree-toggle)
 (org-babel-do-load-languages 'org-babel-load-languages
                              '((python . t)
                                (sh . t)
@@ -125,7 +115,9 @@
 
 ;; 加载已经安装的包，这样子，之后 requrie 一个包就可以让该包生效
 (package-initialize)
-
+(require-or-install-pkg 'benchmark-init)
+(benchmark-init/activate)
+(add-hook 'after-init-hook 'benchmark-init/deactivate)
 ;; 安装一些包
 (require-or-install-pkg 'ace-jump-mode)
 (require-or-install-pkg 'ivy)  ;; ido replacement
@@ -133,7 +125,7 @@
 (require-or-install-pkg 'projectile)  ;; project management
 (require-or-install-pkg 'magit)  ;; git integration
 (require-or-install-pkg 'flycheck)  ;; syntax checking
-(require-or-install-pkg 'neotree)
+;; (require-or-install-pkg 'neotree)
 (require-or-install-pkg 'counsel-projectile)
 (require-or-install-pkg 'org)
 (require-or-install-pkg 'company)
@@ -144,13 +136,13 @@
 (require-or-install-pkg 'exec-path-from-shell)
 (require-or-install-pkg 'goto-last-change)
 (require-or-install-pkg 'multiple-cursors)
-(require-or-install-pkg 'color-theme-solarized)
-(require-or-install-pkg 'zenburn-theme)
+;; (require-or-install-pkg 'color-theme-solarized)
+;; (require-or-install-pkg 'zenburn-theme)
 ;; (require-or-install-pkg 'kaolin-themes)
-(require-or-install-pkg 'color-theme-sanityinc-tomorrow)
-(require-or-install-pkg 'color-theme-sanityinc-solarized)
-(require-or-install-pkg 'undo-tree)
-(require-or-install-pkg 'realgud)
+;; (require-or-install-pkg 'color-theme-sanityinc-tomorrow)
+;; (require-or-install-pkg 'color-theme-sanityinc-solarized)
+;; (require-or-install-pkg 'undo-tree)
+;; (require-or-install-pkg 'realgud)
 ;; These two will make emacsclient behave strange in terminal
 (require-or-install-pkg 'diminish)
 ;; (require-or-install-pkg 'sml-modeline)
@@ -164,8 +156,8 @@
 (require-or-install-pkg 'company-anaconda)
 
 (require-or-install-pkg 'groovy-mode)
-(require-or-install-pkg 'evil)
-(require-or-install-pkg 'general)
+;; (require-or-install-pkg 'evil)
+;; (require-or-install-pkg 'general)
 ;; (require-or-install-pkg 'xah-fly-keys)
 (require-or-install-pkg 'page-break-lines)
 (require-or-install-pkg 'all-the-icons)
@@ -174,7 +166,6 @@
 
 ;; 达不到保存 window layout 的效果
 ;;(require-or-install-pkg 'persp-mode)
-
 ;; eyebrowse 有 spacemacs 背书
 ;; (require-or-install-pkg 'perspeen)
 (require-or-install-pkg 'eyebrowse)
@@ -182,8 +173,8 @@
 (require-or-install-pkg 'which-key)
 (require-or-install-pkg 'edit-server)
 ;; (require-or-install-pkg 'fuo)
-(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
-    (load "~/coding/emacs-fuo/fuo.el"))
+;; (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
+;;    (load "~/coding/emacs-fuo/fuo.el"))
 
 ;; (when (>= emacs-major-version 25)
 ;;   (require-or-install-pkg 'fill-column-indicator)
@@ -196,49 +187,49 @@
 ;; ----------------------
 
 ;; put evil at first place to make others works well with evil
-(add-hook 'evil-mode-hook
-  (lambda ()
-    (setq general-default-keymaps 'evil-normal-state-map)
-    (setq my-leader-default "<SPC>")
-    (general-define-key :prefix my-leader-default
-                        "b" 'switch-to-buffer
-                        "e" '(lambda ()
-                               (interactive)
-                               (find-file user-init-file))
-                        "r" '(lambda ()
-                               (interactive)
-                               (load-file user-init-file))
-                        )
-    (general-define-key
-     "<SPC> p" '(:keymap projectile-command-map :package projectile))
-    (general-define-key
-     "<SPC> g" '(:keymap magit-mode-map :package magit))
-    (general-define-key
-     "<SPC> f" '(:keymap fuo-mode-map :package fuo))
-
-    (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-    (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-    (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-
-    (define-key evil-normal-state-map "tt" 'neotree-toggle)
-    (define-key evil-normal-state-map "tb" 'imenu-list-smart-toggle)
-    (define-key evil-normal-state-map "f" 'counsel-git-grep)
-
-    ;; try to use emacs key in insert mode
-    (define-key evil-insert-state-map (kbd "\C-k") 'kill-line)
-    (define-key evil-insert-state-map (kbd "\C-d") 'delete-forward-char)
-    (define-key evil-insert-state-map (kbd "\C-a") 'move-beginning-of-line)
-    (define-key evil-insert-state-map (kbd "\C-e") 'move-end-of-line)
-    (define-key evil-insert-state-map (kbd "\C-n") 'next-line)
-    (define-key evil-insert-state-map (kbd "\C-p") 'previous-line)
-    (define-key evil-insert-state-map (kbd "\C-v") 'scroll-up-command)
-    (define-key evil-insert-state-map (kbd "\C-y") 'yank)
-
-    (define-key evil-normal-state-map (kbd "\C-p") 'projectile-find-file)
-
-    (setq-default evil-insert-state-cursor 'box)
-    (modify-syntax-entry ?_ "w")))
-(evil-mode -1)
+;;(add-hook 'evil-mode-hook
+;;  (lambda ()
+;;    (setq general-default-keymaps 'evil-normal-state-map)
+;;    (setq my-leader-default "<SPC>")
+;;    (general-define-key :prefix my-leader-default
+;;                        "b" 'switch-to-buffer
+;;                        "e" '(lambda ()
+;;                               (interactive)
+;;                               (find-file user-init-file))
+;;                        "r" '(lambda ()
+;;                               (interactive)
+;;                               (load-file user-init-file))
+;;                        )
+;;    (general-define-key
+;;     "<SPC> p" '(:keymap projectile-command-map :package projectile))
+;;    (general-define-key
+;;     "<SPC> g" '(:keymap magit-mode-map :package magit))
+;;    (general-define-key
+;;     "<SPC> f" '(:keymap fuo-mode-map :package fuo))
+;;
+;;    (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+;;    (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+;;    (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+;;
+;;    (define-key evil-normal-state-map "tt" 'neotree-toggle)
+;;    (define-key evil-normal-state-map "tb" 'imenu-list-smart-toggle)
+;;    (define-key evil-normal-state-map "f" 'counsel-git-grep)
+;;
+;;    ;; try to use emacs key in insert mode
+;;    (define-key evil-insert-state-map (kbd "\C-k") 'kill-line)
+;;    (define-key evil-insert-state-map (kbd "\C-d") 'delete-forward-char)
+;;    (define-key evil-insert-state-map (kbd "\C-a") 'move-beginning-of-line)
+;;    (define-key evil-insert-state-map (kbd "\C-e") 'move-end-of-line)
+;;    (define-key evil-insert-state-map (kbd "\C-n") 'next-line)
+;;    (define-key evil-insert-state-map (kbd "\C-p") 'previous-line)
+;;    (define-key evil-insert-state-map (kbd "\C-v") 'scroll-up-command)
+;;    (define-key evil-insert-state-map (kbd "\C-y") 'yank)
+;;
+;;    (define-key evil-normal-state-map (kbd "\C-p") 'projectile-find-file)
+;;
+;;    (setq-default evil-insert-state-cursor 'box)
+;;    (modify-syntax-entry ?_ "w")))
+;;(evil-mode -1)
 
 ;; ---------------
 ;; simple packages
@@ -440,7 +431,7 @@
 
 (eyebrowse-mode t)
 (eyebrowse-setup-opinionated-keys)
-(setq-default eyebrowse-mode-line-style nil)
+(setq-default eyebrowse-mode-line-style t)
 
 ;; -------------
 ;; all-the-icons
@@ -480,17 +471,17 @@
 ;;             (evil-define-key 'normal fuo-mode-map
 ;;               (kbd "<return>") 'fuo--play-current-line-song)))
 
-(setq frame-title-format
-      '("%b" "\t" (:eval (concat "["
-         (string-join
-          (--map
-           (car it)
-           (--map (cons (eyebrowse-format-slot it) (car it))
-                  (eyebrowse--get 'window-configs)))
-          ", ")
-         "]"))
-        )
-      )
+;; (setq frame-title-format
+;;       '("%b" "\t" (:eval (concat "["
+;;          (string-join
+;;           (--map
+;;            (car it)
+;;            (--map (cons (eyebrowse-format-slot it) (car it))
+;;                   (eyebrowse--get 'window-configs)))
+;;           ", ")
+;;          "]"))
+;;         )
+;;       )
 
 (setq custom-file "~/.emacs-custom.el")
 (when (file-exists-p custom-file)
