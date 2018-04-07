@@ -177,7 +177,7 @@ syntax on
 " let g:solarized_termtrans = 1
 " let g:solarized_termcolors=256
 " set background=dark
-colorscheme Tomorrow-Night-Bright
+" colorscheme Tomorrow-Night-Bright
 
 filetype plugin on
 au BufEnter *.txt setlocal ft=txt

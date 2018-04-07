@@ -135,7 +135,7 @@
 (require-or-install-pkg 'js2-mode)
 (require-or-install-pkg 'exec-path-from-shell)
 (require-or-install-pkg 'goto-last-change)
-(require-or-install-pkg 'multiple-cursors)
+;; (require-or-install-pkg 'multiple-cursors)
 ;; (require-or-install-pkg 'color-theme-solarized)
 ;; (require-or-install-pkg 'zenburn-theme)
 ;; (require-or-install-pkg 'kaolin-themes)
@@ -148,7 +148,7 @@
 ;; (require-or-install-pkg 'sml-modeline)
 
 ;; (require-or-install-pkg 'powerline)
-(require-or-install-pkg 'git-gutter-fringe)
+;; (require-or-install-pkg 'git-gutter-fringe)
 ;; (require-or-install-pkg 'nyan-mode)
 (require-or-install-pkg 'markdown-mode)
 ;;(require-or-install-pkg 'elpy)
@@ -162,7 +162,7 @@
 (require-or-install-pkg 'page-break-lines)
 (require-or-install-pkg 'all-the-icons)
 ;; (require-or-install-pkg 'org-pomodoro)
-(require-or-install-pkg 'dashboard)
+;; (require-or-install-pkg 'dashboard)
 
 ;; 达不到保存 window layout 的效果
 ;;(require-or-install-pkg 'persp-mode)
@@ -229,13 +229,13 @@
 ;;
 ;;    (setq-default evil-insert-state-cursor 'box)
 ;;    (modify-syntax-entry ?_ "w")))
-;;(evil-mode -1)
+;;(evil-mode 1)
 
 ;; ---------------
 ;; simple packages
 ;; ---------------
 
-(dashboard-setup-startup-hook)
+;; (dashboard-setup-startup-hook)
 
 ;; -------------
 ;; ace-jump-mode

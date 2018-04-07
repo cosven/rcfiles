@@ -1,4 +1,3 @@
-alias ec='emacsclient -nw'
-export PATH=~/.local/bin:$PATH
-eval $(thefuck --alias)
-export EDITOR=vim
+export PATH=~/coding/rcfiles/bin:~/.local/bin:$PATH
+export EDITOR="emacsclient -t"
+export VISUAL="emacsclient -t"
