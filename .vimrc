@@ -26,14 +26,18 @@ Plug 'joshdick/onedark.vim'
 Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)']  }
 Plug 'godlygeek/tabular'
 " Plug 'suan/vim-instant-markdown'
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'  " tow slow
+"
+" 不会用，每次一有错误，光标就看不见了。fuck!!!
+" Plug 'w0rp/ale'
+Plug 'neomake/neomake'
 " Plug 'vim-airline/vim-airline'
 Plug 'kshenoy/vim-signature'
 Plug 'lepture/vim-jinja'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'flazz/vim-colorschemes'
+" Plug 'flazz/vim-colorschemes'
 
 " themes
 Plug 'altercation/vim-colors-solarized'
@@ -43,108 +47,8 @@ Plug 'CodeFalling/fcitx-vim-osx'
 " Add plugins to &runtimepath
 call plug#end()
 
-let g:mapleader = " "
-map <F2> :silent! NERDTreeToggle<CR>
+source ~/coding/rcfiles/base.vim
 
-if(has("win32") || has("win64") || has("win95") || has("win16"))
-    let g:iswindows = 1
-else
-    let g:iswindows = 0
-endif
-
-if has("gui_running")
-    let g:isGUI = 1
-else
-    let g:isGUI = 0
-endif
-
-set nocompatible
-
-" set encoding=utf-8
-set fileencoding=utf-8
-
-set fileencodings=ucs-bom,utf-8,gbk,cp936,latin-1
-
-set fileformat=unix
-set fileformats=unix,dos,mac
-
-set tw=200
-
-" https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/31
-set t_BE=
-
-if (g:iswindows && g:isGUI)
-    source $VIMRUNTIME/delmenu.vim
-    source $VIMRUNTIME/menu.vim
-else
-    source $VIMRUNTIME/delmenu.vim
-    source $VIMRUNTIME/menu.vim
-endif
-
-filetype on
-filetype plugin on
-filetype plugin indent on
-set smartindent
-set expandtab
-set tabstop=4
-set shiftwidth=4
-set smarttab
-
-set foldenable
-set foldmethod=indent
-set foldlevelstart=99
-
-set synmaxcol=128
-set lazyredraw
-
-" nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
-set autoread
-
-nmap cS :%s/\s\+$//g<cr>:noh<cr>
-
-nmap cM :%s/\r$//g<cr>:noh<cr>
-
-set ignorecase
-set smartcase
-
-set nonumber
-set laststatus=2
-set showtabline=1
-set cmdheight=1
-set cursorline
-
-
-set nowrap
-
-if g:isGUI
-    set guioptions-=m
-    set guioptions-=T
-    set guioptions-=r
-    set guioptions-=L
-    map <silent> <c-F11> :if &guioptions =~# 'm' <Bar>
-        \set guioptions-=m <Bar>
-        \set guioptions-=T <Bar>
-        \set guioptions-=r <Bar>
-        \set guioptions-=L <Bar>
-    \else <Bar>
-        \set guioptions+=m <Bar>
-        \set guioptions+=T <Bar>
-        \set guioptions+=r <Bar>
-        \set guioptions+=L <Bar>
-    \endif<CR>
-endif
-
-set writebackup
-set nobackup
-
-
-let Tlist_Show_One_File=1
-let Tlist_Exit_OnlyWindow=1
-let Tlist_Ctags_Cmd="ctags"
-let Tlist_Use_Right_Window=1
-
-nmap tl :TagbarClose<cr>:Tlist<cr>
-nmap tb :TagbarToggle<CR>
 let g:tagbar_ctags_bin="ctags"
 let g:tagbar_width=30
 
@@ -161,7 +65,6 @@ endif
 
 set cscopequickfix=s-,c-,d-,i-,t-,e-
 
-map <F2> :silent! NERDTreeToggle<CR>
 let NERDTreeIgnore = ['\.pyc$', 'eggs', 'old-eggs', '\.egg-info$', 'bin']
 let g:indentLine_char = '|'
 
@@ -172,10 +75,6 @@ let g:pydiction_menu_height = 3
 
 set t_Co=256
 syntax on
-" let g:solarized_visibility = "high"
-" let g:solarized_contrast = "high"
-" let g:solarized_termtrans = 1
-" let g:solarized_termcolors=256
 " set background=dark
 " colorscheme Tomorrow-Night-Bright
 
@@ -191,34 +90,16 @@ let g:bookmark_save_per_working_dir = 1
 set termencoding=utf-8
 set hlsearch
 
-let g:vimrc_author='ysw'
-let g:vimrc_email='yinshaowen241@gmail.com'
-let g:vimrc_homepage='http://www.cosven.com'
-nmap <F4> :AuthorInfoDetect<cr>
-" nmap <C-F> :CtrlSF
-"
 " nmap <C-P> :CtrlP<CR>
 nmap <C-P> :FZF<CR>
-let $FZF_DEFAULT_COMMAND = 'git ls-files'
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn|eggs|old-eggs|buildout)$',
-  \ 'file': '\v\.(exe|so|dll|pyc|pyo)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+" let $FZF_DEFAULT_COMMAND = 'git ls-files'
+let $FZF_DEFAULT_COMMAND = 'ag -l'
 
 autocmd Filetype gitcommit setlocal spell textwidth=72
 
 set backspace=2
-autocmd Filetype python map <buffer> <F8> :call Flake8()<CR>
 let g:flake8_show_in_gutter=1
 
-autocmd filetype python setlocal colorcolumn=80
-autocmd Filetype html setlocal textwidth=200 shiftwidth=2 tabstop=2
-autocmd Filetype javascript setlocal textwidth=79 shiftwidth=2 tabstop=2
-autocmd Filetype css setlocal textwidth=200 shiftwidth=2 tabstop=2
-autocmd Filetype stylus setlocal shiftwidth=2 tabstop=2
 " augroup markdown
 "     au!
 "     au BufNewFile,BufRead *.md,*.markdown setlocal filetype=ghmarkdown
@@ -246,31 +127,10 @@ let g:todoSymbol = {
     \ "close"  : "✔︎"
     \ }
 
-"""""""""""
-" 键位映射
-
-let g:utl_cfg_hdl_scm_http_system = "silent !open '%u'"
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
-let g:markdown_syntax_conceal = 0
-let g:vim_json_syntax_conceal = 0
-let g:syntastic_python_python_exec = '/usr/local/bin/python3'
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_html_tidy_ignore_errors = [
-            \ 'trimming empty <i>',
-            \ 'trimming empty <span>',
-            \ '<input> proprietary attribute \"autocomplete\"',
-            \ 'proprietary attribute \"role\"',
-            \ 'proprietary attribute \"hidden\"',
-            \ 'proprietary attribute \"ng-',
-            \ '<svg> is not recognized!',
-            \ 'discarding unexpected <svg>',
-            \ 'discarding unexpected </svg>',
-            \ '<rect> is not recognized!',
-            \ 'discarding unexpected <rect>'
-            \ ]
 
 
 set wildignore+=*/node_modules/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 
 " let g:airline#extensions#tabline#enabled = 1
 
@@ -292,19 +152,12 @@ let g:deoplete#auto_completion_start_length = 2
 
 autocmd BufWinEnter '__doc__' setlocal bufhidden=delete
 
-nnoremap <leader>er :source $MYVIMRC<CR>
-nnoremap <leader>ee :edit $MYVIMRC<Cr>
 
-nnoremap <leader>bn :bnext<cr>
-nnoremap <leader>bp :bprevious<cr>
-nnoremap <leader>bk :bdelete<cr>
-nnoremap <leader>bl :buffers<cr>
+"""""
+" ale
+"""""
+let g:ale_set_highlights = 0
+let g:ale_lint_on_enter = 0
 
-let g:grepper = {}
-let g:grepper.tools     = ['git', 'ag', 'grep']
 
-" 高级配置
-"
-" 搜索当前 word
-nnoremap <leader>g :exe 'GrepperGit ' . expand('<cword>')<CR>
-nnoremap <leader>f :Grepper<CR>
+source ~/coding/rcfiles/common.vim

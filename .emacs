@@ -3,10 +3,9 @@
 ;; Emacs config created by cosven
 ;;; Code:
 ;;
-;; 基础的设置（与第三方 package 无关的配置）
 ;;
 ;; ----------------
-;; 自己写的一些函数
+;; 基础的设置（与第三方 package 无关的配置）
 ;; ----------------
 (defun require-or-install-pkg (pkg)
   "PKG is a package name."
@@ -25,11 +24,14 @@
     ;; hide org string since we show it on tmux status line
     (setq-default org-mode-line-string nil))
   (menu-bar-mode -1)
-  (when (eq system-type 'darwin)
-    ;; (set-face-attribute 'default nil :font "Source Code Pro 14")
-    (set-face-attribute 'default nil :font "Monaco 14")
-    ;; (set-frame-font "Monaco 14" nil t)
-    ))
+  (cond ((eq system-type 'darwin)
+         (set-face-attribute 'default nil :font "Ubuntu Mono 12")
+         ;; (set-frame-font "Monaco 14" nil t)
+         )
+        ((eq system-type 'gnu/linux)
+         (set-face-attribute 'default nil :font "Ubuntu Mono 12"))
+        )
+  )
 
 (defun cb-after-make-frame (frame)
   "Callback of after a FRAME made."
@@ -75,7 +77,9 @@
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq-default python-shell-interpreter "python3")
 (setq-default org-babel-python-command "python3")
+(setq-default flycheck-python-pycompile-executable "python3")
 (setq-default org-babel-sh-command "bash")
+(setq make-backup-files nil)
 
 (setq-default org-babel-python2-command "python")
 (defun org-babel-execute:python2 (body params)
@@ -121,60 +125,40 @@
 ;; 安装一些包
 (require-or-install-pkg 'ace-jump-mode)
 (require-or-install-pkg 'ivy)  ;; ido replacement
+(require-or-install-pkg 'fzf)
 (require-or-install-pkg 'swiper)  ;; isearch replacement
 (require-or-install-pkg 'projectile)  ;; project management
 (require-or-install-pkg 'magit)  ;; git integration
 (require-or-install-pkg 'flycheck)  ;; syntax checking
-;; (require-or-install-pkg 'neotree)
 (require-or-install-pkg 'counsel-projectile)
 (require-or-install-pkg 'org)
 (require-or-install-pkg 'company)
-;; (require-or-install-pkg 'auto-complete)
 (require-or-install-pkg 'ace-window)
 (require-or-install-pkg 'web-mode)
 (require-or-install-pkg 'js2-mode)
+(require-or-install-pkg 'thrift)
 (require-or-install-pkg 'exec-path-from-shell)
-(require-or-install-pkg 'goto-last-change)
-;; (require-or-install-pkg 'multiple-cursors)
-;; (require-or-install-pkg 'color-theme-solarized)
-;; (require-or-install-pkg 'zenburn-theme)
-;; (require-or-install-pkg 'kaolin-themes)
-;; (require-or-install-pkg 'color-theme-sanityinc-tomorrow)
-;; (require-or-install-pkg 'color-theme-sanityinc-solarized)
-;; (require-or-install-pkg 'undo-tree)
-;; (require-or-install-pkg 'realgud)
-;; These two will make emacsclient behave strange in terminal
+(require-or-install-pkg 'goto-chg)
 (require-or-install-pkg 'diminish)
-;; (require-or-install-pkg 'sml-modeline)
-
-;; (require-or-install-pkg 'powerline)
-;; (require-or-install-pkg 'git-gutter-fringe)
-;; (require-or-install-pkg 'nyan-mode)
 (require-or-install-pkg 'markdown-mode)
-;;(require-or-install-pkg 'elpy)
 (require-or-install-pkg 'anaconda-mode)
 (require-or-install-pkg 'company-anaconda)
-
 (require-or-install-pkg 'groovy-mode)
-;; (require-or-install-pkg 'evil)
-;; (require-or-install-pkg 'general)
-;; (require-or-install-pkg 'xah-fly-keys)
 (require-or-install-pkg 'page-break-lines)
 (require-or-install-pkg 'all-the-icons)
-;; (require-or-install-pkg 'org-pomodoro)
-;; (require-or-install-pkg 'dashboard)
-
-;; 达不到保存 window layout 的效果
-;;(require-or-install-pkg 'persp-mode)
-;; eyebrowse 有 spacemacs 背书
-;; (require-or-install-pkg 'perspeen)
-(require-or-install-pkg 'eyebrowse)
-
+;;(require-or-install-pkg 'eyebrowse)
+(require-or-install-pkg 'imenu-list)
+(require-or-install-pkg 'bm)
 (require-or-install-pkg 'which-key)
 (require-or-install-pkg 'edit-server)
+(require-or-install-pkg 'general)
+(require-or-install-pkg 'git-gutter)
+(require-or-install-pkg 'solarized-theme)
+(require-or-install-pkg 'yaml-mode)
+(require-or-install-pkg 'ein)
 ;; (require-or-install-pkg 'fuo)
-;; (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
-;;    (load "~/coding/emacs-fuo/fuo.el"))
+(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
+  (load "~/coding/emacs-fuo/fuo.el"))
 
 ;; (when (>= emacs-major-version 25)
 ;;   (require-or-install-pkg 'fill-column-indicator)
@@ -187,53 +171,67 @@
 ;; ----------------------
 
 ;; put evil at first place to make others works well with evil
-;;(add-hook 'evil-mode-hook
-;;  (lambda ()
-;;    (setq general-default-keymaps 'evil-normal-state-map)
-;;    (setq my-leader-default "<SPC>")
-;;    (general-define-key :prefix my-leader-default
-;;                        "b" 'switch-to-buffer
-;;                        "e" '(lambda ()
-;;                               (interactive)
-;;                               (find-file user-init-file))
-;;                        "r" '(lambda ()
-;;                               (interactive)
-;;                               (load-file user-init-file))
-;;                        )
-;;    (general-define-key
-;;     "<SPC> p" '(:keymap projectile-command-map :package projectile))
-;;    (general-define-key
-;;     "<SPC> g" '(:keymap magit-mode-map :package magit))
-;;    (general-define-key
-;;     "<SPC> f" '(:keymap fuo-mode-map :package fuo))
+;; (add-hook 'evil-mode-hook
+;;   (lambda ()
+;;     (setq general-default-keymaps 'evil-normal-state-map)
+;;     (setq my-leader-default "<SPC>")
+;;     (general-define-key :prefix my-leader-default
+;;                         "b" 'switch-to-buffer
+;;                         "e" '(lambda ()
+;;                                (interactive)
+;;                                (find-file user-init-file))
+;;                         "r" '(lambda ()
+;;                                (interactive)
+;;                                (load-file user-init-file))
+;;                         )
+;;     (general-define-key
+;;      "<SPC> p" '(:keymap projectile-command-map :package projectile))
+;;     (general-define-key
+;;      "<SPC> g" '(:keymap magit-mode-map :package magit))
+;;     (general-define-key
+;;      "<SPC> f" '(:keymap fuo-mode-map :package fuo))
 ;;
-;;    (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-;;    (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-;;    (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+;;     (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+;;     (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+;;     (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 ;;
-;;    (define-key evil-normal-state-map "tt" 'neotree-toggle)
-;;    (define-key evil-normal-state-map "tb" 'imenu-list-smart-toggle)
-;;    (define-key evil-normal-state-map "f" 'counsel-git-grep)
+;;     (define-key evil-normal-state-map "tt" 'neotree-toggle)
+;;     (define-key evil-normal-state-map "tb" 'imenu-list-smart-toggle)
+;;     (define-key evil-normal-state-map "f" 'counsel-git-grep)
 ;;
-;;    ;; try to use emacs key in insert mode
-;;    (define-key evil-insert-state-map (kbd "\C-k") 'kill-line)
-;;    (define-key evil-insert-state-map (kbd "\C-d") 'delete-forward-char)
-;;    (define-key evil-insert-state-map (kbd "\C-a") 'move-beginning-of-line)
-;;    (define-key evil-insert-state-map (kbd "\C-e") 'move-end-of-line)
-;;    (define-key evil-insert-state-map (kbd "\C-n") 'next-line)
-;;    (define-key evil-insert-state-map (kbd "\C-p") 'previous-line)
-;;    (define-key evil-insert-state-map (kbd "\C-v") 'scroll-up-command)
-;;    (define-key evil-insert-state-map (kbd "\C-y") 'yank)
+;;     ;; try to use emacs key in insert mode
+;;     (define-key evil-insert-state-map (kbd "\C-k") 'kill-line)
+;;     (define-key evil-insert-state-map (kbd "\C-d") 'delete-forward-char)
+;;     (define-key evil-insert-state-map (kbd "\C-a") 'move-beginning-of-line)
+;;     (define-key evil-insert-state-map (kbd "\C-e") 'move-end-of-line)
+;;     (define-key evil-insert-state-map (kbd "\C-n") 'next-line)
+;;     (define-key evil-insert-state-map (kbd "\C-p") 'previous-line)
+;;     (define-key evil-insert-state-map (kbd "\C-v") 'scroll-up-command)
+;;     (define-key evil-insert-state-map (kbd "\C-y") 'yank)
 ;;
-;;    (define-key evil-normal-state-map (kbd "\C-p") 'projectile-find-file)
+;;     (define-key evil-normal-state-map (kbd "\C-p") 'projectile-find-file)
 ;;
-;;    (setq-default evil-insert-state-cursor 'box)
-;;    (modify-syntax-entry ?_ "w")))
-;;(evil-mode 1)
+;;     (setq-default evil-insert-state-cursor 'box)
+;;     (modify-syntax-entry ?_ "w")))
+;; (evil-mode 1)
+
+(general-define-key :prefix "C-c m"
+                    "n" 'bm-next
+                    "p" 'bm-previous
+                    "m" 'bm-toggle)
+
+(general-define-key :prefix "C-c i"
+                    "l" 'imenu-list
+                    "r" 'imenu-list-refresh)
 
 ;; ---------------
 ;; simple packages
 ;; ---------------
+
+;; --
+;; bm
+;; --
+(setq bm-cycle-all-buffers t)
 
 ;; (dashboard-setup-startup-hook)
 
@@ -251,20 +249,28 @@
 
 (ivy-mode 1)
 (setq-default ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 
-;;(global-set-key (kbd "C-c v s") 'ivy-switch-view)
-;;(global-set-key (kbd "C-c v c") 'ivy-push-view)
-;;(global-set-key (kbd "C-c v d") 'ivy-pop-view)
+(global-set-key (kbd "C-c v s") 'ivy-switch-view)
+(global-set-key (kbd "C-c v c") 'ivy-push-view)
+(global-set-key (kbd "C-c v d") 'ivy-pop-view)
 
-;;
 (global-set-key (kbd "C-c g") 'counsel-git-grep)
+(global-set-key (kbd "C-c C-p") 'counsel-projectile)
+(global-set-key (kbd "C-x f") 'counsel-fzf)
+(global-set-key (kbd "C-c k") 'counsel-ag)
+(global-set-key (kbd "C-x l") 'counsel-locate)
+(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
 (defun grep-curword ()
   "Grep word under cursor in whole project."
   (interactive)
-  (counsel-git-grep nil (thing-at-point 'word)))
+  (counsel-git-grep nil (thing-at-point 'word))
+  ;; (counsel-ag (thing-at-point 'word))
+  )
 
 (global-set-key (kbd "C-c f") 'grep-curword)
 
@@ -277,9 +283,7 @@
 ;; ----------
 ;; projectile
 ;; ----------
-(if (>= emacs-major-version 25)
-    (counsel-projectile-on)
-  (counsel-projectile-mode))
+(counsel-projectile-mode)
 
 (projectile-mode)
 (setq-default projectile-enable-caching t)
@@ -361,7 +365,7 @@
 ;; undo-tree
 ;; ---------
 
-(global-undo-tree-mode)
+;; (global-undo-tree-mode)
 
 ;; -----------------
 ;; git-gutter-fringe
@@ -402,11 +406,13 @@
   (interactive)
   (shell-command
    (format "%s %s" python-shell-interpreter
-           (buffer-name (current-buffer)))))
+           (buffer-file-name (current-buffer)))))
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook
           (lambda ()
-           (local-set-key [f5] 'run-py)))
+            (local-set-key (kbd "C-c C-p") 'counsel-projectile)
+            (local-set-key [f5] 'run-py)))
+
 (eval-after-load "company"
                  '(add-to-list 'company-backends 'company-anaconda))
 
@@ -429,9 +435,9 @@
 ;; eyebrowse
 ;; ---------
 
-(eyebrowse-mode t)
-(eyebrowse-setup-opinionated-keys)
-(setq-default eyebrowse-mode-line-style t)
+;;(eyebrowse-mode t)
+;;(eyebrowse-setup-opinionated-keys)
+;;(setq-default eyebrowse-mode-line-style t)
 
 ;; -------------
 ;; all-the-icons
