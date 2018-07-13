@@ -156,6 +156,7 @@
 (require-or-install-pkg 'solarized-theme)
 (require-or-install-pkg 'yaml-mode)
 (require-or-install-pkg 'ein)
+(require-or-install-pkg 'org-pomodoro)
 ;; (require-or-install-pkg 'fuo)
 (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
   (load "~/coding/emacs-fuo/fuo.el"))
@@ -221,7 +222,7 @@
                     "m" 'bm-toggle)
 
 (general-define-key :prefix "C-c i"
-                    "l" 'imenu-list
+                    "l" 'imenu-list-smart-toggle
                     "r" 'imenu-list-refresh)
 
 ;; ---------------

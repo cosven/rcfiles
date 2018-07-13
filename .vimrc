@@ -9,7 +9,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdtree'
 
 " Plugin outside ~/.vim/plugged with post-update hook
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --clang-completer' }
 " Plug 'ctrlpvim/ctrlp.vim'
 
 " vim-molokai
@@ -25,6 +25,7 @@ Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
 Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)']  }
 Plug 'godlygeek/tabular'
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 " Plug 'suan/vim-instant-markdown'
 " Plug 'scrooloose/syntastic'  " tow slow
 "
@@ -38,6 +39,7 @@ Plug 'kien/rainbow_parentheses.vim'
 Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
 " Plug 'flazz/vim-colorschemes'
+Plug 'chriskempson/vim-tomorrow-theme'
 
 " themes
 Plug 'altercation/vim-colors-solarized'
@@ -48,6 +50,9 @@ Plug 'CodeFalling/fcitx-vim-osx'
 call plug#end()
 
 source ~/coding/rcfiles/base.vim
+
+" to support true color
+set termguicolors
 
 let g:tagbar_ctags_bin="ctags"
 let g:tagbar_width=30
@@ -73,7 +78,8 @@ let NERDSpaceDelims = 1
 let g:pydiction_location = '~/.vim/complete-dict'
 let g:pydiction_menu_height = 3
 
-set t_Co=256
+" comment this to enable 24-bit color
+" set t_Co=256
 syntax on
 " set background=dark
 " colorscheme Tomorrow-Night-Bright

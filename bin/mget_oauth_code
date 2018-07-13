@@ -1,6 +1,6 @@
 #!/bin/bash
 
 
-token=`python -c "import os, pyotp; token = pyotp.TOTP(os.environ['ZHIHU_OTP']).now(); print(token)"`
+token=`python2 -c "import os, pyotp; token = pyotp.TOTP(os.environ['ZHIHU_OTP']).now(); print(token)"`
 echo -n $token | xclip -selection clipboard
 echo "Have been copied to clipboard: $token"
