@@ -11,7 +11,8 @@
   "PKG is a package name."
   (unless (package-installed-p pkg)
     (package-refresh-contents)  ;; 重要
-    (package-install pkg)))
+    (package-install pkg))
+  (require pkg))
 
 (defun init-ui-look ()
   "Init Emacs look."
@@ -66,8 +67,7 @@
 ;; (setq-default python-shell-completion-native-enable nil)
 (setq-default help-window-select t)
 (setq vc-follow-symlinks t)
-(setq-default org-agenda-files '("~/coding/cosven.github.io/index.org"
-                                 "~/coding/cosven.github.io/life"))
+(setq-default org-agenda-files '("~/Dropbox/"))
 (setq-default imenu-list-focus-after-activation t)
 (setq-default imenu-list-size 35)
 (setq-default org-log-done 'time)
@@ -94,6 +94,12 @@
   (lambda ()
     (interactive)  ;; interactive can turn a function to a command
     (find-file user-init-file)))
+
+(global-set-key (kbd "C-c t")
+  (lambda ()
+    (interactive)  ;; interactive can turn a function to a command
+    (find-file "~/Dropbox/life_tracking.org")))
+
 ;; (global-set-key [f2] 'neotree-toggle)
 (org-babel-do-load-languages 'org-babel-load-languages
                              '((python . t)
@@ -119,18 +125,61 @@
 
 ;; 加载已经安装的包，这样子，之后 requrie 一个包就可以让该包生效
 (package-initialize)
-(require-or-install-pkg 'benchmark-init)
-(benchmark-init/activate)
-(add-hook 'after-init-hook 'benchmark-init/deactivate)
+(require-or-install-pkg 'use-package)
+(setq use-package-verbose t)
+
 ;; 安装一些包
-(require-or-install-pkg 'ace-jump-mode)
-(require-or-install-pkg 'ivy)  ;; ido replacement
+(use-package ivy
+  :ensure t
+  :init
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  :config
+  (ivy-mode 1)
+  (global-set-key (kbd "C-c C-r") 'ivy-resume)
+
+  (global-set-key (kbd "C-c v s") 'ivy-switch-view)
+  (global-set-key (kbd "C-c v c") 'ivy-push-view)
+  (global-set-key (kbd "C-c v d") 'ivy-pop-view)
+  )
+
+;; isearch replacement
+(use-package swiper
+  :ensure t
+  :config
+  (global-set-key "\C-s" 'swiper))
+
+(use-package counsel
+  :ensure t
+  :config
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-c g") 'counsel-git-grep)
+  (global-set-key (kbd "C-c C-p") 'counsel-projectile)
+  (global-set-key (kbd "C-x f") 'counsel-fzf)
+  (global-set-key (kbd "C-c k") 'counsel-ag)
+  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-c f") 'grep-curword)
+  (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+  )
+
+(use-package counsel-projectile
+  :config
+  (counsel-projectile-mode)
+  (global-set-key (kbd "C-c p f") 'counsel-projectile-find-file)
+  )
+
+(defun grep-curword ()
+  "Grep word under cursor in whole project."
+  (interactive)
+  (counsel-git-grep nil (thing-at-point 'word))
+  ;; (counsel-ag (thing-at-point 'word))
+  )
+
 (require-or-install-pkg 'fzf)
-(require-or-install-pkg 'swiper)  ;; isearch replacement
 (require-or-install-pkg 'projectile)  ;; project management
 (require-or-install-pkg 'magit)  ;; git integration
 (require-or-install-pkg 'flycheck)  ;; syntax checking
-(require-or-install-pkg 'counsel-projectile)
+
 (require-or-install-pkg 'org)
 (require-or-install-pkg 'company)
 (require-or-install-pkg 'ace-window)
@@ -152,11 +201,14 @@
 (require-or-install-pkg 'which-key)
 (require-or-install-pkg 'edit-server)
 (require-or-install-pkg 'general)
-(require-or-install-pkg 'git-gutter)
-(require-or-install-pkg 'solarized-theme)
-(require-or-install-pkg 'yaml-mode)
-(require-or-install-pkg 'ein)
-(require-or-install-pkg 'org-pomodoro)
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode))
+
+(use-package solarized-theme)
+(use-package yaml-mode)
+(use-package ein)
+
 ;; (require-or-install-pkg 'fuo)
 (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
   (load "~/coding/emacs-fuo/fuo.el"))
@@ -242,50 +294,17 @@
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 ;; ------------
-;; ivy 相关配置
-;; ------------
-
-;; 一些好用的快捷键
-;; 1. C-M-n (ivy-next-line-and-call)
-
-(ivy-mode 1)
-(setq-default ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key "\C-s" 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-
-(global-set-key (kbd "C-c v s") 'ivy-switch-view)
-(global-set-key (kbd "C-c v c") 'ivy-push-view)
-(global-set-key (kbd "C-c v d") 'ivy-pop-view)
-
-(global-set-key (kbd "C-c g") 'counsel-git-grep)
-(global-set-key (kbd "C-c C-p") 'counsel-projectile)
-(global-set-key (kbd "C-x f") 'counsel-fzf)
-(global-set-key (kbd "C-c k") 'counsel-ag)
-(global-set-key (kbd "C-x l") 'counsel-locate)
-(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
-
-(defun grep-curword ()
-  "Grep word under cursor in whole project."
-  (interactive)
-  (counsel-git-grep nil (thing-at-point 'word))
-  ;; (counsel-ag (thing-at-point 'word))
-  )
-
-(global-set-key (kbd "C-c f") 'grep-curword)
-
-;; ------------
 ;; company-mode
 ;; ------------
 
 (add-hook 'after-init-hook 'global-company-mode)
 
+(eval-after-load "company"
+                 '(add-to-list 'company-backends 'company-lsp))
+
 ;; ----------
 ;; projectile
 ;; ----------
-(counsel-projectile-mode)
-
 (projectile-mode)
 (setq-default projectile-enable-caching t)
 
@@ -367,12 +386,6 @@
 ;; ---------
 
 ;; (global-undo-tree-mode)
-
-;; -----------------
-;; git-gutter-fringe
-;; -----------------
-
-(global-git-gutter-mode)
 
 
 ;;; ---
@@ -489,6 +502,7 @@
 ;;          "]"))
 ;;         )
 ;;       )
+
 
 (setq custom-file "~/.emacs-custom.el")
 (when (file-exists-p custom-file)
