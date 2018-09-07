@@ -52,7 +52,7 @@
 
 ;; (setq show-trailing-whitespace t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-;;; (add-hook 'after-init-hook 'fringe-mode)
+;; (add-hook 'after-init-hook 'fringe-mode)
 
 (init-ui-look)
 (global-auto-revert-mode)

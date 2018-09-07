@@ -1,31 +1,37 @@
-# pk教
+# Tools and Configuration
 
-人生苦短，我信 `pk教`
+## Principles
+1. Repeatability
+2. Simplicity
 
-> pk教：全名 `pure keyboard 教`，又名纯键盘教，由于一直达不到纯键盘操作的目标，所以只能降级，取个大家看不懂的英文名。不要问我这个教有多少人，目前只有 `1` 个。
+## Vim
+1. Install [vim-plug](https://github.com/junegunn/vim-plug)
+2. `ln -s /xxx/rcfiles/.vimrc ~/.vimrc`
+3. Start vim and run `PlugInstall` command in vim
 
-> 你可以提各种 Pull Requeset，为我教增光添彩。（一定要记得把上面的个数 ++1 >哦）
+### features
+- better defaults
 
-这里面包含了各种 用键盘代替 **鼠标/触摸板**，**Google 搜索** 等脚本，它的存在，就是为了让我教人员少点一次鼠标，少打开一个浏览器 tab。
+## Emacs
+purcell, prelude and spacemacs are too complicated for me.
 
-## Getting Started
+1. `ln -s /xxx/rcfiles/.emacs ~/`
+2. Start Emacs
 
-### install
+### features
+1. Python IDE
 
-```
-git clone https://github.com/cosven/mtoolkit.git
-./install
-```
+## Tmux
+1. `ln -s /xxx/rcfiles/tmux.conf ~/.tmux.conf`
 
-你可以在命令里面输入 `m` 来验证是否安装成功。
+### features
+1. easy to extend
+2. beatiful
 
-### usage
+## Bash
+1. `ln -s /xxx/rcfiles/.bash_profile ~/.bash_profile`
 
-安装完成之后，你可以使用里面提供的脚本/命令。这些命令首字母都是 **m**.
-
-### Tool List
-
-| command              | description                        |
-| -------              | -----------                        |
-| `mfix_mac_bluetooth` | 修复 Mac 蓝牙 Not Available 的问题 |
-
+### features
+1. concise
+2. python virtualenv support
+3. easy to extend
