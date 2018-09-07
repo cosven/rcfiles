@@ -111,7 +111,10 @@
 
 ;; key bindings
 (when (eq system-type 'darwin) ;; mac specific settings
-  (setq mac-option-modifier 'meta)
+  (progn
+    (setq mac-option-modifier 'meta)
+    ;; daemon mode
+    (setq mac-command-modifier 'meta))
   (when (display-graphic-p)
     (setq mac-command-modifier 'meta))
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
