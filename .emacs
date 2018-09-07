@@ -26,7 +26,7 @@
     (setq-default org-mode-line-string nil))
   (menu-bar-mode -1)
   (cond ((eq system-type 'darwin)
-         (set-face-attribute 'default nil :font "Ubuntu Mono 12")
+         (set-face-attribute 'default nil :font "Monaco 13")
          ;; (set-frame-font "Monaco 14" nil t)
          )
         ((eq system-type 'gnu/linux)
@@ -100,10 +100,9 @@
     (interactive)  ;; interactive can turn a function to a command
     (find-file "~/Dropbox/life_tracking.org")))
 
-;; (global-set-key [f2] 'neotree-toggle)
 (org-babel-do-load-languages 'org-babel-load-languages
                              '((python . t)
-                               (sh . t)
+                               (shell . t)  ;; emacs >= 26
                                (C . t)))
 ;; Enable mouse support
 (unless window-system
@@ -163,6 +162,7 @@
   )
 
 (use-package counsel-projectile
+  :ensure t
   :config
   (counsel-projectile-mode)
   (global-set-key (kbd "C-c p f") 'counsel-projectile-find-file)
@@ -175,8 +175,19 @@
   ;; (counsel-ag (thing-at-point 'word))
   )
 
-(require-or-install-pkg 'fzf)
-(require-or-install-pkg 'projectile)  ;; project management
+(use-package fzf
+  :ensure t)
+
+(use-package projectile
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c p p ") 'projectile-switch-project))
+
+(use-package neotree
+  :ensure t
+  :config
+  (global-set-key [f2] 'neotree-toggle))
+
 (require-or-install-pkg 'magit)  ;; git integration
 (require-or-install-pkg 'flycheck)  ;; syntax checking
 
@@ -194,7 +205,8 @@
 (require-or-install-pkg 'company-anaconda)
 (require-or-install-pkg 'groovy-mode)
 (require-or-install-pkg 'page-break-lines)
-(require-or-install-pkg 'all-the-icons)
+(use-package all-the-icons
+  :ensure t)
 ;;(require-or-install-pkg 'eyebrowse)
 (require-or-install-pkg 'imenu-list)
 (require-or-install-pkg 'bm)
@@ -202,12 +214,16 @@
 (require-or-install-pkg 'edit-server)
 (require-or-install-pkg 'general)
 (use-package git-gutter
+  :ensure t
   :config
   (global-git-gutter-mode))
 
-(use-package solarized-theme)
-(use-package yaml-mode)
-(use-package ein)
+(use-package solarized-theme
+  :ensure t)
+(use-package yaml-mode
+  :ensure t)
+(use-package ein
+  :ensure t)
 
 ;; (require-or-install-pkg 'fuo)
 (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
@@ -299,8 +315,6 @@
 
 (add-hook 'after-init-hook 'global-company-mode)
 
-(eval-after-load "company"
-                 '(add-to-list 'company-backends 'company-lsp))
 
 ;; ----------
 ;; projectile
@@ -452,12 +466,6 @@
 ;;(eyebrowse-mode t)
 ;;(eyebrowse-setup-opinionated-keys)
 ;;(setq-default eyebrowse-mode-line-style t)
-
-;; -------------
-;; all-the-icons
-;; -------------
-(if (package-installed-p 'all-the-icons)
-    (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
 ;; --------
 ;; modeline

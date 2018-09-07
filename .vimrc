@@ -25,7 +25,7 @@ Plug 'majutsushi/tagbar'
 Plug 'joshdick/onedark.vim'
 Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)']  }
 Plug 'godlygeek/tabular'
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
+" Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer'}
 " Plug 'suan/vim-instant-markdown'
 " Plug 'scrooloose/syntastic'  " tow slow
 "
