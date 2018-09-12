@@ -19,6 +19,7 @@
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
   ;; (global-linum-mode -1)
+  (fringe-mode -1)
   (if (display-graphic-p)
       (progn
         (menu-bar-mode 1))
@@ -52,7 +53,6 @@
 
 ;; (setq show-trailing-whitespace t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-;; (add-hook 'after-init-hook 'fringe-mode)
 
 (init-ui-look)
 (global-auto-revert-mode)
