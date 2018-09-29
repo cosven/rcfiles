@@ -27,7 +27,7 @@
     (setq-default org-mode-line-string nil))
   (menu-bar-mode -1)
   (cond ((eq system-type 'darwin)
-         (set-face-attribute 'default nil :font "Monaco 13")
+         (set-face-attribute 'default nil :font "Monaco 14")
          ;; (set-frame-font "Monaco 14" nil t)
          )
         ((eq system-type 'gnu/linux)
@@ -38,6 +38,14 @@
 (defun cb-after-make-frame (frame)
   "Callback of after a FRAME made."
   (init-ui-look))
+
+(defun init-web-settings ()
+  "Init web settings."
+  (interactive)
+  ;; (electric-indent-local-mode -1)
+  (setq tab-stop-list [2, 4, 6, 8, 10])
+  (setq tab-width 2)
+  )
 
 ;; -------------
 ;; so many hooks
@@ -95,7 +103,7 @@
     (interactive)  ;; interactive can turn a function to a command
     (find-file user-init-file)))
 
-(global-set-key (kbd "C-c t")
+(global-set-key (kbd "C-x t")
   (lambda ()
     (interactive)  ;; interactive can turn a function to a command
     (find-file "~/Dropbox/life_tracking.org")))
@@ -157,10 +165,10 @@
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-c g") 'counsel-git-grep)
   (global-set-key (kbd "C-c C-p") 'counsel-projectile)
-  (global-set-key (kbd "C-x f") 'counsel-fzf)
   (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-x l") 'counsel-locate)
+  (global-set-key (kbd "C-x l") 'counsel-fzf)
   (global-set-key (kbd "C-c f") 'grep-curword)
+  (global-set-key (kbd "M-i") 'counsel-imenu)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
   )
 
@@ -191,31 +199,110 @@
   :config
   (global-set-key [f2] 'neotree-toggle))
 
-(require-or-install-pkg 'magit)  ;; git integration
-(require-or-install-pkg 'flycheck)  ;; syntax checking
+(use-package magit
+  :ensure t
+  )
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
 
-(require-or-install-pkg 'org)
-(require-or-install-pkg 'company)
-(require-or-install-pkg 'ace-window)
-(require-or-install-pkg 'web-mode)
-(require-or-install-pkg 'js2-mode)
-(require-or-install-pkg 'thrift)
-(require-or-install-pkg 'exec-path-from-shell)
-(require-or-install-pkg 'goto-chg)
-(require-or-install-pkg 'diminish)
-(require-or-install-pkg 'markdown-mode)
-(require-or-install-pkg 'anaconda-mode)
-(require-or-install-pkg 'company-anaconda)
-(require-or-install-pkg 'groovy-mode)
-(require-or-install-pkg 'page-break-lines)
+(use-package pyvenv
+  :ensure t)
+
+(use-package org
+  :ensure t)
+(use-package company
+  :ensure t)
+(use-package ace-window
+  :ensure t)
+(use-package web-mode
+  :ensure t
+  :init
+  (setq-default web-mode-enable-auto-indentation t)
+  (setq-default web-mode-code-indent-offset 2)
+  (setq-default web-mode-markup-indent-offset 2)
+  (setq-default web-mode-css-indent-offset 2)
+  (add-hook 'web-mode-hook 'init-web-settings)
+  (add-hook 'js2-mode-hook 'init-web-settings)
+  (setq js2-strict-missing-semi-warning nil)
+  (setq js2-missing-semi-one-line-override nil)
+  (setq js2-strict-trailing-comma-warning nil)
+  (setq js-indent-level 2)
+
+  :config
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.js?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\*fuo\\*\\'" . fuo-mode))
+  )
+
+(use-package js2-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+  )
+
+(use-package thrift
+  :ensure t)
+
+(use-package exec-path-from-shell
+  :ensure t)
+
+(use-package goto-chg
+  :ensure t)
+
+(use-package diminish
+  :ensure t)
+
+(use-package markdown-mode
+  :ensure t)
+
+(use-package anaconda-mode
+  :ensure t)
+
+(use-package company-anaconda
+  :ensure t)
+
+(use-package groovy-mode
+  :ensure t)
+
+(use-package page-break-lines
+  :ensure t)
+
 (use-package all-the-icons
   :ensure t)
-;;(require-or-install-pkg 'eyebrowse)
-(require-or-install-pkg 'imenu-list)
-(require-or-install-pkg 'bm)
-(require-or-install-pkg 'which-key)
-(require-or-install-pkg 'edit-server)
-(require-or-install-pkg 'general)
+
+(use-package imenu-list
+  :ensure t
+  :general
+  (general-define-key :prefix "C-c i"
+                      "l" 'imenu-list-smart-toggle
+                      "r" 'imenu-list-refresh))
+
+(use-package bm
+  :ensure t
+  :init
+  (setq bm-cycle-all-buffers t)
+  :general
+  (general-define-key :prefix "C-c m"
+                      "n" 'bm-next
+                      "p" 'bm-previous
+                      "m" 'bm-toggle)
+  )
+(use-package which-key
+  :ensure t)
+(use-package edit-server
+  :ensure t)
+(use-package general
+  :ensure t)
 (use-package git-gutter
   :ensure t
   :config
@@ -227,90 +314,84 @@
   :ensure t)
 (use-package ein
   :ensure t)
+(use-package htmlize
+  :ensure t)
+(use-package persp-mode
+  :ensure t
+  :init
+  (setq persp-keymap-prefix (kbd "C-c w"))
+  :config
+  (global-set-key [f3] 'persp-prev)
+  (global-set-key [f4] 'persp-next)
+  (with-eval-after-load "persp-mode"
+    (setq wg-morph-on nil) ;; switch off animation
+    (setq persp-autokill-buffer-on-remove 'kill-weak)
+    (add-hook 'after-init-hook #'(lambda () (persp-mode 1)))))
+
+(use-package evil
+  :ensure t
+  :init
+  (add-hook 'evil-mode-hook
+            (lambda ()
+              (setq general-default-keymaps 'evil-normal-state-map)
+              (setq my-leader-default "<SPC>")
+              (general-define-key :prefix my-leader-default
+                                  "b" 'switch-to-buffer
+                                  "e" '(lambda ()
+                                         (interactive)
+                                         (find-file user-init-file))
+                                  "r" '(lambda ()
+                                         (interactive)
+                                         (load-file user-init-file))
+                                  )
+              (general-define-key
+               "<SPC> p" '(:keymap projectile-command-map :package projectile))
+              (general-define-key
+               "<SPC> g" '(:keymap magit-mode-map :package magit))
+              (general-define-key
+               "<SPC> f" '(:keymap fuo-mode-map :package fuo))
+              (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+              (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+              (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+
+              (define-key evil-normal-state-map "tt" 'neotree-toggle)
+              (define-key evil-normal-state-map "tb" 'imenu-list-smart-toggle)
+              (define-key evil-normal-state-map "f" 'counsel-git-grep)
+
+              ;; try to use emacs key in insert mode
+              (define-key evil-insert-state-map (kbd "\C-k") 'kill-line)
+              (define-key evil-insert-state-map (kbd "\C-d") 'delete-forward-char)
+              (define-key evil-insert-state-map (kbd "\C-a") 'move-beginning-of-line)
+              (define-key evil-insert-state-map (kbd "\C-e") 'move-end-of-line)
+              (define-key evil-insert-state-map (kbd "\C-n") 'next-line)
+              (define-key evil-insert-state-map (kbd "\C-p") 'previous-line)
+              (define-key evil-insert-state-map (kbd "\C-v") 'scroll-up-command)
+              (define-key evil-insert-state-map (kbd "\C-y") 'yank)
+
+              (define-key evil-normal-state-map (kbd "\C-p") 'projectile-find-file)
+
+              (setq-default evil-insert-state-cursor 'box)
+              (modify-syntax-entry ?_ "w")))
+  )
+
+(use-package nyan-mode
+  :ensure t)
 
 ;; (require-or-install-pkg 'fuo)
 (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
   (load "~/coding/emacs-fuo/fuo.el"))
 
-;; (when (>= emacs-major-version 25)
-;;   (require-or-install-pkg 'fill-column-indicator)
-;;   (fci-mode 1))
-
-;; 三方库相关配置
 
 ;; ----------------------
 ;; every thing about evil
 ;; ----------------------
 
 ;; put evil at first place to make others works well with evil
-;; (add-hook 'evil-mode-hook
-;;   (lambda ()
-;;     (setq general-default-keymaps 'evil-normal-state-map)
-;;     (setq my-leader-default "<SPC>")
-;;     (general-define-key :prefix my-leader-default
-;;                         "b" 'switch-to-buffer
-;;                         "e" '(lambda ()
-;;                                (interactive)
-;;                                (find-file user-init-file))
-;;                         "r" '(lambda ()
-;;                                (interactive)
-;;                                (load-file user-init-file))
-;;                         )
-;;     (general-define-key
-;;      "<SPC> p" '(:keymap projectile-command-map :package projectile))
-;;     (general-define-key
-;;      "<SPC> g" '(:keymap magit-mode-map :package magit))
-;;     (general-define-key
-;;      "<SPC> f" '(:keymap fuo-mode-map :package fuo))
-;;
-;;     (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-;;     (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-;;     (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-;;
-;;     (define-key evil-normal-state-map "tt" 'neotree-toggle)
-;;     (define-key evil-normal-state-map "tb" 'imenu-list-smart-toggle)
-;;     (define-key evil-normal-state-map "f" 'counsel-git-grep)
-;;
-;;     ;; try to use emacs key in insert mode
-;;     (define-key evil-insert-state-map (kbd "\C-k") 'kill-line)
-;;     (define-key evil-insert-state-map (kbd "\C-d") 'delete-forward-char)
-;;     (define-key evil-insert-state-map (kbd "\C-a") 'move-beginning-of-line)
-;;     (define-key evil-insert-state-map (kbd "\C-e") 'move-end-of-line)
-;;     (define-key evil-insert-state-map (kbd "\C-n") 'next-line)
-;;     (define-key evil-insert-state-map (kbd "\C-p") 'previous-line)
-;;     (define-key evil-insert-state-map (kbd "\C-v") 'scroll-up-command)
-;;     (define-key evil-insert-state-map (kbd "\C-y") 'yank)
-;;
-;;     (define-key evil-normal-state-map (kbd "\C-p") 'projectile-find-file)
-;;
-;;     (setq-default evil-insert-state-cursor 'box)
-;;     (modify-syntax-entry ?_ "w")))
 ;; (evil-mode 1)
-
-(general-define-key :prefix "C-c m"
-                    "n" 'bm-next
-                    "p" 'bm-previous
-                    "m" 'bm-toggle)
-
-(general-define-key :prefix "C-c i"
-                    "l" 'imenu-list-smart-toggle
-                    "r" 'imenu-list-refresh)
 
 ;; ---------------
 ;; simple packages
 ;; ---------------
-
-;; --
-;; bm
-;; --
-(setq bm-cycle-all-buffers t)
-
-;; (dashboard-setup-startup-hook)
-
-;; -------------
-;; ace-jump-mode
-;; -------------
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 
 ;; ------------
 ;; company-mode
@@ -325,15 +406,6 @@
 (projectile-mode)
 (setq-default projectile-enable-caching t)
 
-;; --------
-;; flycheck
-;; --------
-
-;; 常用快捷键
-;; 1. C-x ` (jump to next error)
-
-(global-flycheck-mode)
-
 ;; ----------
 ;; ace-window
 ;; ----------
@@ -345,41 +417,6 @@
 ;; --------------------
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
-
-;; ---------------------
-;; web-mode and js2-mode
-;; ---------------------
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\*fuo\\*\\'" . fuo-mode))
-(setq-default web-mode-enable-auto-indentation t)
-(setq-default web-mode-code-indent-offset 2)
-(setq-default web-mode-markup-indent-offset 2)
-(setq-default web-mode-css-indent-offset 2)
-
-(defun init-web-settings ()
-  "Init web settings."
-  (interactive)
-  ;; (electric-indent-local-mode -1)
-  (setq tab-stop-list [2, 4, 6, 8, 10])
-  (setq tab-width 2)
-  )
-
-(add-hook 'web-mode-hook 'init-web-settings)
-(add-hook 'js2-mode-hook 'init-web-settings)
-(setq js2-strict-missing-semi-warning nil)
-(setq js2-missing-semi-one-line-override nil)
-(setq js2-strict-trailing-comma-warning nil)
-(setq js-indent-level 2)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 
 ;; ----------------
 ;; goto-last-chagne
@@ -439,6 +476,7 @@
    (format "%s %s" python-shell-interpreter
            (buffer-file-name (current-buffer)))))
 (add-hook 'python-mode-hook 'anaconda-mode)
+(add-hook 'python-mode-hook #'hs-minor-mode)
 (add-hook 'python-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c C-p") 'counsel-projectile)
@@ -447,15 +485,11 @@
 (eval-after-load "company"
                  '(add-to-list 'company-backends 'company-anaconda))
 
-;; -----
-;; slack
-;; -----
-
 ;; which-key
 
 (which-key-mode)
 
-;; perspeen
+;; perspEen
 
 
 ;; (perspeen-mode)

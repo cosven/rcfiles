@@ -51,6 +51,8 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # aliases
 # -------------------------
 alias ls='ls -G'
+alias ec='emacsclient -nc'
+alias g='git'
 
 source ~/.bashrc
 
