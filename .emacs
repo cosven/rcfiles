@@ -27,7 +27,8 @@
     (setq-default org-mode-line-string nil))
   (menu-bar-mode -1)
   (cond ((eq system-type 'darwin)
-         (set-face-attribute 'default nil :font "Monaco 14")
+         (set-fontset-font t nil (font-spec :family "Apple Color Emoji") nil 'append)
+         (set-face-attribute 'default nil :font "Fira Code 14")
          ;; (set-frame-font "Monaco 14" nil t)
          )
         ((eq system-type 'gnu/linux)
@@ -47,6 +48,13 @@
   (setq tab-width 2)
   )
 
+(defun grep-curword ()
+  "Grep word under cursor in whole project."
+  (interactive)
+  ;; (counsel-git-grep nil (thing-at-point 'word))
+  (counsel-rg (thing-at-point 'word))
+)
+
 ;; -------------
 ;; so many hooks
 ;; -------------
@@ -56,7 +64,7 @@
 ;;           (lambda()
 ;;             (when (not (derived-mode-p 'lisp-mode 'python-mode))
 ;;               (electric-indent-mode -1))))
-(modify-syntax-entry ?_ "w")
+;; (modify-syntax-entry ?_ "w")
 (add-hook 'after-make-frame-functions 'cb-after-make-frame)
 
 ;; (setq show-trailing-whitespace t)
@@ -66,6 +74,7 @@
 (global-auto-revert-mode)
 (xterm-mouse-mode 1)
 (electric-pair-mode -1)
+;; (which-function-mode)
 
 ;; emacs welcome page
 (setq-default inhibit-startup-screen t)
@@ -75,7 +84,7 @@
 ;; (setq-default python-shell-completion-native-enable nil)
 (setq-default help-window-select t)
 (setq vc-follow-symlinks t)
-(setq-default org-agenda-files '("~/Dropbox/"))
+(setq-default org-agenda-files '("~/Dropbox/life"))
 (setq-default imenu-list-focus-after-activation t)
 (setq-default imenu-list-size 35)
 (setq-default org-log-done 'time)
@@ -85,11 +94,12 @@
 (setq confirm-kill-emacs 'y-or-n-p)
 (setq-default python-shell-interpreter "python3")
 (setq-default org-babel-python-command "python3")
-(setq-default flycheck-python-pycompile-executable "python3")
 (setq-default org-babel-sh-command "bash")
 (setq make-backup-files nil)
+(setq which-func-unknown "N/A")
 
 (setq-default org-babel-python2-command "python")
+
 (defun org-babel-execute:python2 (body params)
   "Execute BODY by python2 with PARAMS."
   (org-babel-eval "python2" body))
@@ -102,16 +112,18 @@
   (lambda ()
     (interactive)  ;; interactive can turn a function to a command
     (find-file user-init-file)))
-
-(global-set-key (kbd "C-x t")
+(global-set-key (kbd "C-c t")
   (lambda ()
     (interactive)  ;; interactive can turn a function to a command
-    (find-file "~/Dropbox/life_tracking.org")))
+    (find-file "~/Dropbox/life/life_tracking.org")))
+
+(show-paren-mode 1)
 
 (org-babel-do-load-languages 'org-babel-load-languages
                              '((python . t)
                                (shell . t)  ;; emacs >= 26
-                               (C . t)))
+                               (C . t)
+                               (plantuml . t)))
 ;; Enable mouse support
 (unless window-system
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
@@ -132,6 +144,7 @@
 ;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
                          ("melpa" . "http://elpa.emacs-china.org/melpa/")))
+(add-to-list 'load-path (expand-file-name "~/elisp"))
 
 ;; 加载已经安装的包，这样子，之后 requrie 一个包就可以让该包生效
 (package-initialize)
@@ -139,6 +152,21 @@
 (setq use-package-verbose t)
 
 ;; 安装一些包
+
+(use-package awesome-tab
+  :config
+  (awesome-tab-mode)
+  (global-set-key [f3] 'awesome-tab-backward)
+  (global-set-key [f4] 'awesome-tab-forward))
+
+(use-package general
+  :ensure t)
+(use-package exec-path-from-shell
+   :ensure t
+   :init
+   (when (memq window-system '(mac ns x))
+     (exec-path-from-shell-initialize)))
+
 (use-package ivy
   :ensure t
   :init
@@ -163,36 +191,33 @@
   :ensure t
   :config
   (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-m") 'counsel-M-x)
   (global-set-key (kbd "C-c g") 'counsel-git-grep)
   (global-set-key (kbd "C-c C-p") 'counsel-projectile)
-  (global-set-key (kbd "C-c k") 'counsel-ag)
-  (global-set-key (kbd "C-x l") 'counsel-fzf)
   (global-set-key (kbd "C-c f") 'grep-curword)
+  (global-set-key (kbd "C-x l") 'counsel-fzf)
   (global-set-key (kbd "M-i") 'counsel-imenu)
   (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
   )
 
+(use-package projectile
+  :ensure t
+  :config
+  (setq projectile-enable-caching t)
+  (projectile-mode))
+
 (use-package counsel-projectile
   :ensure t
   :config
-  (counsel-projectile-mode)
-  (global-set-key (kbd "C-c p f") 'counsel-projectile-find-file)
-  )
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (counsel-projectile-mode))
 
-(defun grep-curword ()
-  "Grep word under cursor in whole project."
-  (interactive)
-  (counsel-git-grep nil (thing-at-point 'word))
-  ;; (counsel-ag (thing-at-point 'word))
-  )
+(use-package smart-mode-line
+  :ensure t)
 
 (use-package fzf
   :ensure t)
 
-(use-package projectile
-  :ensure t
-  :config
-  (global-set-key (kbd "C-c p p ") 'projectile-switch-project))
 
 (use-package neotree
   :ensure t
@@ -212,10 +237,34 @@
 
 (use-package org
   :ensure t)
+
+(use-package calfw
+  :ensure t)
+
+(use-package calfw-org
+  :ensure t)
+
+(use-package alert
+  :ensure t
+  )
+
+(use-package org-alert
+  :ensure t
+  :init
+  (setq alert-default-style 'notifier)
+  :config
+  (org-alert-enable)
+  )
+
 (use-package company
   :ensure t)
 (use-package ace-window
-  :ensure t)
+  :ensure t
+  :init
+  (setq aw-scope 'frame)
+  :config
+  (global-set-key (kbd "M-o") 'ace-window)
+  )
 (use-package web-mode
   :ensure t
   :init
@@ -246,14 +295,19 @@
 (use-package js2-mode
   :ensure t
   :init
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  ;; (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+  )
+
+(use-package rjsx-mode
+  :ensure t
+  :init
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
   )
 
 (use-package thrift
-  :ensure t)
-
-(use-package exec-path-from-shell
   :ensure t)
 
 (use-package goto-chg
@@ -301,8 +355,6 @@
   :ensure t)
 (use-package edit-server
   :ensure t)
-(use-package general
-  :ensure t)
 (use-package git-gutter
   :ensure t
   :config
@@ -310,23 +362,27 @@
 
 (use-package solarized-theme
   :ensure t)
+(use-package zenburn-theme
+  :ensure t)
+(use-package color-theme-sanityinc-tomorrow
+  :ensure t)
 (use-package yaml-mode
   :ensure t)
 (use-package ein
   :ensure t)
 (use-package htmlize
   :ensure t)
-(use-package persp-mode
-  :ensure t
-  :init
-  (setq persp-keymap-prefix (kbd "C-c w"))
-  :config
-  (global-set-key [f3] 'persp-prev)
-  (global-set-key [f4] 'persp-next)
-  (with-eval-after-load "persp-mode"
-    (setq wg-morph-on nil) ;; switch off animation
-    (setq persp-autokill-buffer-on-remove 'kill-weak)
-    (add-hook 'after-init-hook #'(lambda () (persp-mode 1)))))
+
+;; frame 和 frame 之间不共享 workspace
+;; (use-package perspective
+;;   :ensure t
+;;   :init
+;;   (setq-default persp-mode-prefix-key (kbd "C-x w"))
+;;   :config
+;;   (setq wg-morph-on nil) ;; switch off animation
+;;   (setq persp-autokill-buffer-on-remove 'kill-weak)
+;;   (persp-mode 1)
+;; )
 
 (use-package evil
   :ensure t
@@ -372,22 +428,33 @@
 
               (setq-default evil-insert-state-cursor 'box)
               (modify-syntax-entry ?_ "w")))
+  :config
+  (evil-mode 0)
   )
 
-(use-package nyan-mode
+;; 如果 eyebrowse 可以和 projectile 更好的集成就好了
+(use-package eyebrowse
+  :ensure t
+  :init
+  (setq-default eyebrowse-mode-line-style t)
+  :config
+  (eyebrowse-mode t)
+  (eyebrowse-setup-opinionated-keys))
+
+(use-package restclient
   :ensure t)
 
-;; (require-or-install-pkg 'fuo)
-(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
-  (load "~/coding/emacs-fuo/fuo.el"))
+(use-package plantuml-mode
+  :ensure t)
 
+(use-package writeroom-mode
+  :ensure t)
 
-;; ----------------------
-;; every thing about evil
-;; ----------------------
+(use-package fuo
+  :ensure t)
+;; (when (file-exists-p "~/coding/emacs-fuo/fuo.el")
+;;  (load "~/coding/emacs-fuo/fuo.el"))
 
-;; put evil at first place to make others works well with evil
-;; (evil-mode 1)
 
 ;; ---------------
 ;; simple packages
@@ -406,17 +473,6 @@
 (projectile-mode)
 (setq-default projectile-enable-caching t)
 
-;; ----------
-;; ace-window
-;; ----------
-(global-set-key (kbd "M-o") 'ace-window)
-
-
-;; --------------------
-;; exec-path-from-shell
-;; --------------------
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
 
 ;; ----------------
 ;; goto-last-chagne
@@ -496,14 +552,6 @@
 ;; (setq-default perspeen-use-tab t)
 ;; (setq-default perspeen-keymap-prefix (kbd "C-\\"))
 
-;; ---------
-;; eyebrowse
-;; ---------
-
-;;(eyebrowse-mode t)
-;;(eyebrowse-setup-opinionated-keys)
-;;(setq-default eyebrowse-mode-line-style t)
-
 ;; --------
 ;; modeline
 ;; --------
@@ -553,11 +601,31 @@
 (when (file-exists-p custom-file)
   (load custom-file))
 
+(custom-set-faces
+ '(awesome-tab-selected
+   ((t
+     (:inherit awesome-tab-default
+               :foreground "green3"
+               :overline "green3"
+               :underline "green3"
+               :width semi-expanded))))
+ '(awesome-tab-unselected
+   ((t
+     (:inherit awesome-tab-default
+               :foreground "grey"
+               :overline "grey"
+               :underline "grey"
+               :width semi-expanded))))
+)
+
 ;;(when (file-exists-p "~/coding/emacs-fuo/fuo.el")
 ;;  (load "~/coding/emacs-fuo/fuo.el"))
 
-;;(custom-set-variables
-;; '(custom-enabled-themes (quote (sanityinc-tomorrow-bright))))
+(custom-set-variables
+ '(plantuml-jar-path "~/Documents/plantuml.jar")
+ '(org-plantuml-jar-path "~/Documents/plantuml.jar")
+ )
+
 (provide '.emacs)
 
 ;; Local Variables:

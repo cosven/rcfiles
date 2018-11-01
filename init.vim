@@ -204,7 +204,7 @@ let g:pydiction_menu_height = 3
 """""""""""""
 
 set termguicolors
-" colorscheme Tomorrow-Night-Bright
+colorscheme Tomorrow-Night-Bright
 " set background=dark
 let g:rainbow_active = 1
 
@@ -364,6 +364,7 @@ let g:ctrlp_custom_ignore = {
 " nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
 
 autocmd! BufWritePost * Neomake
+let g:neomake_python_pep8_exe = 'python3'
 let g:deoplete#enable_at_startup = 1
 " C-n 只能进行 keyword 补全
 " Tab 可以补全所有情况
