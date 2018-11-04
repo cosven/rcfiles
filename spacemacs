@@ -1,4 +1,4 @@
-;; -*- mode: emacs-lisp -*-
+                                        ;(spaceline-all-the-icons-theme); -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -37,7 +37,8 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      python
-     helm
+     ;; helm
+     ivy
      auto-completion
      better-defaults
      emacs-lisp
@@ -59,6 +60,7 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
+     spaceline-all-the-icons
      helm-rg
      )
    ;; A list of packages that cannot be updated.
@@ -144,7 +146,7 @@ values."
                                :size 14
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.2)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -311,12 +313,19 @@ before packages are loaded. If you are unsure, you should try in setting them in
   (setq configuration-layer--elpa-archives
         '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
           ("org-cn"   . "http://elpa.emacs-china.org/org/")
-          ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+          ("gnu-cn" . "http://elpa.emacs-china.org/gnu/")))
   (setq-default org-agenda-files '("~/Dropbox/life"))
   (setq-default truncate-lines t)
   (setq custom-file "~/.spacemacs-custom.el")
+  (setq vc-follow-symlinks t)
+  (global-hl-line-mode nil)
   (global-set-key [f2] 'neotree-toggle)
   (global-set-key (kbd "C-c f") 'helm-rg)
+  (setq zenburn-override-colors-alist
+        '(("zenburn-bg+05" . "#282828")
+          ("zenburn-bg+1"  . "#2F2F2F")
+          ("zenburn-bg+2"  . "#3F3F3F")
+          ("zenburn-bg+3"  . "#4F4F4F")))
   )
 
 (defun dotspacemacs/user-config ()
@@ -339,4 +348,6 @@ you should place your code here."
   (define-key evil-normal-state-map "f" 'helm-rg)
   (define-key evil-normal-state-map (kbd "C-p") 'helm-projectile-find-file)
   (fringe-mode -1)
+  (spaceline-all-the-icons-theme)
+  (eyebrowse-mode -1)
 )
