@@ -199,8 +199,11 @@ shopt -s histappend                      # append to history, don't overwrite it
 # aliases
 # -------------------------
 alias ls='ls -G'
+alias ll='ls -l'
 alias ec='emacsclient -nc'
 alias g='git'
+alias ..='cd ..'
+alias ...='cd ../..'
 
 source ~/.bashrc
 

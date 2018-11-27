@@ -2,7 +2,7 @@
 
 curdir=`pwd`
 
-cd ~/coding/cosven.github.io
+cd ~/cosven.github.io
 git grep "$@"
 
 cd $curdir

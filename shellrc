@@ -1,3 +1,4 @@
 export PATH=~/coding/rcfiles/bin:~/.local/bin:$PATH
 export EDITOR="emacsclient -t"
 export VISUAL="emacsclient -t"
+alias mjump-wiki="cd ~/cosven.github.io"
