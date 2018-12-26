@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+
+"""
+A too to find Python module/class/function definition
+
+Working environment:
+
+- Python 3.7
+- jedi
+- argcomplete (Optional)
+- register-python-argcomplete mpy-goto-def
+"""
+
+import argparse
+import jedi
+import os
+import sys
+
+try:
+    import argcomplete
+except ImportError:
+    argcomplete = None
+
+
+COLOR_CLASS = '\033[1;32m'  # bold green
+COLOR_FUNCTION = '\033[0;34m'  # Cyan
+COLOR_CMD = '\033[0;35m'   # Purple
+COLOR_PROMPT = '\033[0;32m'  # green
+COLOR_END = '\033[0m'
+
+
+def get_pkg_obj(name):
+    try:
+        pkg_obj = __import__(name)
+    except ImportError:
+        return None
+    return pkg_obj
+
+
+def find_name_def(name):
+    parts = name.split('.')
+    defs = []
+
+    if len(parts) > 1:
+        pkg = parts[0]
+        pkg_obj = get_pkg_obj(pkg)
+        if pkg_obj is not None:
+            defs = jedi.Interpreter(name, [{pkg: pkg_obj}]).goto_definitions()
+
+            # When name refers to a package, the definitions will empty.
+            # we try to check if it is a package.
+            if not defs:
+                parents, this = name.rsplit('.')
+                completions = jedi.Script(f'from {parents} import {this}').completions()
+                if completions and completions[0].name == this:
+                    defs = completions[0].follow_definition()
+    else:
+        obj = getattr(__builtins__, name, None)
+        if obj is None:  # package or nothing
+            pkg_obj = get_pkg_obj(name)
+            if pkg_obj is not None:
+                defs = jedi.Interpreter(name, [{name: pkg_obj}]).goto_definitions()
+        else:  # builtins
+            defs = jedi.Interpreter(name, []).goto_definitions()
+
+    if defs:
+        return defs[0]
+
+
+def colorful_print(text, color, end='\n'):
+    print(color, end='')
+    print(text, end='')
+    print(COLOR_END, end=end)
+
+
+def print_definition(definition):
+    docstring = definition.docstring()
+    if not definition.in_builtin_module():
+        if definition.type != 'module':
+            colorful_print(definition.get_line_code(), COLOR_CLASS)
+
+        # add indent for class/function docstring but not module
+        if definition.type != 'module':
+            for line in docstring.split('\n'):
+                print(f'     {line}')
+        else:
+            print(docstring)
+    else:
+        print(docstring)
+
+
+def name_completer(**kwargs):
+    name = kwargs['prefix']
+    if not name:
+        return []
+
+    parts = name.split('.')
+    candidates = []
+
+    if len(parts) == 1:
+        for com in jedi.Script(f'import {name}').completions():
+            candidates.append(name + com.complete)
+    else:
+        parents, this = name.rsplit('.')
+        for com in jedi.Script(f'from {parents} import {this}').completions():
+            candidates.append(name + com.complete)
+    return candidates
+
+
+def main(name, open=False):
+    definition = find_name_def(name)
+    if definition is None:
+        print("Can't find definition.")
+        exit(1)
+
+    line = definition.line
+    fpath = definition.module_path
+    command = f'medit +{line} {fpath}'
+
+    if open:
+        if definition.in_builtin_module():
+            print(f"{name} is a builtin module, can't edit.")
+            exit(1)
+        else:
+            os.system(command)
+    else:
+        print()
+        print_definition(definition)
+
+        if not definition.in_builtin_module():
+            print()
+            colorful_print('> ', COLOR_PROMPT, end='')
+            colorful_print(f'{command}', COLOR_CMD)
+            print()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='find Python module, class, function definition.')
+    arg_name = parser.add_argument(
+        'name',
+        help='module, class, function name. such as: flask.Request'
+    )
+    parser.add_argument('-no', '--noopen',
+                        action='store_true',
+                        help='find file and open it.')
+    if argcomplete is not None:
+        arg_name.completer = name_completer
+        argcomplete.autocomplete(parser)
+
+    args = parser.parse_args()
+    # add current path to sys path
+    sys.path.append(os.curdir)
+    main(args.name, not args.noopen)
