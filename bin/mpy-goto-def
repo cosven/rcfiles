@@ -3,12 +3,16 @@
 """
 A too to find Python module/class/function definition
 
-Working environment:
+**Working environment:**
 
 - Python 3.7
 - jedi
 - argcomplete (Optional)
-- register-python-argcomplete mpy-goto-def
+
+**Enable bash autocomplete**
+
+$ register-python-argcomplete mpy-goto-def >> .bashrc
+$ source .bashrc
 """
 
 import argparse
