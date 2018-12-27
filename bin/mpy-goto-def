@@ -13,6 +13,10 @@ A too to find Python module/class/function definition
 
 $ register-python-argcomplete mpy-goto-def >> .bashrc
 $ source .bashrc
+
+**TODO**
+
+- refactor: duplicate code in find_name_def and name_completer
 """
 
 import argparse
@@ -51,13 +55,20 @@ def find_name_def(name):
         if pkg_obj is not None:
             defs = jedi.Interpreter(name, [{pkg: pkg_obj}]).goto_definitions()
 
-            # When name refers to a package, the definitions will empty.
-            # we try to check if it is a package.
-            if not defs:
-                parents, this = name.rsplit('.')
-                completions = jedi.Script(f'from {parents} import {this}').completions()
-                if completions and completions[0].name == this:
-                    defs = completions[0].follow_definition()
+        # We fallback to find definition from jedi if not definition is found
+        # this maybe not so accurate.
+        #
+        # 1. when name refers to a package, we can get pkg_obj,
+        # but the definitions will be empty.
+        # 2. Jedi can do autocomplete for both Python 2 and Python 3
+        # even if it is installed in Python 3 environment.
+        if not defs:
+            parents, this = name.rsplit('.', 1)
+            script = jedi.Script(f'from {parents} import {this}')
+            completions = script.completions()
+            if completions and completions[0].name == this:
+                defs = completions[0].follow_definition()
+
     else:
         obj = getattr(__builtins__, name, None)
         if obj is None:  # package or nothing
@@ -105,7 +116,7 @@ def name_completer(**kwargs):
         for com in jedi.Script(f'import {name}').completions():
             candidates.append(name + com.complete)
     else:
-        parents, this = name.rsplit('.')
+        parents, this = name.rsplit('.', 1)
         for com in jedi.Script(f'from {parents} import {this}').completions():
             candidates.append(name + com.complete)
     return candidates
