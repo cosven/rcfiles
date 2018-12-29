@@ -205,6 +205,10 @@ alias g='git'
 alias ..='cd ..'
 alias ...='cd ../..'
 
+if [ $OSTYPE == "linux-gnu" ]; then
+    alias gsed=sed
+fi
+
 source ~/.bashrc
 
 # -------------------------
