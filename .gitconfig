@@ -1,0 +1,16 @@
+[alias]
+    st = status
+    co = checkout
+    df = diff
+
+[user]
+	email = yinshaowen241@gmail.com
+	name = cosven
+[core]
+	excludesfile = /Users/cosven/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

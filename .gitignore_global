@@ -1,0 +1,12 @@
+*~
+.DS_Store
+
+# vim
+*.sw[o,p]
+
+# Emacs
+.\#*
+\#*\#
+
+# virtualenv
+.venv/
