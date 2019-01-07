@@ -7,6 +7,7 @@
 # Emacs
 .\#*
 \#*\#
+flycheck_*.py
 
 # virtualenv
 .venv/
