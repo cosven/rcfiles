@@ -6,9 +6,7 @@
 # Feature:
 #
 # 1. clean
-# 2. show python venv name if in
-# 3. show last command exit status
-#
+# 2. show python venv name if in # 3. show last command exit status #
 # Coding style: https://google.github.io/styleguide/shell.xml
 # -------------------------
 
@@ -218,6 +216,7 @@ alias ec='emacsclient -nc'
 alias g='git'
 alias ..='cd ..'
 alias ...='cd ../..'
+alias f='fuocli'
 
 export PATH=~/coding/rcfiles/bin:~/.local/bin:$PATH
 export EDITOR="emacsclient -t"

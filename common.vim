@@ -22,6 +22,7 @@ nnoremap <leader>lp :lprevious<CR>
 nnoremap <leader>r :source $MYVIMRC<CR>
 
 """ T
+nnoremap <F2> :silent! NERDTreeToggle<CR>
 nnoremap tt :silent! NERDTreeToggle<CR>
 nnoremap tn :tab new<CR>
 nmap tl :TagbarClose<cr>:Tlist<cr>
