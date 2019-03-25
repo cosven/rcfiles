@@ -35,7 +35,7 @@ function check_rcfiles_pushed {
 }
 
 function check_notes_pushed {
-    default_notes_path="$HOME/coding/cosven.github.io"
+    default_notes_path="$HOME/cosven.github.io"
     if [ -d $default_notes_path ]; then
         cd $default_notes_path
         have_changes
