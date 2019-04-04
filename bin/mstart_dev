@@ -16,7 +16,7 @@ function sync_rcfiles {
 
 # sync cosven.github.io
 function sync_notes {
-    default_notes_path="$HOME/coding/cosven.github.io"
+    default_notes_path="$HOME/cosven.github.io"
     if [ -d $default_notes_path ]; then
         cd $default_notes_path
         echo "sync notes-ing"
