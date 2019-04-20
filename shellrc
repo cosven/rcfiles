@@ -210,13 +210,13 @@ shopt -s histappend                      # append to history, don't overwrite it
 # -------------------------
 # aliases
 # -------------------------
-alias ls='ls -G'
+alias ls='ls -G --color=auto'
 alias ll='ls -l'
 alias ec='emacsclient -nc'
 alias g='git'
 alias ..='cd ..'
 alias ...='cd ../..'
-alias f='fuocli'
+alias f='fuo'
 
 export PATH=~/coding/rcfiles/bin:~/.local/bin:$PATH
 export EDITOR="emacsclient -t"
