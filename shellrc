@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # -------------------------
 # bash prompt configuration
 #
@@ -218,10 +217,13 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias f='fuo'
 
-export PATH=~/coding/rcfiles/bin:~/.local/bin:$PATH
+export PATH=~/coding/rcfiles/bin:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$PATH
 export EDITOR="emacsclient -t"
 export VISUAL="emacsclient -t"
 alias mjump-wiki="cd ~/cosven.github.io"
+
+# golang env setup
+export GOPATH=~/go
 
 
 # -------------------------
@@ -233,3 +235,4 @@ if [[ "$TERM" == "eterm-color" ]]; then
     # http://vim.wikia.com/wiki/Backspace_and_delete_problems
     stty erase '^?'
 fi
+
