@@ -209,13 +209,20 @@ shopt -s histappend                      # append to history, don't overwrite it
 # -------------------------
 # aliases
 # -------------------------
-alias ls='ls -G --color=auto'
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    alias ls='ls -G'
+else
+    alias ls='ls --color=auto'
+fi
+
 alias ll='ls -l'
 alias ec='emacsclient -nc'
 alias g='git'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias f='fuo'
+alias xcopy='xsel --clipboard --input'
+alias xpaste='xsel --clipboard --output'
 
 export PATH=~/coding/rcfiles/bin:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$PATH
 export EDITOR="emacsclient -t"
