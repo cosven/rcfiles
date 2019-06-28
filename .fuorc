@@ -1,22 +1,18 @@
 # -*- mode: Python; -*-
 # vi: ft=python
 
-config = globals()['config']
+import os
 
 
-config.COLLECTIONS_DIR = [
-    '~/Dropbox/public/歌曲收藏',
-]
+# 自定义配置
+# config.THEME = 'dark'
+config.COLLECTIONS_DIR = '~/Dropbox/public/music'
+config.AUDIO_SELECT_POLICY = '>>>'
 
 
-def after_app_initialize(app):
-    from mpv import _mpv_set_property_string
+# 一个小插件：切换歌曲时，发送系统通知
+def notify_song_changed(song):
+    if song is not None:
+        pass
 
-    # set proxy for mpv ytdl so that we can play youtube video
-    #  for example: `fuo play https://www.youtube.com/watch?v=Bsdf_iK8f2M`
-    _mpv_set_property_string(app.player._mpv.handle,
-                             b'ytdl-raw-options',
-                             b'proxy=[http://127.0.0.1:1087]')
-
-
-# when('app.initialized', after_app_initialize)
+when('app.player.playlist.song_changed', notify_song_changed)
