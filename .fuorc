@@ -2,17 +2,36 @@
 # vi: ft=python
 
 import os
-
+import threading
+from functools import partial
 
 # 自定义配置
 # config.THEME = 'dark'
 config.COLLECTIONS_DIR = '~/Dropbox/public/music'
 config.AUDIO_SELECT_POLICY = '>>>'
 
+# def update_netease_request_headers(*args, **kwargs):
+#     from fuo_netease import provider
+#
+#     # 海外用户可以给它设置 IP，避免被 block
+#     provider.api.headers.update({'X-Real-Ip': '...'})
 
-# 一个小插件：切换歌曲时，发送系统通知
-def notify_song_changed(song):
-    if song is not None:
-        pass
+def sync_slack_status(song):
+    slack_legacy_token = os.getenv('SLACK_TOKEN')
+    if slack_legacy_token is None or song is None:
+        return
+    try:
+        from slacker import Slacker
+    except ImportError:
+        return
 
-when('app.player.playlist.song_changed', notify_song_changed)
+    slacker = Slacker(slack_legacy_token)
+    title = song.title_display or 'unknown'
+    artists_name = song.artists_name_display or 'unknown'
+    status = f"{title} - {artists_name}"
+    profile = f'{{"status_text": "正在听：{status}", "status_emoji": ":headphones:"}}'
+    threading.Thread(target=partial(slacker.users.profile.set, profile=profile)).start()
+
+
+when('app.player.playlist.song_changed', sync_slack_status)
+# when('app.initialized', update_netease_request_headers)

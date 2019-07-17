@@ -1,3 +1,3 @@
 #!/bin/bash
 
-grep -R "$@" ~/cosven.github.io ~/Dropbox/public --color=auto
+grep -R "$@" ~/cosven.github.io --color=auto --exclude-dir=.git --exclude=\*.html

@@ -1,6 +1,19 @@
-*.out
-\#*\#
-*~
-.#*
+# ---------------------
+# Editor or IDE related
+# ---------------------
+#
+# PyCharm
+# http://www.jetbrains.com/pycharm/webhelp/project.html
+.idea
+.iml
+.settings
+
+# Vim
+*.pyc
 *.swp
 *.swo
+
+# Emacs
+.\#*
+\#*\#
+# .dir-locals.el

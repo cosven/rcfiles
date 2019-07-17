@@ -211,6 +211,14 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # -------------------------
 if [[ "$OSTYPE" == "darwin"* ]]; then
     alias ls='ls -G'
+
+    # mysql client header files
+    export LDFLAGS="-L/usr/local/opt/mysql-client/lib"
+    export CPPFLAGS="-I/usr/local/opt/mysql-client/include"
+    export PKG_CONFIG_PATH="/usr/local/opt/mysql-client/lib/pkgconfig"
+
+    # llvm tools
+    export PATH=/usr/local/Cellar/llvm/8.0.0_1/bin/:$PATH
 else
     alias ls='ls --color=auto'
 fi
@@ -218,6 +226,8 @@ fi
 alias ll='ls -l'
 alias ec='emacsclient -nc'
 alias g='git'
+alias k='kubectl'
+alias t='tmux'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias f='fuo'
@@ -225,6 +235,7 @@ alias xcopy='xsel --clipboard --input'
 alias xpaste='xsel --clipboard --output'
 
 export PATH=~/coding/rcfiles/bin:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$PATH
+export PATH=$PATH:~/go/bin
 export EDITOR="emacsclient -t"
 export VISUAL="emacsclient -t"
 alias mjump-wiki="cd ~/cosven.github.io"

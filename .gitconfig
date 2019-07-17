@@ -8,7 +8,7 @@
 	email = yinshaowen241@gmail.com
 	name = cosven
 [core]
-	excludesfile = /Users/cosven/.gitignore_global
+	excludesfile = /Users/yinshaowen/.gitignore
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
@@ -20,3 +20,5 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[url "git@github.com:"]
+	insteadOf = https://github.com/
