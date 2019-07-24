@@ -206,6 +206,15 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # Linux
 [ -f /usr/share/autojump/autojump.sh ] && . /usr/share/autojump/autojump.sh
 
+#---------------------------
+# functions
+#---------------------------
+
+# change window title for iTerm2
+title(){
+    echo -ne "\033]0;"$@"\007"
+}
+
 # -------------------------
 # aliases
 # -------------------------
@@ -219,6 +228,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
     # llvm tools
     export PATH=/usr/local/Cellar/llvm/8.0.0_1/bin/:$PATH
+    GIT_COMPLETION_BASH_PATH=/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+    [ -f "$GIT_COMPLETION_BASH_PATH" ] && . "$GIT_COMPLETION_BASH_PATH"
+
 else
     alias ls='ls --color=auto'
 fi

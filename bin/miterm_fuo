@@ -1,0 +1,8 @@
+#!/bin/bash
+
+while true; do
+    echo -ne "\033]0;"正在播放：`/Users/yinshaowen/coding/rcfiles/bin/mget_cursong`"\007"
+    sleep 1
+done&
+
+echo "sub topic.live_lyric" | nc localhost 23334
