@@ -220,12 +220,6 @@ title(){
 # -------------------------
 if [[ "$OSTYPE" == "darwin"* ]]; then
     alias ls='ls -G'
-
-    # mysql client header files
-    export LDFLAGS="-L/usr/local/opt/mysql-client/lib"
-    export CPPFLAGS="-I/usr/local/opt/mysql-client/include"
-    export PKG_CONFIG_PATH="/usr/local/opt/mysql-client/lib/pkgconfig"
-
     # llvm tools
     export PATH=/usr/local/Cellar/llvm/8.0.0_1/bin/:$PATH
     GIT_COMPLETION_BASH_PATH=/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
