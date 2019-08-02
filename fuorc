@@ -33,5 +33,6 @@ def sync_slack_status(song):
     threading.Thread(target=partial(slacker.users.profile.set, profile=profile)).start()
 
 
-when('app.player.playlist.song_changed', sync_slack_status)
+when('app.player.playlist.song_changed', sync_slack_status, use_symbol=True)
+# when('app.initialized', lambda _: print('!!! DEBUG: app initialized'))
 # when('app.initialized', update_netease_request_headers)

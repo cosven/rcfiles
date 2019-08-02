@@ -244,6 +244,8 @@ export PATH=~/coding/rcfiles/bin:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$PA
 export PATH=$PATH:~/go/bin
 export EDITOR="emacsclient -t"
 export VISUAL="emacsclient -t"
+alias vim=medit
+alias edit=medit
 alias mjump-wiki="cd ~/cosven.github.io"
 
 # golang env setup
@@ -259,4 +261,3 @@ if [[ "$TERM" == "eterm-color" ]]; then
     # http://vim.wikia.com/wiki/Backspace_and_delete_problems
     stty erase '^?'
 fi
-
