@@ -5,6 +5,19 @@ import os
 import threading
 from functools import partial
 
+no_proxy_list = [
+    '.126.net',
+    '.qq.com',
+    '.bilibili.com',
+    '.acgvideo.com',
+    '.xiami.com',
+    '.163.com',
+    '.xiami.com',
+]
+
+os.environ['http_proxy'] = 'http://127.0.0.1:1087'
+os.environ['no_proxy'] = ','.join(no_proxy_list)
+
 # 自定义配置
 # config.THEME = 'dark'
 config.COLLECTIONS_DIR = '~/Dropbox/public/music'

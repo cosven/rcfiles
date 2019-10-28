@@ -1,6 +1,6 @@
 #!/bin/bash
 
-str=`echo -e "status\nquit" | nc localhost 23333 2>/dev/null | grep "lyric\-s" | cut -f 2 -d":"`
+str=`echo -e "status\nquit" | nc localhost 23333 2>/dev/null | grep "lyric\-s" | cut -f 2- -d":"`
 if [ $? -eq 0 ]; then
     echo $str
 else

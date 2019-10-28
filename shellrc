@@ -166,7 +166,7 @@ _getGitPS1() {
 }
 
 # The entire table of ANSI color codes.
-# https://gist.github.com/chrisopedia/8754917
+# https://gist.github.com/iamnewton/8754917
 ps1ArrowFgColor="92"
 __prompt_command(){
     if [ $? == 0 ];
@@ -175,6 +175,10 @@ __prompt_command(){
     else
         ps1ArrowFgColor="91"
     fi
+    # Save and reload the history after each command finishes
+    history -a
+    history -c
+    history -r
     _autoActivatePyVenv
     local venvName=`_getPyVenvPS1`
     local shortPwd=`_getShortPwd`
@@ -188,8 +192,7 @@ export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
 shopt -s histappend                      # append to history, don't overwrite it
 
-# Save and reload the history after each command finishes
-export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+export PROMPT_COMMAND="$PROMPT_COMMAND"
 
 # -------------------------
 # bash completion
