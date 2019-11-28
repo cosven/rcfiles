@@ -12,7 +12,7 @@ no_proxy_list = [
     '.acgvideo.com',
     '.xiami.com',
     '.163.com',
-    '.xiami.com',
+    '.xiami.net',
 ]
 
 os.environ['http_proxy'] = 'http://127.0.0.1:1087'
