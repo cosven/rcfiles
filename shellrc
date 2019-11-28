@@ -177,7 +177,7 @@ __prompt_command(){
     fi
     # Save and reload the history after each command finishes
     history -a
-    history -c
+    # history -c  # this will clear the history on Linux
     history -r
     _autoActivatePyVenv
     local venvName=`_getPyVenvPS1`
