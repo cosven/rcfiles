@@ -20,7 +20,7 @@ os.environ['no_proxy'] = ','.join(no_proxy_list)
 
 # 自定义配置
 # config.THEME = 'dark'
-config.COLLECTIONS_DIR = '~/Dropbox/public/music'
+# config.COLLECTIONS_DIR = '~/Dropbox/public/music'
 config.AUDIO_SELECT_POLICY = '>>>'
 
 # def update_netease_request_headers(*args, **kwargs):

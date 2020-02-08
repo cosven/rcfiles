@@ -23,7 +23,7 @@ set writebackup
 set nobackup
 set ignorecase
 set smartcase
-set nonumber
+set number
 set laststatus=2
 set showtabline=1
 set cmdheight=1
