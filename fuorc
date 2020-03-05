@@ -5,23 +5,10 @@ import os
 import threading
 from functools import partial
 
-no_proxy_list = [
-    '.126.net',
-    '.qq.com',
-    '.bilibili.com',
-    '.acgvideo.com',
-    '.xiami.com',
-    '.163.com',
-    '.xiami.net',
-]
-
-os.environ['http_proxy'] = 'http://127.0.0.1:1087'
-os.environ['no_proxy'] = ','.join(no_proxy_list)
-
 # 自定义配置
 # config.THEME = 'dark'
 # config.COLLECTIONS_DIR = '~/Dropbox/public/music'
-config.AUDIO_SELECT_POLICY = '>>>'
+config.AUDIO_SELECT_POLICY = '<<<'
 
 # def update_netease_request_headers(*args, **kwargs):
 #     from fuo_netease import provider
@@ -49,3 +36,7 @@ def sync_slack_status(song):
 when('app.player.playlist.song_changed', sync_slack_status, use_symbol=True)
 # when('app.initialized', lambda _: print('!!! DEBUG: app initialized'))
 # when('app.initialized', update_netease_request_headers)
+#
+import os 
+when('app.initialized', 
+     lambda *args: source(os.path.expanduser('~/coding/rcfiles/youtube_provider.py')))

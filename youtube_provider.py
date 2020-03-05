@@ -4,7 +4,7 @@ import json
 import subprocess
 
 from fuocore.provider import AbstractProvider
-from fuocore.models import SongModel
+from fuocore.models import SongModel, cached_field
 from fuocore.media import Media
 
 
@@ -12,6 +12,7 @@ no_proxy_list = [
     '.126.net',
     '.qq.com',
     '.bilibili.com',
+    '.bilivideo.com',
     '.acgvideo.com',
     '.xiami.com',
     '.163.com',
@@ -44,6 +45,12 @@ class BilibiliProvider(AbstractProvider):
     def name(self):
         return 'bilibili'
 
+
+# re-register provider
+for identifier in ('bilibili', 'youtube'):
+    provider = APP.library.get(identifier)
+    if provider is not None:
+        APP.library.deregister(provider)
 
 youtube_provider = YoutubeProvider()
 bilibili_provider = BilibiliProvider()
@@ -82,22 +89,11 @@ class BilibiliModel(SongModel):
                    url=media,
                    title=title)
 
-    @property
+    @cached_field(ttl=3600)
     def url(self):
-        if hasattr(self, '_url'):
-            if self._expire_at >= time.time():
-                url = self._url
-            else:
-                song = BilibiliModel.get(self.identifier)
-                url = self.url = song.url
-            return url
-        return None
-
-    @url.setter
-    def url(self, url):
-        self._url = url
-        # from old experience, will be expired after 5 hour
-        self._expire_at = time.time() + 3600 * 1
+        song = BilibiliModel.get(self.identifier)
+        url = self.url = song.url
+        return url
 
 
 class YoutubeModel(SongModel):
@@ -121,13 +117,11 @@ class YoutubeModel(SongModel):
         return cls(identifier=identifier,
                    title=title,)
 
-    @property
+    @cached_field(ttl=3600*5)
     def url(self):
-        if hasattr(self, '_url') and self._expire_at < time.time():
-            return self._url
-        vurl = "https://youtube.com/v/" + self.identifier
-        p = subprocess.run(['youtube-dl', '-g', vurl],
-                           capture_output=True)
+        vurl = "https://youtube.com/watch?v=" + self.identifier
+        cmd = ['youtube-dl', '-g', '--youtube-skip-dash-manifest', vurl]
+        p = subprocess.run(cmd, capture_output=True)
         if p.returncode == 0:
             video = audio = ''
             for line in p.stdout.decode().splitlines():
@@ -139,13 +133,7 @@ class YoutubeModel(SongModel):
             if url:
                 self.url = url
                 return url
-        return ''
-
-    @url.setter
-    def url(self, url):
-        self._url = url
-        # from old experience, will be expired after 5 hour
-        self._expire_at = time.time() + 3600 * 5
+        return None
 
     @property
     def duration_ms(self):
@@ -161,7 +149,12 @@ def _generate_models(url):
         stdout = p.stdout
         for line in stdout.decode().splitlines():
             meta = json.loads(line)
-            source = meta['extractor_key'].lower()
+            if 'extractor_key' in meta:
+                source = meta['extractor_key'].lower()
+            elif 'ie_key' in meta:
+                source = meta['ie_key'].lower()
+            else:
+                raise Exception('this is a bug')
             if source == bilibili_provider.identifier:
                 model_cls = BilibiliModel
             elif source == youtube_provider.identifier:
