@@ -1,3 +1,41 @@
+"""
+Usage
+-----
+
+0. 安装最新版 [youtube-dl](https://github.com/ytdl-org/youtube-dl)
+1. 下载上述脚本
+2. 修改第 20 行，将 proxy 地址改成一个自己的（否则可能有未知问题）
+3. 执行 `fuo exec < youtube_provider.py`
+
+播放周杰伦的叶惠美专辑，执行
+```
+fuo exec "play_youtube('https://music.youtube.com/playlist?list=OLAK5uy_luGzxd76PlO-rZN-Nh_MRoD81ukS_D7os')"
+```
+
+播放 no matter what
+```
+fuo exec "play_youtube('https://www.youtube.com/watch?v=7eul_Vt6SZY')"
+```
+
+Best Pratice
+------------
+
+在 `~/.fuorc` 中进行配置，代码如下（请自己修改目录）
+```
+import os
+when('app.initialized',
+     lambda *args: source(os.path.expanduser('~/coding/rcfiles/youtube_provider.py')))
+```
+
+自己在 PATH 下新建一个脚本，比如 `youtube-dl-fuo`
+```
+#!/bin/bash
+
+fuo exec "play_youtube('$1')"
+```
+"""
+
+
 import os
 import time
 import json
@@ -17,6 +55,7 @@ no_proxy_list = [
     '.xiami.com',
     '.163.com',
     '.xiami.net',
+    '.gtimg.cn',  # qqmusic image
 ]
 
 os.environ['http_proxy'] = 'http://127.0.0.1:1087'
