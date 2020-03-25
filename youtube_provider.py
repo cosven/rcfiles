@@ -42,7 +42,7 @@ import json
 import subprocess
 
 from fuocore.provider import AbstractProvider
-from fuocore.models import SongModel, cached_field
+from fuocore.models import SongModel, cached_field, SearchModel
 from fuocore.media import Media
 
 
@@ -58,7 +58,7 @@ no_proxy_list = [
     '.gtimg.cn',  # qqmusic image
 ]
 
-os.environ['http_proxy'] = 'http://127.0.0.1:1087'
+# os.environ['http_proxy'] = 'http://127.0.0.1:1087'
 os.environ['no_proxy'] = ','.join(no_proxy_list)
 
 
@@ -73,6 +73,21 @@ class YoutubeProvider(AbstractProvider):
     @property
     def name(self):
         return 'YouTube'
+
+    def search(self, keyword, *args, **kwargs):
+        limit = kwargs.get('limit', 10)
+        p = subprocess.run(
+            ['youtube-dl', '--flat-playlist', '-j', f"ytsearch{limit}: {keyword}"],
+            capture_output=True
+        )
+        if p.returncode == 0:
+            stdout = p.stdout
+            songs = []
+            for line in stdout.decode().splitlines():
+                data = json.loads(line)
+                song = YoutubeModel.from_youtubedl_output(data)
+                songs.append(song)
+            return SearchModel(songs=songs)
 
 
 class BilibiliProvider(AbstractProvider):

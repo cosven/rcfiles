@@ -249,7 +249,7 @@ export PATH=~/coding/rcfiles/bin:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$PA
 export PATH=$PATH:~/go/bin
 export EDITOR="emacsclient -t"
 export VISUAL="emacsclient -t"
-alias vim=medit
+# alias vim=medit
 alias edit=medit
 alias mjump-wiki="cd ~/cosven.github.io"
 
