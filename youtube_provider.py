@@ -163,7 +163,7 @@ class YoutubeModel(SongModel):
             if meta['_type'] != 'url':
                 return None
             identifier = meta['url']
-            title = meta['title']
+            title = meta.get('title', 'unknown')
         else:
             # TODO: we can extract complete song info here
             identifier = meta['id']
