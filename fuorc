@@ -8,7 +8,7 @@ from functools import partial
 # 自定义配置
 # config.THEME = 'dark'
 # config.COLLECTIONS_DIR = '~/Dropbox/public/music'
-config.AUDIO_SELECT_POLICY = '<<<'
+config.AUDIO_SELECT_POLICY = 'sq>>>'
 
 # def update_netease_request_headers(*args, **kwargs):
 #     from fuo_netease import provider
