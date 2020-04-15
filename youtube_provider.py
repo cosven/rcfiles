@@ -37,6 +37,7 @@ fuo exec "play_youtube('$1')"
 
 
 import os
+import logging
 import time
 import json
 import subprocess
@@ -44,6 +45,8 @@ import subprocess
 from fuocore.provider import AbstractProvider
 from fuocore.models import SongModel, cached_field, SearchModel
 from fuocore.media import Media
+
+logger = logging.getLogger(__name__)
 
 
 no_proxy_list = [
@@ -77,7 +80,7 @@ class YoutubeProvider(AbstractProvider):
     def search(self, keyword, *args, **kwargs):
         limit = kwargs.get('limit', 10)
         p = subprocess.run(
-            ['youtube-dl', '--flat-playlist', '-j', f"ytsearch{limit}: {keyword}"],
+            ['youtube-dl', '--socket-timeout', '1', '--flat-playlist', '-j', f"ytsearch{limit}: {keyword}"],
             capture_output=True
         )
         if p.returncode == 0:
@@ -175,6 +178,7 @@ class YoutubeModel(SongModel):
     def url(self):
         vurl = "https://youtube.com/watch?v=" + self.identifier
         cmd = ['youtube-dl', '-g', '--youtube-skip-dash-manifest', vurl]
+        logger.info(' '.join(cmd))
         p = subprocess.run(cmd, capture_output=True)
         if p.returncode == 0:
             video = audio = ''

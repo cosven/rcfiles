@@ -252,8 +252,8 @@ alias xpaste='xsel --clipboard --output'
 
 export PATH=~/coding/rcfiles/bin:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$PATH
 export PATH=$PATH:~/go/bin
-export EDITOR="emacsclient -t"
-export VISUAL="emacsclient -t"
+export EDITOR="vim"
+export VISUAL="vim"
 alias vi=vim
 alias medit=vim
 alias edit=medit
