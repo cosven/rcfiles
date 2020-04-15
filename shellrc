@@ -201,6 +201,11 @@ export PROMPT_COMMAND="$PROMPT_COMMAND"
 # -------------------------
 [ -f /usr/local/etc/bash_completion  ] && . /usr/local/etc/bash_completion
 
+# CentOS
+for file in /etc/bash_completion.d/* ; do
+    source "$file"
+done
+
 # -------------------------
 # autojump
 # -------------------------
