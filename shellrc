@@ -242,7 +242,7 @@ else
 fi
 
 alias ll='ls -l'
-alias ec='emacsclient -nc'
+alias ec='emacsclient'
 alias g='git'
 alias k='kubectl'
 alias t='tmux'
