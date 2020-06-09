@@ -38,12 +38,14 @@ fuo exec "play_youtube('$1')"
 
 import os
 import logging
-import time
 import json
+import random
 import subprocess
 
+from fuocore.excs import ProviderIOError
 from fuocore.provider import AbstractProvider
-from fuocore.models import SongModel, cached_field, SearchModel
+from fuocore.models import SongModel, cached_field, SearchModel, \
+    SearchType, VideoModel
 from fuocore.media import Media
 
 logger = logging.getLogger(__name__)
@@ -61,11 +63,27 @@ no_proxy_list = [
     '.gtimg.cn',  # qqmusic image
 ]
 
-# os.environ['http_proxy'] = 'http://127.0.0.1:1087'
+os.environ['http_proxy'] = 'http://127.0.0.1:1087'
+os.environ['https_proxy'] = 'http://127.0.0.1:1087'
 os.environ['no_proxy'] = ','.join(no_proxy_list)
 
 
 APP = app  # noqa
+
+
+class YoutubeDlError(ProviderIOError):
+    pass
+
+
+def run_youtube_dl(*args, timeout=1, **kwargs):
+    kwargs.setdefault('capture_output', True)
+    cmd = ['youtube-dl', '--socket-timeout', str(timeout)]
+    cmd.extend(args)
+    logger.info('run cmd: %s', ' '.join(cmd))
+    p = subprocess.run(cmd, **kwargs)
+    if p.returncode == 0:
+        return p
+    raise YoutubeDlError(p.stderr.decode())
 
 
 class YoutubeProvider(AbstractProvider):
@@ -77,20 +95,19 @@ class YoutubeProvider(AbstractProvider):
     def name(self):
         return 'YouTube'
 
-    def search(self, keyword, *args, **kwargs):
+    def search(self, keyword, type_, *args, **kwargs):
+        if SearchType(type_) != SearchType.vi:
+            return None
         limit = kwargs.get('limit', 10)
-        p = subprocess.run(
-            ['youtube-dl', '--socket-timeout', '1', '--flat-playlist', '-j', f"ytsearch{limit}: {keyword}"],
-            capture_output=True
-        )
+        p = run_youtube_dl('--flat-playlist', '-j', f"ytsearch{limit}: {keyword}")
         if p.returncode == 0:
             stdout = p.stdout
-            songs = []
+            videos = []
             for line in stdout.decode().splitlines():
                 data = json.loads(line)
-                song = YoutubeModel.from_youtubedl_output(data)
-                songs.append(song)
-            return SearchModel(songs=songs)
+                video = YoutubeModel.from_youtubedl_output(data)
+                videos.append(video)
+            return SearchModel(videos=videos)
 
 
 class BilibiliProvider(AbstractProvider):
@@ -125,8 +142,7 @@ class BilibiliModel(SongModel):
     @classmethod
     def get(cls, identifier):
         yurl = 'https://www.bilibili.com/video/av' + str(identifier)
-        p = subprocess.run(['youtube-dl', '--flat-playlist', '-j', yurl],
-                           capture_output=True)
+        p = run_youtube_dl('--flat-playlist', '-j', yurl)
         if p.returncode == 0:
             text = p.stdout.decode()
             data = json.loads(text)
@@ -153,12 +169,29 @@ class BilibiliModel(SongModel):
         return url
 
 
-class YoutubeModel(SongModel):
+class YoutubeModel(VideoModel):
     source = youtube_provider.identifier
 
     class Meta:
         provider = youtube_provider
-        allow_get = False
+        allow_get = True
+
+    @classmethod
+    def get(cls, identifier):
+        vurl = f"https://youtube.com/watch?v={identifier}"
+        p = run_youtube_dl('--flat-playlist', '-j', vurl)
+        if p.returncode == 0:
+            text = p.stdout.decode()
+            data = json.loads(text)
+            formats = data['formats']
+            valid_formats = [
+                format for format in formats
+                if format['acodec'] != 'none' and format['vcodec'] != 'none']
+            media = random.choice(valid_formats)['url']
+            return cls(cover=data['thumbnail'],
+                       title=data['title'],
+                       media=media)
+        return None
 
     @classmethod
     def from_youtubedl_output(cls, meta):
@@ -175,33 +208,33 @@ class YoutubeModel(SongModel):
                    title=title,)
 
     @cached_field(ttl=3600*5)
-    def url(self):
+    def media(self):
+        video = self.get(self.identifier)
+        return video.media
+
+    def old_get_media(self):
         vurl = "https://youtube.com/watch?v=" + self.identifier
-        cmd = ['youtube-dl', '-g', '--youtube-skip-dash-manifest', vurl]
-        logger.info(' '.join(cmd))
-        p = subprocess.run(cmd, capture_output=True)
+        p = run_youtube_dl('-g', '--youtube-skip-dash-manifest', vurl)
         if p.returncode == 0:
+            content = p.stdout.decode()
+            logger.info(content)
             video = audio = ''
-            for line in p.stdout.decode().splitlines():
+            for line in content.splitlines():
                 if 'mime=video' in line:
                     video = line
                 if 'mime=audio' in line:
                     audio = line
             url = audio
             if url:
-                self.url = url
+                self.media = url
                 return url
+            logger.warn('no valid media')
+        logger.error(p.stderr.decode())
         return None
-
-    @property
-    def duration_ms(self):
-        """hack: there is a bug in SongModel.duration_ms implementation"""
-        return '00:00'
 
 
 def _generate_models(url):
-    p = subprocess.run(['youtube-dl', '-j', '--flat-playlist', url],
-                       capture_output=True)
+    p = run_youtube_dl('-j', '--flat-playlist', url, timeout=2)
     models = []
     if p.returncode == 0:
         stdout = p.stdout
