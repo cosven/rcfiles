@@ -45,10 +45,10 @@ import subprocess
 from fuocore.excs import ProviderIOError
 from fuocore.provider import AbstractProvider
 from fuocore.models import SongModel, cached_field, SearchModel, \
-    SearchType, VideoModel
+    SearchType, ModelStage
 from fuocore.media import Media
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('feeluown')
 
 
 no_proxy_list = [
@@ -61,10 +61,12 @@ no_proxy_list = [
     '.163.com',
     '.xiami.net',
     '.gtimg.cn',  # qqmusic image
+    '.kuwo.cn',
+    '.cn',
 ]
 
-os.environ['http_proxy'] = 'http://127.0.0.1:1087'
-os.environ['https_proxy'] = 'http://127.0.0.1:1087'
+# os.environ['http_proxy'] = 'http://127.0.0.1:1087'
+# os.environ['https_proxy'] = 'http://127.0.0.1:1087'
 os.environ['no_proxy'] = ','.join(no_proxy_list)
 
 
@@ -75,7 +77,7 @@ class YoutubeDlError(ProviderIOError):
     pass
 
 
-def run_youtube_dl(*args, timeout=1, **kwargs):
+def run_youtube_dl(*args, timeout=2, **kwargs):
     kwargs.setdefault('capture_output', True)
     cmd = ['youtube-dl', '--socket-timeout', str(timeout)]
     cmd.extend(args)
@@ -96,18 +98,18 @@ class YoutubeProvider(AbstractProvider):
         return 'YouTube'
 
     def search(self, keyword, type_, *args, **kwargs):
-        if SearchType(type_) != SearchType.vi:
+        if SearchType(type_) != SearchType.so:
             return None
         limit = kwargs.get('limit', 10)
         p = run_youtube_dl('--flat-playlist', '-j', f"ytsearch{limit}: {keyword}")
         if p.returncode == 0:
             stdout = p.stdout
-            videos = []
+            songs = []
             for line in stdout.decode().splitlines():
                 data = json.loads(line)
-                video = YoutubeModel.from_youtubedl_output(data)
-                videos.append(video)
-            return SearchModel(videos=videos)
+                song = YoutubeModel.from_youtubedl_output(data)
+                songs.append(song)
+            return SearchModel(songs=songs)
 
 
 class BilibiliProvider(AbstractProvider):
@@ -120,16 +122,8 @@ class BilibiliProvider(AbstractProvider):
         return 'bilibili'
 
 
-# re-register provider
-for identifier in ('bilibili', 'youtube'):
-    provider = APP.library.get(identifier)
-    if provider is not None:
-        APP.library.deregister(provider)
-
 youtube_provider = YoutubeProvider()
 bilibili_provider = BilibiliProvider()
-APP.library.register(youtube_provider)
-APP.library.register(bilibili_provider)
 
 
 class BilibiliModel(SongModel):
@@ -138,6 +132,7 @@ class BilibiliModel(SongModel):
     class Meta:
         provider = bilibili_provider
         fields_no_get = ['url']
+        allow_get = True
 
     @classmethod
     def get(cls, identifier):
@@ -160,7 +155,8 @@ class BilibiliModel(SongModel):
         return cls(identifier=data['id'],
                    duration=duration,
                    url=media,
-                   title=title)
+                   title=title,
+                   stage=ModelStage.gotten)
 
     @cached_field(ttl=3600)
     def url(self):
@@ -169,7 +165,7 @@ class BilibiliModel(SongModel):
         return url
 
 
-class YoutubeModel(VideoModel):
+class YoutubeModel(SongModel):
     source = youtube_provider.identifier
 
     class Meta:
@@ -184,13 +180,18 @@ class YoutubeModel(VideoModel):
             text = p.stdout.decode()
             data = json.loads(text)
             formats = data['formats']
-            valid_formats = [
-                format for format in formats
-                if format['acodec'] != 'none' and format['vcodec'] != 'none']
+            valid_formats = []
+            for format in formats:
+                if format['acodec'] != 'none' and format['vcodec'] != 'none':
+                    valid_formats.append(format)
+            valid_formats = valid_formats if valid_formats else formats
             media = random.choice(valid_formats)['url']
-            return cls(cover=data['thumbnail'],
-                       title=data['title'],
-                       media=media)
+            print(f'youtube:{identifier}:{media}')
+            model = cls(cover=data['thumbnail'],
+                        title=data['title'],
+                        url=media,
+                        stage=ModelStage.gotten)
+            return model
         return None
 
     @classmethod
@@ -204,13 +205,13 @@ class YoutubeModel(VideoModel):
             # TODO: we can extract complete song info here
             identifier = meta['id']
             title = meta['title']
-        return cls(identifier=identifier,
-                   title=title,)
+        return cls.create_by_display(identifier=identifier,
+                                     title=title,)
 
     @cached_field(ttl=3600*5)
-    def media(self):
+    def url(self):
         video = self.get(self.identifier)
-        return video.media
+        return video.url
 
     def old_get_media(self):
         vurl = "https://youtube.com/watch?v=" + self.identifier
@@ -273,6 +274,16 @@ def play_youtube(url):
         _play_models(models)
     else:
         print('no available song found')
+
+
+# re-register provider
+for identifier in ('bilibili', 'youtube'):
+    provider = APP.library.get(identifier)
+    if provider is not None:
+        APP.library.deregister(provider)
+
+APP.library.register(youtube_provider)
+APP.library.register(bilibili_provider)
 
 
 # play_youtube('https://music.youtube.com/playlist?list=OLAK5uy_luGzxd76PlO-rZN-Nh_MRoD81ukS_D7os')
