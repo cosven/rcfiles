@@ -185,14 +185,14 @@ __prompt_command(){
     local venvName=`_getPyVenvPS1`
     local shortPwd=`_getShortPwd`
 
-    local isRemote=""
-    if [ "$SSH_CLIENT" != "" ]; then
-        isRemote="☁ "
-    fi
+    # local isRemote=""
+    # if [ "$SSH_CLIENT" != "" ]; then
+    #     isRemote="☁ "
+    # fi
 	
     # 切记：PS1 中使用颜色时，需要用 [] 格式化颜色
     # https://superuser.com/a/980982/349935
-    PS1="\[\e[0;32m\]${isRemote}\[\e[0m\]${venvName}\[\e[0;94m\]${shortPwd}\[\e[0m\]$(_getGitPS1) \[\e[0;${ps1ArrowFgColor}m\]>\[\e[0m\] "
+    PS1="${venvName}\[\e[0;94m\]${shortPwd}\[\e[0m\]$(_getGitPS1) \[\e[0;${ps1ArrowFgColor}m\]>\[\e[0m\] "
 }
 
 export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
@@ -206,13 +206,7 @@ export PROMPT_COMMAND="$PROMPT_COMMAND"
 # bash completion
 # -------------------------
 [ -f /usr/local/etc/bash_completion  ] && . /usr/local/etc/bash_completion
-
-# CentOS
-if [ -d /etc/bash_completion.d/ ]; then
-    for file in /etc/bash_completion.d/* ; do
-        source "$file"
-    done
-fi
+[ -f /etc/bash_completion ] && . /etc/bash_completion
 
 # -------------------------
 # autojump
