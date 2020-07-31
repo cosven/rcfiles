@@ -136,7 +136,11 @@ class BilibiliModel(SongModel):
 
     @classmethod
     def get(cls, identifier):
-        yurl = 'https://www.bilibili.com/video/av' + str(identifier)
+        identifier = str(identifier)
+        if identifier.isdigit():
+            yurl = 'https://www.bilibili.com/video/av' + identifier
+        else:
+            yurl = 'https://www.bilibili.com/video/BV' + identifier
         p = run_youtube_dl('--flat-playlist', '-j', yurl)
         if p.returncode == 0:
             text = p.stdout.decode()
