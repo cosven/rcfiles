@@ -1,0 +1,11 @@
+#!/bin/bash
+
+port=$1
+
+[[ -z $1 ]] && echo "please specify port!" && exit 1
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+    sudo lsof -i:$port | grep LISTEN | awk '{print $1"\t"$2}' | uniq
+else
+    lsof -i:$port | grep LISTEN | awk '{print $1"\t"$2}' | uniq
+fi
