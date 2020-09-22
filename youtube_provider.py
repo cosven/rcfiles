@@ -37,6 +37,7 @@ fuo exec "play_youtube('$1')"
 
 
 import os
+import sys
 import logging
 import json
 import random
@@ -78,7 +79,10 @@ class YoutubeDlError(ProviderIOError):
 
 
 def run_youtube_dl(*args, timeout=2, **kwargs):
-    kwargs.setdefault('capture_output', True)
+    if sys.version_info >= (3, 7):
+        kwargs.setdefault('capture_output', True)
+    else:
+        kwargs.setdefault('stdout', subprocess.PIPE)
     cmd = ['youtube-dl', '--socket-timeout', str(timeout)]
     cmd.extend(args)
     logger.info('run cmd: %s', ' '.join(cmd))
@@ -136,7 +140,11 @@ class BilibiliModel(SongModel):
 
     @classmethod
     def get(cls, identifier):
-        yurl = 'https://www.bilibili.com/video/av' + str(identifier)
+        identifier = str(identifier)
+        if identifier.isdigit():
+            yurl = 'https://www.bilibili.com/video/av' + identifier
+        else:
+            yurl = 'https://www.bilibili.com/video/BV' + identifier
         p = run_youtube_dl('--flat-playlist', '-j', yurl)
         if p.returncode == 0:
             text = p.stdout.decode()
