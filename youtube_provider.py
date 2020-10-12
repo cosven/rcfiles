@@ -45,7 +45,7 @@ import subprocess
 from fuocore.excs import ProviderIOError
 from fuocore.provider import AbstractProvider
 from fuocore.models import SongModel, cached_field, SearchModel, \
-    SearchType, ModelStage
+    SearchType, ModelStage, VideoModel
 from fuocore.media import Media
 
 logger = logging.getLogger('feeluown')
@@ -56,6 +56,7 @@ no_proxy_list = [
     '.qq.com',
     '.bilibili.com',
     '.bilivideo.com',
+    '.hdslb.com',  # bilibili video cover
     '.acgvideo.com',
     '.xiami.com',
     '.163.com',
@@ -98,18 +99,18 @@ class YoutubeProvider(AbstractProvider):
         return 'YouTube'
 
     def search(self, keyword, type_, *args, **kwargs):
-        if SearchType(type_) != SearchType.so:
+        if SearchType(type_) != SearchType.vi:
             return None
         limit = kwargs.get('limit', 10)
         p = run_youtube_dl('--flat-playlist', '-j', f"ytsearch{limit}: {keyword}")
         if p.returncode == 0:
             stdout = p.stdout
-            songs = []
+            models = []
             for line in stdout.decode().splitlines():
                 data = json.loads(line)
-                song = YoutubeModel.from_youtubedl_output(data)
-                songs.append(song)
-            return SearchModel(songs=songs)
+                model = YoutubeModel.from_youtubedl_output(data)
+                models.append(model)
+            return SearchModel(videos=models)
 
 
 class BilibiliProvider(AbstractProvider):
@@ -126,7 +127,7 @@ youtube_provider = YoutubeProvider()
 bilibili_provider = BilibiliProvider()
 
 
-class BilibiliModel(SongModel):
+class BilibiliModel(VideoModel):
     source = bilibili_provider.identifier
 
     class Meta:
@@ -151,25 +152,25 @@ class BilibiliModel(SongModel):
 
     @classmethod
     def from_youtubedl_output(cls, data):
-        duration = data['duration']
         url = data['url']
         media = Media(url,
                       http_headers={'Referer': 'https://www.bilibili.com/'})
-        title = data['title']
         return cls(identifier=data['id'],
-                   duration=duration,
-                   url=media,
-                   title=title,
+                   duration=data['duration'],
+                   cover=data['thumbnail'],
+                   description=data['description'],
+                   media=media,
+                   title=data['title'],
                    stage=ModelStage.gotten)
 
     @cached_field(ttl=3600)
     def url(self):
-        song = BilibiliModel.get(self.identifier)
-        url = self.url = song.url
+        model = BilibiliModel.get(self.identifier)
+        url = self.url = model.url
         return url
 
 
-class YoutubeModel(SongModel):
+class YoutubeModel(VideoModel):
     source = youtube_provider.identifier
 
     class Meta:
@@ -191,9 +192,10 @@ class YoutubeModel(SongModel):
             valid_formats = valid_formats if valid_formats else formats
             media = random.choice(valid_formats)['url']
             print(f'youtube:{identifier}:{media}')
+            print(f"thumbnail:{data['thumbnail']}")
             model = cls(cover=data['thumbnail'],
                         title=data['title'],
-                        url=media,
+                        media=media,
                         stage=ModelStage.gotten)
             return model
         return None
@@ -213,9 +215,9 @@ class YoutubeModel(SongModel):
                                      title=title,)
 
     @cached_field(ttl=3600*5)
-    def url(self):
+    def media(self):
         video = self.get(self.identifier)
-        return video.url
+        return video.media
 
     def old_get_media(self):
         vurl = "https://youtube.com/watch?v=" + self.identifier
@@ -229,7 +231,7 @@ class YoutubeModel(SongModel):
                     video = line
                 if 'mime=audio' in line:
                     audio = line
-            url = audio
+            url = video
             if url:
                 self.media = url
                 return url
