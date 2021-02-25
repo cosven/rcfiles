@@ -10,6 +10,9 @@ from functools import partial
 # config.COLLECTIONS_DIR = '~/Dropbox/public/music'
 config.AUDIO_SELECT_POLICY = '>>>'
 config.PROVIDERS_STANDBY = ['kuwo']
+config.ENABLE_TRAY = True
+config.NOTIFY_ON_TRACK_CHANGED = True
+config.ALLOW_LAN_CONNECT = True
 
 # def update_netease_request_headers(*args, **kwargs):
 #     from fuo_netease import provider
@@ -75,7 +78,7 @@ def add_download_action(ctx):
     add_action('搜索类似', find_similar)
 
 
-# when('app.ui.songs_table.about_to_show_menu', add_download_action, use_symbol=True)
+when('app.ui.songs_table.about_to_show_menu', add_download_action, use_symbol=True)
 
 
 netease_log_song = None
