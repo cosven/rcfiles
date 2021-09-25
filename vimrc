@@ -58,11 +58,7 @@ nnoremap <leader>ee :edit $MYVIMRC<Cr>
 nnoremap <leader>ln :lnext<CR>
 nnoremap <leader>lp :lprevious<CR>
 nnoremap <leader>r :source $MYVIMRC<CR>
-nnoremap <F2> :silent! NERDTreeToggle<CR>
-nnoremap tt :silent! NERDTreeToggle<CR>
 nnoremap tn :tab new<CR>
-nmap tl :TagbarClose<cr>:Tlist<cr>
-nmap tb :TagbarToggle<CR>
 map <leader>wn <C-W>w
 map <leader>wp <C-W>W
 nnoremap co :copen<CR>
@@ -83,14 +79,6 @@ if has("gui_running")
     let g:isGUI = 1
 else
     let g:isGUI = 0
-endif
-
-if (g:iswindows && g:isGUI)
-    source $VIMRUNTIME/delmenu.vim
-    source $VIMRUNTIME/menu.vim
-else
-    source $VIMRUNTIME/delmenu.vim
-    source $VIMRUNTIME/menu.vim
 endif
 
 if g:isGUI

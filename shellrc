@@ -257,6 +257,7 @@ export PATH=~/coding/rcfiles/bin:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$PA
 export PATH=$PATH:~/go/bin
 export EDITOR="vim"
 export VISUAL="vim"
+export BASH_SILENCE_DEPRECATION_WARNING=1
 alias vi=vim
 alias edit=vim
 alias mjump-wiki="cd ~/cosven.github.io"
