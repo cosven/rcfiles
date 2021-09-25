@@ -243,6 +243,7 @@ fi
 
 alias ll='ls -l'
 alias ec='emacsclient'
+alias ect='emacsclient -t'
 alias g='git'
 alias k='kubectl'
 alias t='tmux'
@@ -257,8 +258,7 @@ export PATH=$PATH:~/go/bin
 export EDITOR="vim"
 export VISUAL="vim"
 alias vi=vim
-alias medit=vim
-alias edit=medit
+alias edit=vim
 alias mjump-wiki="cd ~/cosven.github.io"
 
 # golang env setup
