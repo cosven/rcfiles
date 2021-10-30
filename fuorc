@@ -27,6 +27,7 @@ def sync_slack_status(song):
     try:
         from slacker import Slacker
     except ImportError:
+        print('WARN: slacker is not installed')
         return
 
     slacker = Slacker(slack_legacy_token)
@@ -78,7 +79,7 @@ def add_download_action(ctx):
     add_action('搜索类似', find_similar)
 
 
-when('app.ui.songs_table.about_to_show_menu', add_download_action, use_symbol=True)
+# when('app.ui.songs_table.about_to_show_menu', add_download_action, use_symbol=True)
 
 
 netease_log_song = None

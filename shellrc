@@ -275,3 +275,10 @@ if [[ "$TERM" == "eterm-color" ]]; then
     # http://vim.wikia.com/wiki/Backspace_and_delete_problems
     stty erase '^?'
 fi
+
+
+# -------------------------
+# Locale
+# -------------------------
+export LC_CTYPE="UTF-8"
+
