@@ -273,8 +273,8 @@ def _generate_models(url):
 def _play_models(models):
     for model in models:
         print('add-to-playlist: {}'.format(model))
-        APP.playlist.add(model)
-    APP.player.play_song(models[0])
+        # APP.playlist.add(model)
+    APP.player.play(models[0].media)
 
 
 def play_youtube(url):
@@ -284,6 +284,11 @@ def play_youtube(url):
         _play_models(models)
     else:
         print('no available song found')
+
+
+def get_medias_from_url(url):
+    models = _generate_models(url)
+    return [model.media for model in models]
 
 
 # re-register provider

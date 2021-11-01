@@ -43,8 +43,8 @@ when('app.player.playlist.song_changed', sync_slack_status, use_symbol=True)
 # when('app.initialized', update_netease_request_headers)
 #
 import os
-when('app.initialized',
-     lambda *args: source(os.path.expanduser('~/coding/rcfiles/youtube_provider.py')))
+#when('app.initialized',
+#     lambda *args: source(os.path.expanduser('~/coding/rcfiles/youtube_provider.py')))
 
 
 def add_download_action(ctx):
