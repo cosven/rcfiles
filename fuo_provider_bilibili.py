@@ -1,24 +1,64 @@
-import asyncio
+import sys
+import threading
 
-from bilibili_api import video
+import asyncio
+import aiohttp
 
 from feeluown.library import (
     ProviderV2, ProviderFlags as PF, AbstractProvider,
     ModelType, VideoModel, BriefArtistModel,
 )
 from feeluown.media import Quality, Media, MediaType
+from feeluown.utils.sync import AsyncToSync
 
 
-def sync(coro):
-    # FIXME: Use async_to_sync in asgiref
-    return asyncio.run(coro)
+local = threading.local()
+
+
+def fixed_get_session():
+    session = getattr(local, 'session', None)
+    if session is None:
+        session = aiohttp.ClientSession(loop=asyncio.get_event_loop())
+        local.session = session
+    return session
+
+
+def Sync(coro):
+    """
+    Ensure aiohttp session is closed.
+    """
+    async def wrap_coro(*args, **kwargs):
+        try:
+            return await coro(*args, **kwargs)
+        finally:
+            await local.session.close()
+    return AsyncToSync(wrap_coro)
+
+
+def patch():
+    """
+    Try to workaround https://github.com/MoyuScript/bilibili-api/issues/245
+    """
+    from bilibili_api.utils import network
+    network.get_session = fixed_get_session
+    mod_to_delete = []
+    for mod in sys.modules:
+        if mod.startswith('bilibili_api') and 'network' not in mod:
+            mod_to_delete.append(mod)
+    for mod in mod_to_delete:
+        del sys.modules[mod]
+
+
+from bilibili_api.video import Video  # noqa
+
+patch()
 
 
 def create_video(identifier):
     if identifier.isdigit():
-        v = video.Video(aid=int(identifier))
+        v = Video(aid=int(identifier))
     else:
-        v = video.Video(bvid=identifier)
+        v = Video(bvid=identifier)
     return v
 
 
@@ -40,10 +80,10 @@ class BilibiliProvider(AbstractProvider, ProviderV2):
 
     def video_get(self, vid: str):
         v = create_video(vid)
-        info = sync(v.get_info())
-        artists=[BriefArtistModel(source=self.meta.identifier,
-                                  identifier=info['owner']['mid'],
-                                  name=info['owner']['name'])]
+        info = Sync(v.get_info)()
+        artists = [BriefArtistModel(source=self.meta.identifier,
+                                    identifier=info['owner']['mid'],
+                                    name=info['owner']['name'])]
         video = VideoModel(source=self.meta.identifier,
                            identifier=vid,
                            title=info['title'],
@@ -67,7 +107,7 @@ class BilibiliProvider(AbstractProvider, ProviderV2):
         v = create_video(video.identifier)
         pages = self._model_cache_get_or_fetch(video, 'pages')
         assert pages, 'this should not happend, a video has no part'
-        url_info = sync(v.get_download_url(cid=pages[0]['cid']))
+        url_info = Sync(v.get_download_url)(cid=pages[0]['cid'])
         q_media_mapping = self._parse_media_info(url_info)
         video.cache_set('q_media_mapping', q_media_mapping)
         return q_media_mapping
@@ -88,7 +128,7 @@ class BilibiliProvider(AbstractProvider, ProviderV2):
                         q_media_mapping[Quality.Video.sd] = media
         return q_media_mapping
 
-APP = app
+APP = app  # noqa
 provider = BilibiliProvider()
 tmp_provider = APP.library.get(provider.meta.identifier)
 if tmp_provider is not None:
