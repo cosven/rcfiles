@@ -58,6 +58,9 @@ def create_video(identifier):
     if identifier.isdigit():
         v = Video(aid=int(identifier))
     else:
+        # Old bilibili video model trim the BV prefix
+        if not identifier.startswith('BV'):
+            identifier = f'BV{identifier}'
         v = Video(bvid=identifier)
     return v
 
