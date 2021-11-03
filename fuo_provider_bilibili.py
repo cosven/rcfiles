@@ -1,5 +1,6 @@
 import sys
 import threading
+import logging
 
 import asyncio
 import aiohttp
@@ -8,11 +9,12 @@ from feeluown.library import (
     ProviderV2, ProviderFlags as PF, AbstractProvider,
     ModelType, VideoModel, BriefArtistModel,
 )
-from feeluown.media import Quality, Media, MediaType
+from feeluown.media import Quality, Media, MediaType, VideoAudioManifest
 from feeluown.utils.sync import AsyncToSync
 
 
 local = threading.local()
+logger = logging.getLogger('feeluown.fuo_provider_bilibili')
 
 
 def fixed_get_session():
@@ -118,10 +120,17 @@ class BilibiliProvider(AbstractProvider, ProviderV2):
     def _parse_media_info(self, url_info):
         q_media_mapping = {}
         dash_info = url_info['dash']
+        # Not sure if the `audio` always exists.
+        audio_url = dash_info['audio'][0]['base_url']
         for q in sorted(url_info['accept_quality'], reverse=True)[:4]:
             for video in dash_info['video']:
                 if video['id'] == q:
-                    media = Media(video['base_url'],
+                    video_url = video['base_url']
+                    if audio_url:
+                        obj = VideoAudioManifest(video_url, audio_url)
+                    else:
+                        obj = video_url
+                    media = Media(obj,
                                   type_=MediaType.video,
                                   http_headers={'Referer': 'https://www.bilibili.com/'})
                     # TODO: handle more qualities
@@ -130,6 +139,7 @@ class BilibiliProvider(AbstractProvider, ProviderV2):
                     else:
                         q_media_mapping[Quality.Video.sd] = media
         return q_media_mapping
+
 
 APP = app  # noqa
 provider = BilibiliProvider()
