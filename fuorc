@@ -2,6 +2,8 @@
 # vi: ft=python
 
 import os
+import json
+import time
 import threading
 from functools import partial
 
@@ -38,15 +40,64 @@ def sync_slack_status(song):
     threading.Thread(target=partial(slacker.users.profile.set, profile=profile)).start()
 
 
-when('app.player.playlist.song_changed', sync_slack_status, use_symbol=True)
+class FeishuStatusSyncer:
+    def __init__(self):
+        self._last_ts = time.time()
+
+    def sync(self, metadata):
+        session_id = os.getenv('FEISHU_SESSION_ID')
+        title = metadata.get('title')
+        interval = time.time() - self._last_ts
+        if session_id is None or not title or interval < 10:
+            return
+
+        try:
+            import requests
+        except ImportError:
+            print('WARN: will not sync fesihu-status since requests is not installed')
+            return
+
+        url = 'https://internal-api-lark-api.feishu.cn/passport/users/details/'
+        headers = {
+            'user-agent': ('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
+                           '(KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36'),
+        }
+        cookies = {'session': session_id}
+        artists = metadata.get('artists', [])
+        artists_name = ','.join(artists)
+        description = f'正在听：{title}'
+        if artists_name:
+            description += f' - {artists_name}'
+        data = {
+            'description': description,
+            'descriptionType': 0
+        }
+
+        resp = requests.put(url, data=json.dumps(data), headers=headers, cookies=cookies)
+        js = json.loads(resp.text)
+        if js['code'] != 0:
+            print('ERROR: Sync feishu status failed', js)
+        print(js)
+
+
+feishu_status_syncer = FeishuStatusSyncer()
+
+
+def sync_feishu_status(metadata):
+    global feishustatussyncer
+    feishu_status_syncer.sync(metadata)
+
+
+when('app.playlist.song_changed', sync_slack_status, use_symbol=True)
+when('app.player.metadata_changed', sync_feishu_status, use_symbol=True)
 # when('app.initialized', lambda _: print('!!! DEBUG: app initialized'))
 # when('app.initialized', update_netease_request_headers)
 #
 import os
 #when('app.initialized',
 #     lambda *args: source(os.path.expanduser('~/coding/rcfiles/youtube_provider.py')))
-when('app.initialized',
-     lambda *args: source(os.path.expanduser('~/coding/rcfiles/bilibili_provider.py')))
+#when('app.initialized',
+#     lambda *args: source(os.path.expanduser('~/coding/rcfiles/bilibili_provider.py')))
 
 
 def add_download_action(ctx):
