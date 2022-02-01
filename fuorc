@@ -13,7 +13,7 @@ from functools import partial
 config.AUDIO_SELECT_POLICY = '>>>'
 config.PROVIDERS_STANDBY = ['kuwo']
 config.ENABLE_TRAY = True
-config.NOTIFY_ON_TRACK_CHANGED = True
+config.NOTIFY_ON_TRACK_CHANGED = False
 config.ALLOW_LAN_CONNECT = True
 
 # def update_netease_request_headers(*args, **kwargs):
@@ -46,9 +46,12 @@ class FeishuStatusSyncer:
 
     def sync(self, metadata):
         session_id = os.getenv('FEISHU_SESSION_ID')
+        note = os.getenv('FEISHU_STATUS_NOTE')
+
         title = metadata.get('title')
         interval = time.time() - self._last_ts
         if session_id is None or not title or interval < 10:
+            print('Sync feishu status too frequently')
             return
 
         try:
@@ -68,6 +71,8 @@ class FeishuStatusSyncer:
         description = f'正在听：{title}'
         if artists_name:
             description += f' - {artists_name}'
+        if note:
+            description += f'（{note}）'
         data = {
             'description': description,
             'descriptionType': 0
@@ -77,7 +82,7 @@ class FeishuStatusSyncer:
         js = json.loads(resp.text)
         if js['code'] != 0:
             print('ERROR: Sync feishu status failed', js)
-        print(js)
+        print('Sync feishu status', js)
 
 
 feishu_status_syncer = FeishuStatusSyncer()
@@ -88,8 +93,8 @@ def sync_feishu_status(metadata):
     feishu_status_syncer.sync(metadata)
 
 
-when('app.playlist.song_changed', sync_slack_status, use_symbol=True)
-when('app.player.metadata_changed', sync_feishu_status, use_symbol=True)
+# when('app.playlist.song_changed', sync_slack_status, use_symbol=True)
+# when('app.player.metadata_changed', sync_feishu_status, use_symbol=True)
 # when('app.initialized', lambda _: print('!!! DEBUG: app initialized'))
 # when('app.initialized', update_netease_request_headers)
 #
@@ -195,3 +200,11 @@ def netease_log_send_request(song, end=False):
 
 when('app.player.playlist.song_changed', netease_log_on_song_changed, use_symbol=True)
 when('app.player.media_finished', netease_log_on_media_finished, use_symbol=True)
+
+
+def plugin_about_to_enable(plugin):
+    global app
+    if plugin.name == 'fuo_netease':
+        app.config.fuo_netease.HEY = 1
+
+when('app.plugin_mgr.about_to_enable', plugin_about_to_enable, use_symbol=True)

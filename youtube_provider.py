@@ -179,6 +179,7 @@ class YoutubeModel(VideoModel):
 
     class Meta:
         provider = youtube_provider
+        support_multi_quality = False
         allow_get = True
 
     @classmethod

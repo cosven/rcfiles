@@ -281,3 +281,8 @@ fi
 # Locale
 # -------------------------
 
+
+# -------------------------
+# Various repositories
+# -------------------------
+export GOPROXY=https://goproxy.cn,direct
