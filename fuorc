@@ -94,7 +94,7 @@ def sync_feishu_status(metadata):
 
 
 # when('app.playlist.song_changed', sync_slack_status, use_symbol=True)
-# when('app.player.metadata_changed', sync_feishu_status, use_symbol=True)
+when('app.player.metadata_changed', sync_feishu_status, use_symbol=True)
 # when('app.initialized', lambda _: print('!!! DEBUG: app initialized'))
 # when('app.initialized', update_netease_request_headers)
 #
@@ -198,8 +198,8 @@ def netease_log_send_request(song, end=False):
     print(f'send log:{data} to netease: {result}')
 
 
-when('app.player.playlist.song_changed', netease_log_on_song_changed, use_symbol=True)
-when('app.player.media_finished', netease_log_on_media_finished, use_symbol=True)
+#when('app.player.playlist.song_changed', netease_log_on_song_changed, use_symbol=True)
+#when('app.player.media_finished', netease_log_on_media_finished, use_symbol=True)
 
 
 def plugin_about_to_enable(plugin):
