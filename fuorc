@@ -7,6 +7,8 @@ import time
 import threading
 from functools import partial
 
+from feeluown.utils import aio
+
 # 自定义配置
 # config.THEME = 'dark'
 # config.COLLECTIONS_DIR = '~/Dropbox/public/music'
@@ -45,6 +47,9 @@ class FeishuStatusSyncer:
         self._last_ts = time.time()
 
     def sync(self, metadata):
+        aio.run_fn(self._sync, metadata)
+
+    def _sync(self, metadata):
         session_id = os.getenv('FEISHU_SESSION_ID')
         note = os.getenv('FEISHU_STATUS_NOTE')
 
