@@ -14,8 +14,12 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-#[url "git@github.com:"]
-#	insteadOf = https://github.com/
+
+[url "git@github.com:pingcap/test-infra"]
+	insteadOf = https://github.com/pingcap/test-infra
+[url "git@github.com:pingcap/endless"]
+	insteadOf = https://github.com/pingcap/endless
+
 [pull]
 	rebase = false
 [secrets]
