@@ -1,3 +1,10 @@
+" Initialize plugin system.
+call plug#begin()
+" NOTE: fzf binary is supposed to be installed on PATH.
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+call plug#end()
+
 let g:mapleader = " "
 
 set nocompatible
@@ -66,6 +73,12 @@ nnoremap cc :ccl<CR>
 nnoremap cn :cn<CR>
 nnoremap cp :cp<CR>
 nnoremap cw :q<CR>
+
+""""""""""""""""""""""""""""""""""
+" Shortcut keys.
+""""""""""""""""""""""""""""""""""
+nnoremap <C-P> :FZF<CR>
+nnoremap f :Rg <C-R><C-W><CR>
 
 """"""""""""""""""""""""""""""""""
 
