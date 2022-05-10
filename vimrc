@@ -3,6 +3,10 @@ call plug#begin()
 " NOTE: fzf binary is supposed to be installed on PATH.
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'preservim/nerdtree'
+Plug 'morhetz/gruvbox'
+Plug 'scrooloose/syntastic'
+Plug 'vim-airline/vim-airline'
 call plug#end()
 
 let g:mapleader = " "
@@ -31,11 +35,14 @@ set nobackup
 set ignorecase
 set smartcase
 set nonumber
-set laststatus=0
+set laststatus=2  " 2=show, 0=hide
 set showtabline=1
 set cmdheight=1
 set cursorline
 set nowrap
+
+set background=dark
+colorscheme gruvbox
 
 " https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/31
 set t_BE=
@@ -79,15 +86,27 @@ nnoremap cw :q<CR>
 """"""""""""""""""""""""""""""""""
 nnoremap <C-P> :FZF<CR>
 nnoremap f :Rg <C-R><C-W><CR>
+nnoremap <f2> :NERDTreeToggle<CR>
 
 """"""""""""""""""""""""""""""""""
+" Settings for plugins.
+""""""""""""""""""""""""""""""""""
 
-if(has("win32") || has("win64") || has("win95") || has("win16"))
-    let g:iswindows = 1
-else
-    let g:iswindows = 0
-endif
+"
+" For syntastic.
+" 
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
+let g:syntastic_always_populate_loc_list = 0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+""""""""""""""""""""""""""""""""""
+" Settings for GUI.
+""""""""""""""""""""""""""""""""""
 if has("gui_running")
     let g:isGUI = 1
 else
