@@ -175,12 +175,13 @@ __prompt_command(){
     else
         ps1ArrowFgColor="91"
     fi
-    # Save and reload the history after each command finishes
-    history -a
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        history -c  # this will clear the history on (Arch) Linux
-    fi
-    history -r
+    # Reloading history slows down the shell, so this is disabled.
+    # Save and reload the history after each command finishes.
+    # history -a
+    # if [[ "$OSTYPE" == "darwin"* ]]; then
+    #     history -c  # this will clear the history on (Arch) Linux
+    # fi
+    # history -r
     _autoActivatePyVenv
     local venvName=`_getPyVenvPS1`
     local shortPwd=`_getShortPwd`
