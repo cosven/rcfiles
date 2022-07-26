@@ -19,6 +19,9 @@
 	insteadOf = https://github.com/pingcap/test-infra
 [url "git@github.com:pingcap/endless"]
 	insteadOf = https://github.com/pingcap/endless
+[url "git@github.com:pingcap/workload"]
+	insteadOf = https://github.com/pingcap/workload
+
 
 [pull]
 	rebase = false
