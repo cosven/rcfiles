@@ -5,7 +5,9 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
 Plug 'morhetz/gruvbox'
-Plug 'scrooloose/syntastic'
+" syntastic cause hang on start since it is blocking.
+" https://github.com/vim-syntastic/syntastic/issues/1370
+Plug 'dense-analysis/ale'
 Plug 'vim-airline/vim-airline'
 call plug#end()
 
