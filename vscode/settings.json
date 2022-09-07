@@ -1,0 +1,54 @@
+{
+    "go.useLanguageServer": true,
+    "editor.suggestSelection": "first",
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "editor.fontFamily": "Monaco, Menlo, 'Courier New', monospace, 'Source Code Pro for Powerline'",
+    "go.formatTool": "gofmt",
+    "editor.formatOnSave": false,
+    "remote.SSH.LocalServerDownload": true,
+    "editor.minimap.enabled": false,
+    "workbench.statusBar.visible": true,
+    "editor.fontSize": 13,
+    "terminal.integrated.macOptionIsMeta": true,
+    "extensions.ignoreRecommendations": false,
+
+    "python.languageServer": "Default",
+
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "qtForPython.path.qmlscene": "/usr/local/opt/qt/bin//qmlscene",
+
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+
+    // terminal
+    //
+    // Allow use ctrl-k in terminal.
+    "terminal.integrated.allowChords": false,
+
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "settingsSync.ignoredSettings": [
+
+    ],
+    "settingsSync.ignoredExtensions": [
+
+    ],
+    "editor.inlayHints.enabled": false,
+    "files.trimTrailingWhitespace": true,
+    "window.menuBarVisibility": "toggle",
+
+    // gitlens
+    "gitlens.codeLens.enabled": false,
+
+    // emacs-mcx
+    "emacs-mcx.cursorMoveOnFindWidget": true,
+    "editor.inlineSuggest.enabled": true
+}
