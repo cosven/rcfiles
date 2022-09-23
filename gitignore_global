@@ -8,6 +8,7 @@
 .\#*
 \#*\#
 flycheck_*.py
+*.~undo-tree~
 
 # virtualenv
 .venv/

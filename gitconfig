@@ -8,7 +8,7 @@
 	email = yinshaowen241@gmail.com
 	name = cosven
 [core]
-	excludesfile = /home/cosven/.gitignore
+	excludesFile = ~/.gitignore
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f

@@ -12,6 +12,7 @@
 *.pyc
 *.swp
 *.swo
+/nvim/plugin/
 
 # Emacs
 .\#*
