@@ -52,13 +52,11 @@ autocmd Filetype stylus setlocal shiftwidth=2 tabstop=2
 
 nmap cS :%s/\s\+$//g<cr>:noh<cr>
 nmap cM :%s/\r$//g<cr>:noh<cr>
+
 nnoremap <leader>bn :bnext<cr>
 nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader>bk :bdelete<cr>
-nnoremap <leader>bl :buffers<cr>
 nnoremap <leader>ee :edit $MYVIMRC<Cr>
-nnoremap <leader>ln :lnext<CR>
-nnoremap <leader>lp :lprevious<CR>
 nnoremap <leader>r :source $MYVIMRC<CR>
 nnoremap tn :tab new<CR>
 map <leader>wn <C-W>w
@@ -69,14 +67,93 @@ nnoremap cn :cn<CR>
 nnoremap cp :cp<CR>
 nnoremap cw :q<CR>
 
-lua require('plugins')
-lua require('mylsp')
+
+lua << EOF
+vim.cmd [[packadd packer.nvim]]
+
+require('packer').startup(function(use)
+    use 'wbthomason/packer.nvim'
+    use 'preservim/nerdtree'
+    use {
+        'nvim-telescope/telescope.nvim',
+        -- branch = '0.1.x',
+        requires = { {'nvim-lua/plenary.nvim'} },
+    }
+    use 'morhetz/gruvbox'
+    -- syntastic cause hang on start since it is blocking.
+    -- https://github.com/vim-syntastic/syntastic/issues/1370
+    use 'dense-analysis/ale'
+    use 'vim-airline/vim-airline'
+
+    use {
+        'neovim/nvim-lspconfig',
+        config = function() 
+            -- Use an on_attach function to only map the following keys
+            -- after the language server attaches to the current buffer
+            local on_attach = function(client, bufnr)
+                -- Disable inline diagnostic message. 
+                vim.diagnostic.config({virtual_text = false})
+
+                -- Enable completion triggered by <c-x><c-o>
+                vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+                -- Mappings.
+                -- See `:help vim.lsp.*` for documentation on any of the below functions
+                local bufopts = { noremap=true, silent=true, buffer=bufnr }
+                vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+                vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+                vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+                vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+
+                vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+                vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+
+                vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+                vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+                vim.keymap.set('n', '<space>wl', function()
+                    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+                end, bufopts)
+
+                vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+                vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+                vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+                vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+
+                vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
+            end
+
+            local lsp_flags = {
+              -- This is the default in Nvim 0.7+
+              debounce_text_changes = 150,
+            }
+            require('lspconfig')['pyright'].setup{
+                on_attach = on_attach,
+                flags = lsp_flags,
+            }
+            require('lspconfig')['tsserver'].setup{
+                on_attach = on_attach,
+                flags = lsp_flags,
+            }
+            require('lspconfig')['rust_analyzer'].setup{
+                on_attach = on_attach,
+                flags = lsp_flags,
+                -- Server-specific settings...
+                settings = {
+                  ["rust-analyzer"] = {}
+                }
+            }
+        end
+    }
+    use 'folke/which-key.nvim'
+end)
+EOF
 
 colorscheme gruvbox
 
-""""""""""""""""""""""""""""""""""
-" Shortcut keys.
-""""""""""""""""""""""""""""""""""
-nnoremap <C-P> :FZF<CR>
-nnoremap f :Rg <C-R><C-W><CR>
+nnoremap <leader><leader> :Telescope<cr>
+nnoremap <leader>lb :Telescope buffers<cr>
+nnoremap <leader>le :Telescope diagnostic<cr>
+
+nnoremap <C-P> <cmd>lua require("telescope.builtin").find_files({previewer=false})<cr>
+nnoremap f <cmd>lua require("telescope.builtin").live_grep({default_text=vim.fn.expand("<cword>"),previewer=false})<cr>
 nnoremap <f2> :NERDTreeToggle<CR>
