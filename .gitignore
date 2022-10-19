@@ -12,6 +12,8 @@
 *.pyc
 *.swp
 *.swo
+/nvim/plugin/
+/nvim/Session.vim
 
 # Emacs
 .\#*

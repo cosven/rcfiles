@@ -1,16 +1,3 @@
-" Initialize plugin system.
-call plug#begin()
-" NOTE: fzf binary is supposed to be installed on PATH.
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'preservim/nerdtree'
-Plug 'morhetz/gruvbox'
-" syntastic cause hang on start since it is blocking.
-" https://github.com/vim-syntastic/syntastic/issues/1370
-Plug 'dense-analysis/ale'
-Plug 'vim-airline/vim-airline'
-call plug#end()
-
 let g:mapleader = " "
 
 set nocompatible
@@ -44,7 +31,7 @@ set cursorline
 set nowrap
 
 set background=dark
-colorscheme gruvbox
+" colorscheme gruvbox
 
 " https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/31
 set t_BE=
@@ -82,29 +69,6 @@ nnoremap cc :ccl<CR>
 nnoremap cn :cn<CR>
 nnoremap cp :cp<CR>
 nnoremap cw :q<CR>
-
-""""""""""""""""""""""""""""""""""
-" Shortcut keys.
-""""""""""""""""""""""""""""""""""
-nnoremap <C-P> :FZF<CR>
-nnoremap f :Rg <C-R><C-W><CR>
-nnoremap <f2> :NERDTreeToggle<CR>
-
-""""""""""""""""""""""""""""""""""
-" Settings for plugins.
-""""""""""""""""""""""""""""""""""
-
-"
-" For syntastic.
-" 
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 
 """"""""""""""""""""""""""""""""""
 " Settings for GUI.
