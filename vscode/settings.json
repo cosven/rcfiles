@@ -8,7 +8,6 @@
     "editor.showFoldingControls": "never",
     "editor.minimap.enabled": false,
     "workbench.statusBar.visible": true,
-    "terminal.integrated.macOptionIsMeta": true,
     "extensions.ignoreRecommendations": false,
     "editor.inlayHints.enabled": "off",
     "files.trimTrailingWhitespace": true,
@@ -29,6 +28,9 @@
     //
     // Allow use ctrl-k in terminal.
     "terminal.integrated.allowChords": false,
+    "terminal.integrated.macOptionIsMeta": true,
+    // Allow to use ctrl-f in terminal on linux.
+    "terminal.integrated.sendKeybindingsToShell": true,
 
     "files.exclude": {
         "**/.classpath": true,
@@ -42,10 +44,11 @@
     // gitlens
     "gitlens.codeLens.enabled": false,
 
-    // emacs-mcx
-    "emacs-mcx.cursorMoveOnFindWidget": true,
+    // vim
+    "vim.foldfix": true,
 
     // golang
     "go.useLanguageServer": true,
     "go.formatTool": "gofmt",
+    "editor.lineNumbers": "off",
 }
