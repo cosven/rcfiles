@@ -11,7 +11,7 @@
     "extensions.ignoreRecommendations": false,
     "editor.inlayHints.enabled": "off",
     "files.trimTrailingWhitespace": true,
-    "window.menuBarVisibility": "toggle",
+    "files.insertFinalNewline": true,
     "remote.SSH.LocalServerDownload": true,
 
     "python.languageServer": "Default",
@@ -51,4 +51,6 @@
     "go.useLanguageServer": true,
     "go.formatTool": "gofmt",
     "editor.lineNumbers": "off",
+    "explorer.confirmDelete": false,
+    "window.menuBarVisibility": "toggle",
 }
