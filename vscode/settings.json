@@ -46,11 +46,23 @@
 
     // vim
     "vim.foldfix": true,
+    "vim.handleKeys": {
+        // use vscode default behavior: select current word
+        "<C-d>": false,
+        // use vscode default behavior: toggle bottom panel
+        "<C-j>": false
+    },
 
     // golang
     "go.useLanguageServer": true,
     "go.formatTool": "gofmt",
-    "editor.lineNumbers": "off",
+    "editor.lineNumbers": "on",
     "explorer.confirmDelete": false,
     "window.menuBarVisibility": "toggle",
+    "github.copilot.enable": {
+        "*": true,
+        "yaml": false,
+        "plaintext": true,
+        "markdown": false
+    },
 }
