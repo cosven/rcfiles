@@ -1,6 +1,6 @@
 {
     "editor.suggestSelection": "first",
-    "editor.fontFamily": "Monaco, Menlo, 'Courier New', monospace, 'Source Code Pro for Powerline'",
+    "editor.fontFamily": "Monaco, Menlo, 'Cascadia Code', monospace, 'Source Code Pro for Powerline'",
     "editor.inlineSuggest.enabled": true,
     "editor.glyphMargin": false,
     "editor.fontSize": 13,
@@ -47,9 +47,7 @@
     // vim
     "vim.foldfix": true,
     "vim.handleKeys": {
-        // use vscode default behavior: select current word
         "<C-d>": false,
-        // use vscode default behavior: toggle bottom panel
         "<C-j>": false
     },
 
@@ -57,13 +55,7 @@
     "go.useLanguageServer": true,
     "go.formatTool": "gofmt",
     "editor.lineNumbers": "on",
-    "explorer.confirmDelete": false,
-    "window.menuBarVisibility": "toggle",
-    "github.copilot.enable": {
-        "*": true,
-        "yaml": false,
-        "plaintext": true,
-        "markdown": false
+    "[python]": {
+        "editor.formatOnType": true
     },
 }
-
