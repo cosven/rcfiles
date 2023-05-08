@@ -10,7 +10,7 @@ from functools import partial
 from feeluown.utils import aio
 
 # 自定义配置
-# config.THEME = 'dark'
+# config.THEME = 'macos_dark'
 # config.COLLECTIONS_DIR = '~/Dropbox/public/music'
 config.AUDIO_SELECT_POLICY = '>>>'
 config.VIDEO_SELECT_POLICY = 'hd<>'
@@ -210,7 +210,10 @@ def netease_log_send_request(song, end=False):
 
 def plugin_about_to_enable(plugin):
     global app
-    if plugin.name == 'fuo_netease':
+    if plugin.name == 'local':
+        # config.local.MUSIC_FOLDERS = '/'
+        pass
+    elif plugin.name == 'fuo_netease':
         app.config.fuo_netease.HEY = 1
 
 
