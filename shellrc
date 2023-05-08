@@ -85,15 +85,13 @@ On_IPurple='\033[0;105m'  # Purple
 On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
-
-
 PROMPT_COMMAND=__prompt_command
 
 
 ########################
 # 获取 Python 虚拟环境名称
 ########################
-_getPyVenvName(){
+function _getPyVenvName(){
     if [ -z "${VIRTUAL_ENV}" ]; then
         echo ""
     else
@@ -106,7 +104,7 @@ _getPyVenvName(){
     fi
 }
 
-_getPyVenvPS1(){
+function _getPyVenvPS1(){
     local envname=`_getPyVenvName`
     if [ -z $envname ]; then
         echo ""
@@ -129,10 +127,12 @@ _getPyVenvPS1(){
 #########################
 # 进入目录时自动激活虚拟环境
 #########################
-_autoActivatePyVenv() {
+function _autoActivatePyVenv() {
     if [ -e ".venv" ]; then
         if [ -z "$VIRTUAL_ENV" ]; then
-            source .venv/bin/activate
+            [ -f .venv/bin/activate ] && source .venv/bin/activate
+            [ -f .venv/Scripts/activate ] && source .venv/Scripts/activate
+
             local envname=`_getPyVenvName`
             echo -e "Auto-activating venv ${Green}${envname}${Color_Off}, you ${Red}can't${Color_Off} deactivate it in pwd!"
         fi
@@ -145,14 +145,14 @@ _autoActivatePyVenv() {
 ################
 
 # https://unix.stackexchange.com/q/26844
-_getShortPwd() {
+function _getShortPwd() {
     echo -n `pwd | sed -e "s!$HOME!~!" | sed "s:\([^/]\)[^/]*/:\1/:g"`
 }
 
 #################
 # 获取 git status
 #################
-_getGitPS1() {
+function _getGitPS1() {
     git status > /dev/null 2>&1
     if [ $? == 0 ]; then
         local branch=`git branch | grep \* | cut -d ' ' -f2`
@@ -168,7 +168,7 @@ _getGitPS1() {
 # The entire table of ANSI color codes.
 # https://gist.github.com/iamnewton/8754917
 ps1ArrowFgColor="92"
-__prompt_command(){
+function __prompt_command(){
     if [ $? == 0 ];
     then
         ps1ArrowFgColor="92"
@@ -190,7 +190,7 @@ __prompt_command(){
     # if [ "$SSH_CLIENT" != "" ]; then
     #     isRemote="☁ "
     # fi
-	
+
     # 切记：PS1 中使用颜色时，需要用 [] 格式化颜色
     # https://superuser.com/a/980982/349935
     PS1="${venvName}\[\e[0;94m\]${shortPwd}\[\e[0m\]$(_getGitPS1) \[\e[0;${ps1ArrowFgColor}m\]>\[\e[0m\] "
