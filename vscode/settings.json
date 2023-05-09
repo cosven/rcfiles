@@ -1,10 +1,11 @@
 {
     "editor.suggestSelection": "first",
-    "editor.fontFamily": "Monaco, Menlo, 'Cascadia Code', monospace, 'Source Code Pro for Powerline'",
+    "editor.fontFamily": "Monaco, Menlo, 'Cascadia Code PL', 'Segoe UI Emoji', monospace, 'Source Code Pro for Powerline'",
     "editor.inlineSuggest.enabled": true,
     "editor.glyphMargin": false,
     "editor.fontSize": 13,
     "editor.formatOnSave": false,
+    "editor.lineNumbers": "on",
     "editor.showFoldingControls": "never",
     "editor.minimap.enabled": false,
     "workbench.statusBar.visible": true,
@@ -12,6 +13,7 @@
     "editor.inlayHints.enabled": "off",
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
+    "files.encoding": "utf8",
     "remote.SSH.LocalServerDownload": true,
 
     "python.languageServer": "Default",
@@ -38,8 +40,13 @@
         "**/.settings": true,
         "**/.factorypath": true
     },
-    "settingsSync.ignoredSettings": [],
-    "settingsSync.ignoredExtensions": [],
+    "settingsSync.ignoredSettings": [
+
+    ],
+    "settingsSync.ignoredExtensions": [
+        "ms-python.vscode-pylance",
+        "ms-python.python"
+    ],
 
     // gitlens
     "gitlens.codeLens.enabled": false,
@@ -54,8 +61,12 @@
     // golang
     "go.useLanguageServer": true,
     "go.formatTool": "gofmt",
-    "editor.lineNumbers": "on",
+
     "[python]": {
         "editor.formatOnType": true
     },
+    "terminal.integrated.profiles.windows":{
+        "Git Bash":{"path":"C:\\Program Files\\Git\\bin\\bash.exe"},
+    },
+    "terminal.integrated.defaultProfile.windows": "Git Bash"
 }
