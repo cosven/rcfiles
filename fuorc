@@ -19,6 +19,14 @@ config.ENABLE_TRAY = True
 config.NOTIFY_ON_TRACK_CHANGED = False
 config.ALLOW_LAN_CONNECT = True
 
+# This feature is supported at version>=v3.8.12 .
+# Besides, if ytmusic plugin is not installed, then
+# this config is invalid.
+try:
+    config.ytmusic.HTTP_PROXY='http://127.0.0.1:7890'
+except:
+    pass
+
 # def update_netease_request_headers(*args, **kwargs):
 #     from fuo_netease import provider
 #
