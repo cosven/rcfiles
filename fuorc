@@ -13,7 +13,7 @@ from feeluown.utils import aio
 # config.THEME = 'macos_dark'
 # config.COLLECTIONS_DIR = '~/Dropbox/public/music'
 config.AUDIO_SELECT_POLICY = '>>>'
-config.VIDEO_SELECT_POLICY = 'hd<>'
+config.VIDEO_SELECT_POLICY = 'hd>>>'
 config.PROVIDERS_STANDBY = ['kuwo']
 config.ENABLE_TRAY = True
 config.NOTIFY_ON_TRACK_CHANGED = False

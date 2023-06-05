@@ -254,7 +254,7 @@ alias f='fuo'
 alias xcopy='xsel --clipboard --input'
 alias xpaste='xsel --clipboard --output'
 
-export PATH=~/coding/rcfiles/bin:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$PATH
+export PATH=~/code/rcfiles/bin:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$PATH
 export PATH=$PATH:~/go/bin
 export EDITOR="vim"
 export VISUAL="vim"
