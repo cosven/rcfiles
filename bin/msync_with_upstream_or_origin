@@ -17,24 +17,37 @@ if [ $? -eq 0 ]; then
     branch="master"
 fi
 
-echo "remote is $remote; branch is $branch"
-echo "fetching $remote $branch"
+last_commit_id=`git rev-parse HEAD`
+echo "Remote: $remote"
+echo "Branch: $branch"
+echo "Current: $last_commit_id"
+echo -n "Fetch $remote:$branch..."
 git fetch -q $remote $branch
-echo "fetch ok"
+echo "ok"
 changes_length=$(git status -s | wc -l)
 need_pop_stash=false
 if [[ $changes_length -gt 0 ]]; then
-    echo "stash..."
+    echo -n "Stash..."
     git stash > /dev/null
-    echo "stash ok"
+    echo "ok"
     need_pop_stash=true
 fi
-echo "rebasing..."
+echo -n "Rebase..."
 git rebase -q $remote/$branch
-echo "rebase ok"
+echo "ok"
 if [[ "$need_pop_stash" == "true" ]]; then
-    echo "pop stash..."
+    echo -n "Pop stash..."
     git stash pop > /dev/null
-    echo "pop stash ok"
+    echo "ok"
+fi
+current_commit_id=`git rev-parse HEAD`
+if [[ "$last_commit_id" != "$current_commit_id" ]]; then
+    echo "Changes are as follows::"
+    echo "------------------------"
+    git log $last_commit_id..HEAD --oneline
+    echo "------------------------"
+else
+    echo "No change."
 fi
 echo -e '🎉🎉🎉🎉🎉🎉🎉'
+
