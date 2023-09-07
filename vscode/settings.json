@@ -1,9 +1,9 @@
 {
     "editor.suggestSelection": "first",
-    "editor.fontFamily": "Monaco, Menlo, 'Cascadia Code PL', 'Segoe UI Emoji', monospace, 'Source Code Pro for Powerline'",
+    "editor.fontFamily": "Monaco, 'Cascadia Code PL', 'Segoe UI Emoji', monospace, 'Source Code Pro for Powerline'",
     "editor.inlineSuggest.enabled": true,
     "editor.glyphMargin": false,
-    "editor.fontSize": 13,
+    // "editor.fontSize": 12,
     "editor.formatOnSave": false,
     "editor.lineNumbers": "on",
     "editor.showFoldingControls": "never",
@@ -14,17 +14,8 @@
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
     "files.encoding": "utf8",
-    "remote.SSH.LocalServerDownload": true,
 
     "python.languageServer": "Default",
-    "workbench.editorAssociations": {
-        "*.ipynb": "jupyter-notebook"
-    },
-    "qtForPython.path.qmlscene": "/usr/local/opt/qt/bin//qmlscene",
-    "notebook.cellToolbarLocation": {
-        "default": "right",
-        "jupyter-notebook": "left"
-    },
 
     // terminal
     //
@@ -33,6 +24,16 @@
     "terminal.integrated.macOptionIsMeta": true,
     // Allow to use ctrl-f in terminal on linux.
     "terminal.integrated.sendKeybindingsToShell": true,
+    "terminal.integrated.profiles.windows":{
+        "Git Bash":{"path":"C:\\Program Files\\Git\\bin\\bash.exe"},
+    },
+    "terminal.integrated.defaultProfile.windows": "Git Bash",
+    "terminal.integrated.defaultProfile.osx": "bash",
+    // Controls whether to force selection when using Option+click on macOS.
+    // This will force a regular (line) selection and disallow the use of column selection mode.
+    // This enables copying and pasting using the regular terminal selection, for example,
+    // when mouse mode is enabled in tmux.
+    "terminal.integrated.macOptionClickForcesSelection": true,
 
     "files.exclude": {
         "**/.classpath": true,
@@ -65,8 +66,15 @@
     "[python]": {
         "editor.formatOnType": true
     },
-    "terminal.integrated.profiles.windows":{
-        "Git Bash":{"path":"C:\\Program Files\\Git\\bin\\bash.exe"},
+    "window.menuBarVisibility": "toggle",
+    "redhat.telemetry.enabled": true,
+    "java.jdt.ls.vmargs": "",
+    "editor.wordWrap": "off",
+    "workbench.colorTheme": "Default Dark+",
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": true,
+        "scminput": false
     },
-    "terminal.integrated.defaultProfile.windows": "Git Bash"
 }
