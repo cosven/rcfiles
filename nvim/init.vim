@@ -73,8 +73,7 @@ nnoremap cn :cn<CR>
 nnoremap cp :cp<CR>
 nnoremap cw :q<CR>
 
-
-lua << EOF
+lua <<EOF
 vim.cmd [[packadd packer.nvim]]
 
 require('packer').startup(function(use)
@@ -114,9 +113,22 @@ require('packer').startup(function(use)
         config = function()
             -- Use an on_attach function to only map the following keys
             -- after the language server attaches to the current buffer
+            vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+              vim.lsp.diagnostic.on_publish_diagnostics, {
+                underline = true,
+                virtual_text = false,
+                signs = true,
+                update_in_insert = false,
+              }
+            )
+
             local on_attach = function(client, bufnr)
                 -- Disable inline diagnostic message.
-                vim.diagnostic.config({virtual_text = false})
+                vim.diagnostic.config({
+                    virtual_text = false,
+                    signs = false,
+                    update_in_insert = false
+                })
 
                 -- Enable completion triggered by <c-x><c-o>
                 vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -162,6 +174,7 @@ require('packer').startup(function(use)
     }
     use {
         'j-hui/fidget.nvim',
+        tag = 'legacy',
         config = function() require("fidget").setup() end
     }
     use 'folke/which-key.nvim'
@@ -177,6 +190,8 @@ nnoremap <leader>lb :Telescope buffers<cr>
 nnoremap <leader>le :Telescope diagnostics<cr>
 nnoremap <leader>p :Telescope project<cr>
 
-nnoremap <C-P> <cmd>lua require("telescope.builtin").find_files()<cr>
+nnoremap <C-P> <cmd>lua require("telescope.builtin").find_files({ hidden = true})<cr>
 nnoremap f <cmd>lua require("telescope.builtin").live_grep({default_text=vim.fn.expand("<cword>")})<cr>
 nnoremap <f2> :NERDTreeToggle<CR>
+nnoremap <leader>tt :NERDTreeToggle<CR>
+nnoremap <leader>tf :NERDTreeFind<CR>
