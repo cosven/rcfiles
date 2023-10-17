@@ -175,13 +175,13 @@ function __prompt_command(){
     else
         ps1ArrowFgColor="91"
     fi
-    # Reloading history slows down the shell, so this is disabled.
+    # Reloading history may slow down the shell.
     # Save and reload the history after each command finishes.
-    # history -a
-    # if [[ "$OSTYPE" == "darwin"* ]]; then
-    #     history -c  # this will clear the history on (Arch) Linux
-    # fi
-    # history -r
+    history -a
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        history -c  # this will clear the history on (Arch) Linux
+    fi
+    history -r
     _autoActivatePyVenv
     local venvName=`_getPyVenvPS1`
     local shortPwd=`_getShortPwd`
@@ -253,6 +253,7 @@ alias ...='cd ../..'
 alias f='fuo'
 alias xcopy='xsel --clipboard --input'
 alias xpaste='xsel --clipboard --output'
+alias reload-bashrc='source ~/.bashrc'
 
 export PATH=~/code/rcfiles/bin:~/.local/bin:~/.cargo/bin:/usr/local/go/bin:$PATH
 export PATH=$PATH:~/go/bin
