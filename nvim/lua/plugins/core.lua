@@ -2,6 +2,8 @@ return {
   -- add gruvbox
   { "ellisonleao/gruvbox.nvim" },
 
+  { "APZelos/blamer.nvim" },
+
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
@@ -26,4 +28,5 @@ return {
   { "rcarriga/nvim-notify", enabled = false },
   { "folke/noice.nvim", enabled = false },
   { "akinsho/bufferline.nvim", enabled = false },
+  { "folke/flash.nvim", enabled = false },
 }
