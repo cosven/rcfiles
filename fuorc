@@ -1,0 +1,241 @@
+# -*- mode: Python; -*-
+# vi: ft=python
+
+import os
+import json
+import time
+import threading
+from functools import partial
+
+from feeluown.utils import aio
+
+# 自定义配置
+# config.THEME = 'macos_dark'
+# config.COLLECTIONS_DIR = '~/Dropbox/public/music'
+config.dl.ENABLE_V2 = True
+config.dl.CORE_LANGUAGE = 'cn'
+config.AUDIO_SELECT_POLICY = '>>>'
+config.VIDEO_SELECT_POLICY = 'hd>>>'
+config.PROVIDERS_STANDBY = ['ytmusic']
+config.ENABLE_TRAY = True
+config.ENABLE_WEB_SERVER = True
+config.NOTIFY_ON_TRACK_CHANGED = False
+config.ALLOW_LAN_CONNECT = True
+
+# This feature is supported at version>=v3.8.12 .
+# Besides, if ytmusic plugin is not installed, then
+# this config is invalid.
+try:
+    config.ytmusic.HTTP_PROXY='http://127.0.0.1:7890'
+except:
+    pass
+
+# def update_netease_request_headers(*args, **kwargs):
+#     from fuo_netease import provider
+#
+#     # 海外用户可以给它设置 IP，避免被 block
+#     provider.api.headers.update({'X-Real-Ip': '...'})
+
+def sync_slack_status(song):
+    slack_legacy_token = os.getenv('SLACK_TOKEN')
+    if slack_legacy_token is None or song is None:
+        return
+    try:
+        from slacker import Slacker
+    except ImportError:
+        print('WARN: slacker is not installed')
+        return
+
+    slacker = Slacker(slack_legacy_token)
+    title = song.title_display or 'unknown'
+    artists_name = song.artists_name_display or 'unknown'
+    status = f"{title} - {artists_name}"
+    profile = f'{{"status_text": "正在听：{status}", "status_emoji": ":headphones:"}}'
+    threading.Thread(target=partial(slacker.users.profile.set, profile=profile)).start()
+
+
+class FeishuStatusSyncer:
+    def __init__(self):
+        self._last_ts = time.time()
+
+    def sync(self, metadata):
+        aio.run_fn(self._sync, metadata)
+
+    def _sync(self, metadata):
+        session_id = os.getenv('FEISHU_SESSION_ID')
+        note = os.getenv('FEISHU_STATUS_NOTE')
+
+        title = metadata.get('title')
+        interval = time.time() - self._last_ts
+        if session_id is None:
+            print('feishu seesion is none')
+            return
+
+        if not title or interval < 10:
+            print('Sync feishu status too frequently')
+            return
+
+        try:
+            import requests
+        except ImportError:
+            print('WARN: will not sync fesihu-status since requests is not installed')
+            return
+
+        url = 'https://internal-api-lark-api.feishu.cn/passport/users/details/'
+        headers = {
+            'user-agent': ('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
+                           '(KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36'),
+        }
+        cookies = {'session': session_id}
+        artists = metadata.get('artists', [])
+        artists_name = ','.join(artists)
+        description = f'{title}'
+        if artists_name:
+            description += f' - {artists_name}'
+        if note:
+            description = f'和“{description}”一起打工'
+        data = {
+            'description': description,
+            'descriptionType': 0
+        }
+
+        resp = requests.put(url, data=json.dumps(data), headers=headers, cookies=cookies)
+        js = json.loads(resp.text)
+        if js.get('code', 1) != 0:
+            print('ERROR: Sync feishu status failed', js)
+        print('Sync feishu status', js)
+
+
+feishu_status_syncer = FeishuStatusSyncer()
+
+
+def sync_feishu_status(metadata):
+    global feishustatussyncer
+    feishu_status_syncer.sync(metadata)
+
+
+# when('app.playlist.song_changed', sync_slack_status, use_symbol=True)
+when('app.player.metadata_changed', sync_feishu_status, use_symbol=True)
+# when('app.initialized', lambda _: print('!!! DEBUG: app initialized'))
+# when('app.initialized', update_netease_request_headers)
+#
+import os
+#when('app.initialized',
+#     lambda *args: source(os.path.expanduser('~/coding/rcfiles/youtube_provider.py')))
+#when('app.initialized',
+#     lambda *args: source(os.path.expanduser('~/coding/rcfiles/bilibili_provider.py')))
+
+
+def add_download_action(ctx):
+    from fuocore import aio
+    from fuocore.models import ModelType, SearchType
+
+    global app
+
+    def sample(models):
+        for model in models:
+            if model.meta.model_type == ModelType.song:
+                print(str(model))
+
+    def find_similar(models):
+        if not models or models[0].meta.model_type != ModelType.song:
+            return
+        song = models[0]
+        title = song.title_display
+        artist = song.artists_name_display
+        sources = []
+        for provider in app.library.list():
+            if provider.identifier == song.source:
+                continue
+            sources.append(provider.identifier)
+        query = {'source_in': ','.join(sources),
+                 'type': SearchType.so.value,
+                 'q': f'{title} {artist}'}
+        app.browser.goto(uri='/search', query=query)
+
+    add_action = ctx['add_action']
+    add_action('下载歌曲', sample)
+    add_action('搜索类似', find_similar)
+
+
+# when('app.ui.songs_table.about_to_show_menu', add_download_action, use_symbol=True)
+
+
+netease_log_song = None
+
+
+def netease_log_on_song_changed(song):
+    global app, netease_log_song
+
+    if song is None or song.source != 'netease':
+        netease_log_song = None
+        return
+
+    netease_log_song = song
+    threading.Thread(target=partial(netease_log_send_request, song)).start()
+
+
+def netease_log_on_media_finished(*args):
+    global netease_log_song
+
+    if netease_log_song is None:
+        return
+
+    song = netease_log_song
+    threading.Thread(
+        target=partial(netease_log_send_request, song, end=True)).start()
+    netease_log_song = None
+
+
+def netease_log_send_request(song, end=False):
+    provider = app.library.get('netease')
+    # TODO: provider should provide a interface to check the current user
+    if provider is None or provider._user is None:
+        return
+
+    url = 'https://music.163.com/weapi/feedback/weblog'
+    json_ = {
+        'id': str(song.identifier),
+        'source': 'album',  # TODO: use correct type
+        'sourceid': str(song.album.identifier),
+        'type': 'song',
+    }
+    if end is True:
+        sourceid = json_.pop('sourceid')
+        json_['sourceId'] = sourceid
+        json_['id'] = int(json_['id'])
+        json_['download'] = 0
+        json_['end'] = "ui"
+        json_['wifi'] = 0
+        json_['time'] = int(song.duration//1000)
+    data = {
+        'logs': json.dumps([{
+            'action': 'play',
+            'json': json_
+        }])
+    }
+    payload = provider.api.encrypt_request(data)
+    result = provider.api.request('POST', url, payload)
+    print(f'send log:{data} to netease: {result}')
+
+
+#when('app.player.playlist.song_changed', netease_log_on_song_changed, use_symbol=True)
+#when('app.player.media_finished', netease_log_on_media_finished, use_symbol=True)
+
+
+def plugin_about_to_enable(plugin):
+    global app
+    if plugin.name == 'local':
+        # config.local.MUSIC_FOLDERS = '/'
+        pass
+    elif plugin.name == 'fuo_netease':
+        app.config.fuo_netease.HEY = 1
+
+
+def apply_kvantum(app):
+    app.ui.page_view.setStyleSheet("background-color: transparent")
+
+
+when('app.plugin_mgr.about_to_enable', plugin_about_to_enable, use_symbol=True)
+if os.environ.get('QT_STYLE_OVERRIDE'):
+    when('app.initialized', apply_kvantum, use_symbol=True)
