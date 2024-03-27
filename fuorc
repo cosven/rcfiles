@@ -12,15 +12,20 @@ from feeluown.utils import aio
 # 自定义配置
 # config.THEME = 'macos_dark'
 # config.COLLECTIONS_DIR = '~/Dropbox/public/music'
-config.dl.ENABLE_V2 = True
-config.dl.CORE_LANGUAGE = 'cn'
+try:
+    config.dl.ENABLE_V2 = True
+    config.dl.CORE_LANGUAGE = 'cn'
+except:
+    pass
 config.AUDIO_SELECT_POLICY = '>>>'
 config.VIDEO_SELECT_POLICY = 'hd>>>'
 config.PROVIDERS_STANDBY = ['ytmusic']
 config.ENABLE_TRAY = True
-config.ENABLE_WEB_SERVER = True
+config.ENABLE_WEB_SERVER = False 
 config.NOTIFY_ON_TRACK_CHANGED = False
 config.ALLOW_LAN_CONNECT = True
+config.PLAYBACK_CROSSFADE = True
+config.LOG_TO_FILE = False
 
 # This feature is supported at version>=v3.8.12 .
 # Besides, if ytmusic plugin is not installed, then
@@ -68,7 +73,6 @@ class FeishuStatusSyncer:
         title = metadata.get('title')
         interval = time.time() - self._last_ts
         if session_id is None:
-            print('feishu seesion is none')
             return
 
         if not title or interval < 10:

@@ -20,23 +20,19 @@ last_commit_id=`git rev-parse HEAD`
 echo "Remote: $remote"
 echo "Branch: $branch"
 echo "Current: $last_commit_id"
-echo -n "Fetch $remote:$branch..."
-git fetch -q $remote $branch
-echo "ok"
+(set -x; git fetch -q $remote $branch)
 changes_length=$(git status -s | wc -l)
 need_pop_stash=false
 if [[ $changes_length -gt 0 ]]; then
     echo -n "Stash..."
-    git stash > /dev/null
+    (set -x; git stash > /dev/null)
     echo "ok"
     need_pop_stash=true
 fi
-echo -n "Rebase..."
-git rebase -q $remote/$branch
+(set -x; git rebase -q $remote/$branch)
 echo "ok"
 if [[ "$need_pop_stash" == "true" ]]; then
-    echo -n "Pop stash..."
-    git stash pop > /dev/null
+    (set -x; git stash pop > /dev/null)
     echo "ok"
 fi
 current_commit_id=`git rev-parse HEAD`

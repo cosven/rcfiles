@@ -4,6 +4,8 @@ return {
 
   { "APZelos/blamer.nvim" },
 
+  { "AndrewRadev/linediff.vim" },
+
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
