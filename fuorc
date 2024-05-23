@@ -13,6 +13,7 @@ from feeluown.utils import aio
 # config.THEME = 'macos_dark'
 # config.COLLECTIONS_DIR = '~/Dropbox/public/music'
 try:
+    config.ENABLE_NEW_HOMEPAGE = True
     config.dl.ENABLE_V2 = True
     config.dl.CORE_LANGUAGE = 'cn'
 except:
@@ -21,7 +22,7 @@ config.AUDIO_SELECT_POLICY = '>>>'
 config.VIDEO_SELECT_POLICY = 'hd>>>'
 config.PROVIDERS_STANDBY = ['ytmusic']
 config.ENABLE_TRAY = True
-config.ENABLE_WEB_SERVER = False 
+config.ENABLE_WEB_SERVER = False
 config.NOTIFY_ON_TRACK_CHANGED = False
 config.ALLOW_LAN_CONNECT = True
 config.PLAYBACK_CROSSFADE = True
@@ -93,11 +94,11 @@ class FeishuStatusSyncer:
         cookies = {'session': session_id}
         artists = metadata.get('artists', [])
         artists_name = ','.join(artists)
-        description = f'{title}'
-        if artists_name:
-            description += f' - {artists_name}'
-        if note:
-            description = f'和“{description}”一起打工'
+        description = f'Orz 🎶 {title}'
+        #if artists_name:
+        #    description += f' - {artists_name}'
+        #if note:
+        #    description = f'和“{description}”一起打工'
         data = {
             'description': description,
             'descriptionType': 0

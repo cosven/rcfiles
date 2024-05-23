@@ -22,6 +22,8 @@
 [url "git@github.com:pingcap/workload"]
 	insteadOf = https://github.com/pingcap/workload
 
+[url "git@github.com:selectdb/doris-dbgen"]
+	insteadOf = https://github.com/selectdb/doris-dbgen
 
 [pull]
 	rebase = false
