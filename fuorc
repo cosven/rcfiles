@@ -13,11 +13,13 @@ from feeluown.utils import aio
 # config.THEME = 'macos_dark'
 # config.COLLECTIONS_DIR = '~/Dropbox/public/music'
 try:
-    config.ENABLE_NEW_HOMEPAGE = True
     config.dl.ENABLE_V2 = True
     config.dl.CORE_LANGUAGE = 'cn'
 except:
     pass
+
+config.ENABLE_NEW_HOMEPAGE = True
+config.bilibili.ENABLE_LIVE_ROOM_AS_VIDEO = False
 config.AUDIO_SELECT_POLICY = '>>>'
 config.VIDEO_SELECT_POLICY = 'hd>>>'
 config.PROVIDERS_STANDBY = ['ytmusic']
@@ -123,48 +125,6 @@ def sync_feishu_status(metadata):
 when('app.player.metadata_changed', sync_feishu_status, use_symbol=True)
 # when('app.initialized', lambda _: print('!!! DEBUG: app initialized'))
 # when('app.initialized', update_netease_request_headers)
-#
-import os
-#when('app.initialized',
-#     lambda *args: source(os.path.expanduser('~/coding/rcfiles/youtube_provider.py')))
-#when('app.initialized',
-#     lambda *args: source(os.path.expanduser('~/coding/rcfiles/bilibili_provider.py')))
-
-
-def add_download_action(ctx):
-    from fuocore import aio
-    from fuocore.models import ModelType, SearchType
-
-    global app
-
-    def sample(models):
-        for model in models:
-            if model.meta.model_type == ModelType.song:
-                print(str(model))
-
-    def find_similar(models):
-        if not models or models[0].meta.model_type != ModelType.song:
-            return
-        song = models[0]
-        title = song.title_display
-        artist = song.artists_name_display
-        sources = []
-        for provider in app.library.list():
-            if provider.identifier == song.source:
-                continue
-            sources.append(provider.identifier)
-        query = {'source_in': ','.join(sources),
-                 'type': SearchType.so.value,
-                 'q': f'{title} {artist}'}
-        app.browser.goto(uri='/search', query=query)
-
-    add_action = ctx['add_action']
-    add_action('下载歌曲', sample)
-    add_action('搜索类似', find_similar)
-
-
-# when('app.ui.songs_table.about_to_show_menu', add_download_action, use_symbol=True)
-
 
 netease_log_song = None
 
