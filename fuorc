@@ -29,6 +29,9 @@ config.NOTIFY_ON_TRACK_CHANGED = False
 config.ALLOW_LAN_CONNECT = True
 config.PLAYBACK_CROSSFADE = True
 config.LOG_TO_FILE = False
+config.YTDL_RULES = [{'name': 'match_source',
+                      'pattern': 'ytmusic',
+                      'http_proxy': 'http://127.0.0.1:7890'},]
 
 # This feature is supported at version>=v3.8.12 .
 # Besides, if ytmusic plugin is not installed, then
@@ -187,20 +190,79 @@ def netease_log_send_request(song, end=False):
 #when('app.player.playlist.song_changed', netease_log_on_song_changed, use_symbol=True)
 #when('app.player.media_finished', netease_log_on_media_finished, use_symbol=True)
 
-
-def plugin_about_to_enable(plugin):
-    global app
-    if plugin.name == 'local':
-        # config.local.MUSIC_FOLDERS = '/'
-        pass
-    elif plugin.name == 'fuo_netease':
-        app.config.fuo_netease.HEY = 1
-
-
 def apply_kvantum(app):
     app.ui.page_view.setStyleSheet("background-color: transparent")
 
 
-when('app.plugin_mgr.about_to_enable', plugin_about_to_enable, use_symbol=True)
 if os.environ.get('QT_STYLE_OVERRIDE'):
     when('app.initialized', apply_kvantum, use_symbol=True)
+
+
+def ask_ai_background(ctx):
+    global app
+
+    from openai import OpenAI, AsyncOpenAI
+    from functools import partial
+    from feeluown.utils.aio import run_fn, run_afn
+    from feeluown.library import ModelType
+
+    from PyQt5.QtCore import Qt
+    from PyQt5.QtWidgets import QMessageBox
+
+    models = ctx['models']
+    add_action = ctx['add_action']
+    song = models[0]
+
+    openai_kwargs = dict(
+        base_url='https://open.bigmodel.cn/api/paas/v4/',
+        api_key=os.getenv('GLM_API_KEY', '')
+    )
+    model = 'glm-4'
+    # openai_kwargs = dict(
+    #     base_url='https://api.deepseek.com/v1',
+    #     api_key=os.getenv('DEEPSEEK_API_KEY', '')
+    # )
+    # model = 'deepseek-chat'
+    # openai_kwargs = dict(
+    #     base_url='https://api.moonshot.cn/v1',
+    #     api_key=os.getenv('MOONSHOT_API_KEY', '')
+    # )
+    # model = 'moonshot-v1-8k'
+
+    async def task():
+        app.show_msg("正在向 AI 提问，这可能需要几秒钟...", timeout=3000)
+        prompt = ("你是一个专业，严谨的信息检索官，熟知各类流行音乐的创作背景，获奖记录。"
+                  "你也是一个乐评人，懂得从各个角度评价一首歌曲，比如创作背景、轶事、歌词、旋律等")
+        message = f'你介绍一下 “{song.title}-{song.artists_name} ” 这首歌'
+        if True or api_key:
+            client = AsyncOpenAI(**openai_kwargs)
+            system_msg = {
+                "role": "system",
+                "content": prompt,
+            }
+            user_msg = {
+                "role": "user",
+                "content": message
+            }
+            stream = await client.chat.completions.create(
+                model=model,
+                messages=[system_msg, user_msg],
+                temperature = 0.3,
+                stream=True,
+            )
+            box = QMessageBox(parent=app)
+            box.setAttribute(Qt.WA_DeleteOnClose);
+            box.setText('')
+            box.open()
+            content = ''
+            async for chunk in stream:
+                content += chunk.choices[0].delta.content or ''
+                box.setText(content)
+
+    def callback(models):
+        run_afn(task)
+
+    add_action('AI：歌曲创作背景', callback)
+
+
+when('app.ui.songs_table.about_to_show_menu', ask_ai_background, use_symbol=True)
