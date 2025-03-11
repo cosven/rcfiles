@@ -8,38 +8,50 @@ import threading
 from functools import partial
 
 from feeluown.utils import aio
+from feeluown.library import resolve
 
 # 自定义配置
 # config.THEME = 'macos_dark'
 # config.COLLECTIONS_DIR = '~/Dropbox/public/music'
 try:
+    config.bilibili.ENABLE_LIVE_ROOM_AS_VIDEO = False
+except Exception as e:
+    print(f'set config failed: {e}')
+
+try:
     config.dl.ENABLE_V2 = True
     config.dl.CORE_LANGUAGE = 'cn'
-except:
-    pass
+except Exception as e:
+    print(f'set config failed: {e}')
 
 config.ENABLE_NEW_HOMEPAGE = True
-config.bilibili.ENABLE_LIVE_ROOM_AS_VIDEO = False
 config.AUDIO_SELECT_POLICY = '>>>'
 config.VIDEO_SELECT_POLICY = 'hd>>>'
-config.PROVIDERS_STANDBY = ['ytmusic']
+# config.PROVIDERS_STANDBY = ['ytmusic']
 config.ENABLE_TRAY = True
-config.ENABLE_WEB_SERVER = False
+config.ENABLE_WEB_SERVER = True
 config.NOTIFY_ON_TRACK_CHANGED = False
 config.ALLOW_LAN_CONNECT = True
 config.PLAYBACK_CROSSFADE = True
 config.LOG_TO_FILE = False
-config.YTDL_RULES = [{'name': 'match_source',
-                      'pattern': 'ytmusic',
-                      'http_proxy': 'http://127.0.0.1:7890'},]
 
-# This feature is supported at version>=v3.8.12 .
-# Besides, if ytmusic plugin is not installed, then
-# this config is invalid.
-try:
-    config.ytmusic.HTTP_PROXY='http://127.0.0.1:7890'
-except:
-    pass
+config.ytmusic.HTTP_PROXY='http://127.0.0.1:7890'
+config.ytmusic.HTTP_TIMEOUT=3
+
+config.ENABLE_AI_STANDBY_MATCHER = True
+
+config.OPENAI_API_BASEURL = 'https://api.deepseek.com'
+config.OPENAI_MODEL = 'deepseek-chat'
+config.OPENAI_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')
+
+config.OPENAI_API_BASEURL = 'https://ark.cn-beijing.volces.com/api/v3'
+config.OPENAI_MODEL = 'ep-20250202091715-vwjw2'
+config.OPENAI_API_KEY = os.environ.get('ARK_API_KEY', '')
+
+# kimi
+# config.OPENAI_API_BASEURL = 'https://api.moonshot.cn/v1'
+# config.OPENAI_MODEL = 'moonshot-v1-8k'
+# config.OPENAI_API_KEY = os.environ.get('MOONSHOT_API_KEY', '')
 
 # def update_netease_request_headers(*args, **kwargs):
 #     from fuo_netease import provider
@@ -218,11 +230,11 @@ def ask_ai_background(ctx):
         api_key=os.getenv('GLM_API_KEY', '')
     )
     model = 'glm-4'
-    # openai_kwargs = dict(
-    #     base_url='https://api.deepseek.com/v1',
-    #     api_key=os.getenv('DEEPSEEK_API_KEY', '')
-    # )
-    # model = 'deepseek-chat'
+    openai_kwargs = dict(
+        base_url='https://api.deepseek.com/v1',
+        api_key=os.getenv('DEEPSEEK_API_KEY', '')
+    )
+    model = 'deepseek-chat'
     # openai_kwargs = dict(
     #     base_url='https://api.moonshot.cn/v1',
     #     api_key=os.getenv('MOONSHOT_API_KEY', '')
