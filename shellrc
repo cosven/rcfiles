@@ -263,6 +263,7 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 alias vi=vim
 alias edit=vim
 alias mjump-wiki="cd ~/cosven.github.io"
+alias tmux-reload-ssh='export $(tmux show-environment | grep "^SSH_AUTH_SOCK=")'
 
 # golang env setup
 export GOPATH=~/go
