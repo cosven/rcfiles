@@ -29,7 +29,8 @@ config.AUDIO_SELECT_POLICY = '>>>'
 config.VIDEO_SELECT_POLICY = 'hd>>>'
 # config.PROVIDERS_STANDBY = ['ytmusic']
 config.ENABLE_TRAY = True
-config.ENABLE_WEB_SERVER = True
+config.ENABLE_WEB_SERVER = False
+config.ENABLE_MCP_SERVER = False
 config.NOTIFY_ON_TRACK_CHANGED = False
 config.ALLOW_LAN_CONNECT = True
 config.PLAYBACK_CROSSFADE = True
@@ -44,9 +45,9 @@ config.OPENAI_API_BASEURL = 'https://api.deepseek.com'
 config.OPENAI_MODEL = 'deepseek-chat'
 config.OPENAI_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')
 
-config.OPENAI_API_BASEURL = 'https://ark.cn-beijing.volces.com/api/v3'
-config.OPENAI_MODEL = 'ep-20250202091715-vwjw2'
-config.OPENAI_API_KEY = os.environ.get('ARK_API_KEY', '')
+# config.OPENAI_API_BASEURL = 'https://ark.cn-beijing.volces.com/api/v3'
+# config.OPENAI_MODEL = 'ep-20250202091715-vwjw2'
+# config.OPENAI_API_KEY = os.environ.get('ARK_API_KEY', '')
 
 # kimi
 # config.OPENAI_API_BASEURL = 'https://api.moonshot.cn/v1'
@@ -111,7 +112,7 @@ class FeishuStatusSyncer:
         cookies = {'session': session_id}
         artists = metadata.get('artists', [])
         artists_name = ','.join(artists)
-        description = f'Orz 🎶 {title}'
+        description = f'orz 🎧 {title}'
         #if artists_name:
         #    description += f' - {artists_name}'
         #if note:
@@ -277,4 +278,8 @@ def ask_ai_background(ctx):
     add_action('AI：歌曲创作背景', callback)
 
 
-when('app.ui.songs_table.about_to_show_menu', ask_ai_background, use_symbol=True)
+# Only works for GUI mode
+# try:
+#     when('app.ui.songs_table.about_to_show_menu', ask_ai_background, use_symbol=True)
+# except:
+#     pass
