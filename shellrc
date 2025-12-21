@@ -182,8 +182,6 @@ function __prompt_command(){
         history -c  # this will clear the history on (Arch) Linux
     fi
     history -r
-    _autoActivatePyVenv
-    local venvName=`_getPyVenvPS1`
     local shortPwd=`_getShortPwd`
 
     # local isRemote=""
@@ -193,7 +191,7 @@ function __prompt_command(){
 
     # 切记：PS1 中使用颜色时，需要用 [] 格式化颜色
     # https://superuser.com/a/980982/349935
-    PS1="${venvName}\[\e[0;94m\]${shortPwd}\[\e[0m\]$(_getGitPS1) \[\e[0;${ps1ArrowFgColor}m\]>\[\e[0m\] "
+    PS1="\[\e[0;94m\]${shortPwd}\[\e[0m\]$(_getGitPS1) \[\e[0;${ps1ArrowFgColor}m\]>\[\e[0m\] "
 }
 
 export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
